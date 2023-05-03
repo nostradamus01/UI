@@ -1,6 +1,8 @@
 <script setup>
 import { NTabs, NTabPane } from 'naive-ui'
 import PlatformsTable from '@/components/tables/PlatformsTable.vue'
+
+
 </script>
 
 <template>
@@ -39,3 +41,9 @@ import PlatformsTable from '@/components/tables/PlatformsTable.vue'
     </n-tabs>
   </main>
 </template>
+
+<style scoped>
+  main {
+    padding: 2rem;
+  }
+</style>
