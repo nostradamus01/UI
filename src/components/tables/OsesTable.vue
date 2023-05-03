@@ -1,6 +1,6 @@
 <script setup>
 import { ref, computed } from 'vue'
-import { NDataTable, NButton, NSpin } from 'naive-ui'
+import { NDataTable, NButton, NSpin, NModal, NCard, NSpace, NInput } from 'naive-ui'
 import { useDBStore } from '@/stores/dbStore'
 
 const columns = [{
@@ -25,11 +25,41 @@ const data = computed(() => {
   return oses;
 });
 
+const showForm = ref(false);
+
+const HandleAddClick = () => {
+  showForm.value = true;
+}
+
+const hideForm = () => {
+  showForm.value = false;
+  name.value = ''
+}
+
+const submitForm = () => {
+  // ....
+  hideForm();
+}
+
+const name = ref('')
+
+
 </script>
 
 <template>
+  <n-modal v-model:show="showForm" :mask-closable="false">
+    <n-card style="width: 600px" title="Add Platform" :bordered="false" size="huge" role="dialog" aria-modal="true">
+      <n-space vertical>
+        <n-input v-model:value="name.value" type="text" placeholder="Os" />
+      </n-space>
+      <template #footer>
+        <n-button @click="hideForm" style="margin-right: 10px;">Close</n-button>
+        <n-button type="primary" @click="submitForm">Submit</n-button>
+      </template>
+    </n-card>
+  </n-modal>
   <n-button type="primary" @click="HandleAddClick" class="table-toolbar">
-    Add OS
+    Add Os
   </n-button>
   <n-spin :show="isLoading">
     <n-data-table :columns="columns" :data="data" />
