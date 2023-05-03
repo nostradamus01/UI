@@ -71,9 +71,9 @@ const HandleAddClick = () => {
 
 const hideForm = () => {
   showForm.value = false;
-  chipset.value = ''
-  cpu.value = ''
-  gpu.value = ''
+  platfrom.chipset = ''
+  platfrom.cpu = ''
+  platfrom.gpu = ''
 }
 
 const submitForm = () => {
@@ -81,14 +81,10 @@ const submitForm = () => {
   hideForm();
 }
 
-const chipset = reactive({
-  value: ''
-});
-const cpu = reactive({
-  value: ''
-});
-const gpu = reactive({
-  value: ''
+const platfrom = reactive({
+  chipset: '',
+  cpu: '',
+  gpu: ''
 });
 
 </script>
@@ -97,9 +93,9 @@ const gpu = reactive({
   <n-modal v-model:show="showForm" :mask-closable="false">
     <n-card style="width: 600px" title="Add Platform" :bordered="false" size="huge" role="dialog" aria-modal="true">
       <n-space vertical>
-        <n-input v-model:value="chipset.value" type="text" placeholder="CHIPSET" />
-        <n-input v-model:value="cpu.value" type="text" placeholder="CPU" />
-        <n-input v-model:value="gpu.value" type="text" placeholder="GPU" />
+        <n-input v-model:value="platfrom.chipset" type="text" placeholder="CHIPSET" />
+        <n-input v-model:value="platfrom.cpu" type="text" placeholder="CPU" />
+        <n-input v-model:value="platfrom.gpu" type="text" placeholder="GPU" />
       </n-space>
       <template #footer>
         <n-button @click="hideForm" style="margin-right: 10px;">Close</n-button>

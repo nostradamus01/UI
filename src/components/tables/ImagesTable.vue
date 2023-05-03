@@ -1,20 +1,21 @@
 <script setup>
-import { ref, computed } from 'vue'
-import { NDataTable, NButton, NSpin, NUpload, NModal, NDivider } from 'naive-ui'
+import { ref, reactive, onMounted } from 'vue'
+import { NButton, NUpload, NModal, NCard } from 'naive-ui'
 import { useDBStore } from '@/stores/dbStore'
 
 
 const columns = [{
-    title: 'No',
-    key: 'n',
-    width: 60
+  title: 'No',
+  key: 'n',
+  width: 60
 }, {
-    title: "Phone",
-    key: "name",
-    resizable: true
+  title: "Phone",
+  key: "name",
+  resizable: true
 }]
 
 const isLoading = ref(false);
+const showForm = ref(false);
 
 const dbStore = useDBStore();
 
@@ -26,31 +27,83 @@ const dbStore = useDBStore();
 //     return images;
 // });
 
+const HandleAddClick = () => {
+  showForm.value = true;
+}
+
 const showModalRef = ref(false);
 const previewImageUrlRef = ref("");
 function handlePreview(file) {
-    const { url } = file;
-    previewImageUrlRef.value = url;
-    showModalRef.value = true;
+  const { url } = file;
+  previewImageUrlRef.value = url;
+  showModalRef.value = true;
 }
 
-const fileList = ref([
+let fileList = [];
 
-]);
+const submitForm = () => {
+  console.log(fileList);
+  fileList.forEach(async (file) => {
+    const formData = new FormData();
+    formData.append('formFile', file.file);
+    console.log(formData);
+    fetch('http://localhost:5169/api/Images/uploadImage', {
+      method: "POST",
+      body: formData
+    });
+  })
+  hideForm();
+}
+
+const hideForm = () => {
+  showForm.value = false;
+}
+
+const uploadRef = ref(null);
+
+const handleChange = (data) => {
+  console.log(data);
+  fileList = data.fileList;
+}
+
+const images = reactive({
+  names: []
+})
+
+onMounted(async () => {
+  const response = await fetch('http://localhost:5169/api/Images/imageNames');
+  if (response.status !== 200) {
+    alert('error');
+  } else {
+    const data = await response.json();
+    images.names = data;
+  }
+});
+
+const url = import.meta.env.BASE_URL;
+console.log(url);
 
 </script>
 
 <template>
-    <n-button type="primary" @click="HandleAddClick" class="table-toolbar">
-        Add Image
-    </n-button>
-    <!-- <n-spin :show="isLoading">
-        <n-data-table :columns="columns" :data="data" />
-    </n-spin> -->
-    <n-upload action="https://www.mocky.io/v2/5e4bafc63100007100d8b70f" :default-file-list="fileList"
-        list-type="image-card">
-        Click to Upload
-    </n-upload>
+  <n-modal v-model:show="showForm" :mask-closable="false">
+    <n-card style="width: 600px" title="Add Platform" :bordered="false" size="huge" role="dialog" aria-modal="true">
+      <n-upload ref="uploadRef" :default-upload="false" multiple @change="handleChange" list-type="image-card">
+        Click to upload image
+      </n-upload>
+      <template #footer>
+        <n-button @click="hideForm" style="margin-right: 10px;">Close</n-button>
+        <n-button type="primary" @click="submitForm">Submit</n-button>
+      </template>
+    </n-card>
+  </n-modal>
+  <n-button type="primary" @click="HandleAddClick" class="table-toolbar">
+    Upload Images
+  </n-button>
+  <h1>Uploaded Images</h1>
+  <div v-for="name in images.names" class="images-conatiner">
+    <img :src="`${url}uploads/${name}`" alt="">
+  </div>
 </template>
 
 <style></style>
