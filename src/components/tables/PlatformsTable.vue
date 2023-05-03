@@ -1,6 +1,6 @@
 <script setup>
-import { ref, computed, h } from 'vue'
-import { NDataTable, NButton, NSpin, NModal, NCard } from 'naive-ui'
+import { ref, computed, h, reactive } from 'vue'
+import { NDataTable, NButton, NSpin, NModal, NCard, NSpace, NInput } from 'naive-ui'
 import { useDBStore } from '@/stores/dbStore'
 
 const columns = [{
@@ -23,7 +23,7 @@ const columns = [{
   title: 'Action',
   key: 'actions',
   render(row) {
-    const buttons =  [
+    const buttons = [
       h(
         NButton,
         {
@@ -71,6 +71,9 @@ const HandleAddClick = () => {
 
 const hideForm = () => {
   showForm.value = false;
+  chipset.value = ''
+  cpu.value = ''
+  gpu.value = ''
 }
 
 const submitForm = () => {
@@ -78,19 +81,26 @@ const submitForm = () => {
   hideForm();
 }
 
+const chipset = reactive({
+  value: ''
+});
+const cpu = reactive({
+  value: ''
+});
+const gpu = reactive({
+  value: ''
+});
+
 </script>
 
 <template>
   <n-modal v-model:show="showForm" :mask-closable="false">
-    <n-card
-      style="width: 600px"
-      title="Add Platform"
-      :bordered="false"
-      size="huge"
-      role="dialog"
-      aria-modal="true"
-    >
-      Content
+    <n-card style="width: 600px" title="Add Platform" :bordered="false" size="huge" role="dialog" aria-modal="true">
+      <n-space vertical>
+        <n-input v-model:value="chipset.value" type="text" placeholder="CHIPSET" />
+        <n-input v-model:value="cpu.value" type="text" placeholder="CPU" />
+        <n-input v-model:value="gpu.value" type="text" placeholder="GPU" />
+      </n-space>
       <template #footer>
         <n-button @click="hideForm" style="margin-right: 10px;">Close</n-button>
         <n-button type="primary" @click="submitForm">Submit</n-button>
