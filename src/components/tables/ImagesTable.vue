@@ -54,13 +54,14 @@ const images = reactive({
 })
 
 onMounted(async () => {
-  const response = await fetch('http://localhost:5169/api/Images/imageNames');
-  if (response.status !== 200) {
-    alert('error');
-  } else {
-    const data = await response.json();
-    images.names = data;
-  }
+    images.names = ['Picture1_7f77d8d2-70eb-4ad9-b92c-032bc71858ef.png']
+//   const response = await fetch('http://localhost:5169/api/Images/imageNames');
+//   if (response.status !== 200) {
+//     alert('error');
+//   } else {
+//     const data = await response.json();
+//     images.names = data;
+//   }
 });
 
 const url = import.meta.env.BASE_URL;
@@ -70,7 +71,7 @@ console.log(url);
 
 <template>
   <n-modal v-model:show="showForm" :mask-closable="false">
-    <n-card style="width: 600px" title="Add Platform" :bordered="false" size="huge" role="dialog" aria-modal="true">
+    <n-card style="width: 600px" title="Upload Image" :bordered="false" size="huge" role="dialog" aria-modal="true">
       <n-upload ref="uploadRef" :default-upload="false" multiple @change="handleChange" list-type="image-card">
         Click to upload image
       </n-upload>
@@ -81,12 +82,16 @@ console.log(url);
     </n-card>
   </n-modal>
   <n-button type="primary" @click="HandleAddClick" class="table-toolbar">
-    Upload Images
+    Upload Image
   </n-button>
-  <h1>Uploaded Images</h1>
+  <h1>Uploaded Image</h1>
   <div v-for="name in images.names" class="images-conatiner">
     <img :src="`${url}uploads/${name}`" alt="">
   </div>
 </template>
 
-<style></style>
+<style>
+    .images-conatiner{
+        display: flex;
+    }
+</style>

@@ -78,7 +78,7 @@ const name = ref('')
 
 <template>
   <n-modal v-model:show="showForm" :mask-closable="false">
-    <n-card style="width: 600px" title="Add Platform" :bordered="false" size="huge" role="dialog" aria-modal="true">
+    <n-card style="width: 600px" title="Add OS" :bordered="false" size="huge" role="dialog" aria-modal="true">
       <n-space vertical>
         <n-input v-model:value="name.value" type="text" placeholder="Os" />
       </n-space>
@@ -89,7 +89,7 @@ const name = ref('')
     </n-card>
   </n-modal>
   <n-button type="primary" @click="HandleAddClick" class="table-toolbar">
-    Add Os
+    Add OS
   </n-button>
   <n-spin :show="isLoading">
     <n-data-table :columns="columns" :data="data" />

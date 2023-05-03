@@ -77,7 +77,7 @@ const storage = ref('')
 
 <template>
   <n-modal v-model:show="showForm" :mask-closable="false">
-    <n-card style="width: 600px" title="Add Platform" :bordered="false" size="huge" role="dialog" aria-modal="true">
+    <n-card style="width: 600px" title="Add Storage" :bordered="false" size="huge" role="dialog" aria-modal="true">
       <n-space vertical>
         <n-input v-model:value="storage" type="text" placeholder="Storages" />
       </n-space>

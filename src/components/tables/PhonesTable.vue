@@ -98,7 +98,7 @@ const platform = reactive({
 
 <template>
   <n-modal v-model:show="showForm" :mask-closable="false">
-    <n-card style="width: 600px" title="Add Platform" :bordered="false" size="huge" role="dialog" aria-modal="true">
+    <n-card style="width: 600px" title="Add Phone" :bordered="false" size="huge" role="dialog" aria-modal="true">
       <n-space vertical>
         <n-input v-model:value="platform.detailId" type="text" placeholder="Phone Detail Id" />
         <n-input v-model:value="platform.colorId" type="text" placeholder="Color Id" />
