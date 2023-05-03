@@ -1,6 +1,6 @@
 <template>
     <header>
-      <h1>ADMIN PANEL</h1>
+      <h1>Admin Panel</h1>
     </header>
 </template>
 
@@ -11,8 +11,14 @@
 <style scoped>
   header {
     display: flex;
-    align-items: center;
     justify-content: center;
-    font-size: 30px;
+    width: 100%;
+    padding-top: 30px;
+    background: linear-gradient(#18A058,#ededed)
+  }
+  h1{
+    font-size: 36px;
+    font-weight: 700;
+    color: #276444;
   }
 </style>

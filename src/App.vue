@@ -11,5 +11,7 @@ import Header from '@/components/Header.vue';
 <style>
 .table-toolbar {
   margin-bottom: 20px;
+  border-radius: 20px;
+  padding: 20px;
 }
 </style>

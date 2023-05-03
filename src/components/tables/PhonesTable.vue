@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed, reactive } from 'vue'
+import { ref, computed, reactive, h } from 'vue'
 import { NDataTable, NButton, NSpin, NModal, NCard, NSpace, NInput } from 'naive-ui'
 import { useDBStore } from '@/stores/dbStore'
 
@@ -23,6 +23,36 @@ const columns = [{
   title: "RAM Id",
   key: "ramId",
   resizable: true
+}, {
+  title: 'Action',
+  key: 'actions',
+  render(row) {
+    const buttons = [
+      h(
+        NButton,
+        {
+          size: 'small',
+          onClick: () => EditRow(row)
+        },
+        { default: () => 'Edit' }
+      ),
+      h(
+        NButton,
+        {
+          size: 'small',
+          onClick: () => DeleteRow(row)
+        },
+        { default: () => 'Delete' }
+      )
+    ]
+    return h(
+      'div',
+      {
+        class: 'table-actions-conatiner'
+      },
+      buttons
+    )
+  }
 }]
 
 const isLoading = ref(false);

@@ -6,12 +6,6 @@
   font-weight: normal;
 }
 
-header {
-  width: 100%;
-  height: 60px;
-  background-color: rgba(53, 52, 52, 0.1);
-}
-
 .table-actions-conatiner {
   display: flex;
   gap: 10px;

@@ -4,28 +4,11 @@ import { NButton, NUpload, NModal, NCard } from 'naive-ui'
 import { useDBStore } from '@/stores/dbStore'
 
 
-const columns = [{
-  title: 'No',
-  key: 'n',
-  width: 60
-}, {
-  title: "Phone",
-  key: "name",
-  resizable: true
-}]
-
 const isLoading = ref(false);
 const showForm = ref(false);
 
 const dbStore = useDBStore();
 
-// const data = computed(() => {
-//     const images = dbStore.images;
-//     images.forEach((img, index) => {
-//         img.n = index + 1;
-//     });
-//     return images;
-// });
 
 const HandleAddClick = () => {
   showForm.value = true;

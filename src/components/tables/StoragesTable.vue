@@ -1,7 +1,7 @@
 <script setup>
-import { ref, computed } from 'vue'
-import { NDataTable, NButton, NSpin, NModal, NCard, NSpace, NInput } from 'naive-ui'
-import { useDBStore } from '@/stores/dbStore'
+import { ref, computed, h } from 'vue';
+import { NDataTable, NButton, NSpin, NModal, NCard, NSpace, NInput } from 'naive-ui';
+import { useDBStore } from '@/stores/dbStore';
 
 const columns = [{
   title: 'No',
@@ -11,6 +11,36 @@ const columns = [{
   title: "Storages",
   key: "size",
   resizable: true
+}, {
+  title: 'Action',
+  key: 'actions',
+  render(row) {
+    const buttons = [
+      h(
+        NButton,
+        {
+          size: 'small',
+          onClick: () => EditRow(row)
+        },
+        { default: () => 'Edit' }
+      ),
+      h(
+        NButton,
+        {
+          size: 'small',
+          onClick: () => DeleteRow(row)
+        },
+        { default: () => 'Delete' }
+      )
+    ]
+    return h(
+      'div',
+      {
+        class: 'table-actions-conatiner'
+      },
+      buttons
+    )
+  }
 }]
 
 const isLoading = ref(false);
