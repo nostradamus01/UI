@@ -115,4 +115,6 @@ const gpu = reactive({
   </n-spin>
 </template>
 
-<style></style>
+<style>
+
+</style>

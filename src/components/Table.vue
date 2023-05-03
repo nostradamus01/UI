@@ -7,7 +7,7 @@ const props = defineProps({
 </script>
 
 <template>
-  <n-data-table :columns="columns" :data="data" />
+  <n-data-table :columns="columns" :data="data"/>
 </template>
 
 <style scoped>
