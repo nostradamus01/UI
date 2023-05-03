@@ -93,9 +93,6 @@ const name = ref('')
   <n-spin :show="isLoading">
     <n-data-table :columns="columns" :data="data" />
   </n-spin>
-  <n-spin :show="isLoading">
-    <n-data-table :columns="columns" :data="data" />
-  </n-spin>
 </template>
 
 <style></style>

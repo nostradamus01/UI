@@ -14,7 +14,7 @@
     justify-content: center;
     width: 100%;
     padding-top: 30px;
-    background: linear-gradient(#18A058,#ededed)
+    background: linear-gradient(#18a05861,#ededed)
   }
   h1{
     font-size: 36px;
