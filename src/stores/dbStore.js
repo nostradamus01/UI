@@ -17,9 +17,23 @@ export const useDBStore = defineStore('db', {
       name: "Apple"
     }],
     phoneDetails: [{
-      id: "000-000-000",
+      id: "1",
       brandId: "000-000-000",
       model: "iPhone 14 Pro Max",
+      releaseDate: "2022, September 16",
+      platformId: "000-000-000",
+      height: 160.7,
+      width: 77.6,
+      depth: 7.9,
+      screenSize: 6.7,
+      resolution: "1290 x 2796",
+      batteryCapacity: 4323,
+      price: 1070.99,
+      discount: 10
+    }, {
+      id: "2",
+      brandId: "000-000-000",
+      model: "iPhone 13 Pro Max",
       releaseDate: "2022, September 16",
       platformId: "000-000-000",
       height: 160.7,
@@ -57,9 +71,20 @@ export const useDBStore = defineStore('db', {
       phoneDetailId: "000-000-000"
     }],
     colors: [{
-      id: "000-000-000",
+      id: "1",
       name: "Space Black",
-      hex: "#000000"
+      hex: "#000000",
+      phoneDetailId: "1"
+    }, {
+      id: "2",
+      name: "White",
+      hex: "#fff",
+      phoneDetailId: "1"
+    }, {
+      id: "3",
+      name: "Blue",
+      hex: "#00f",
+      phoneDetailId: "2"
     }],
     rams: [{
       id: "000-000-000",
