@@ -98,7 +98,6 @@ const bac = (value, option) => {
     }
   })
   colors.value = colorsArr;
-  console.log('value:', value, option);
 }
 
 </script>
@@ -120,7 +119,7 @@ const bac = (value, option) => {
       <div class="img-container">
         <img :src="`${url}uploads/${images.names[0]}`" alt="">
         <n-space vertical class="n">
-          <n-select class="ns" @update:value="bac" :options="phones" />
+          <n-select @update:value="bac" :options="phones" style="display: flex;"/>
           <n-select :disabled="isDisabled" :options="colors" />
         </n-space>
       </div>
@@ -146,7 +145,7 @@ const bac = (value, option) => {
 
 .img-container {
   width: 100%;
-  display: flex;
+  /* display: flex; */
   justify-content: space-between;
 }
 

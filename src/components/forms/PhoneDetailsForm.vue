@@ -1,12 +1,9 @@
 <script setup>
-import { NModal, NCard, NInput, NDatePicker, NForm, NSelect, NInputNumber, NButton} from 'naive-ui';
+import { NModal, NCard, NInput, NDatePicker, NForm, NSelect, NInputNumber, NButton } from 'naive-ui';
 import { ref, reactive, computed } from 'vue';
 import { useDBStore } from '@/stores/dbStore'
 
 const dbStore = useDBStore();
-
-
-
 
 const showForm = ref(false);
 
@@ -24,7 +21,7 @@ const brands = computed(() => {
   dbStore.brands.forEach(brand => {
     const obj = {};
     obj.label = brand.name,
-    obj.value = brand.id
+      obj.value = brand.id
     brandsArr.push(obj);
   });
   return brandsArr;
@@ -35,7 +32,7 @@ const platforms = computed(() => {
   dbStore.platforms.forEach(platform => {
     const obj = {};
     obj.label = platform.chipset,
-    obj.value = platform.id
+      obj.value = platform.id
     platformsArr.push(obj);
   });
   return platformsArr;
@@ -70,12 +67,32 @@ const hideForm = () => {
   formData.discount = null;
 }
 
+// function handleValidateClick(e) {
+//   e.preventDefault();
+//   formRef.value?.validate((errors) => {
+//     if (!errors) {
+//       message.success("Valid");
+//     } else {
+//       console.log(errors);
+//       message.error("Invalid");
+//     }
+//   })
+// }
+
+const formRef = ref(null);
+
+const rules = ref([{
+  required: true,
+  message: "Please input your name",
+  trigger: "blur"
+}])
+
 </script>
 
 <template>
   <n-modal v-model:show="showForm" :mask-closable="false" class="modal-form">
     <n-card style="width: 500px" title="Add Phone Details" :bordered="false" size="huge" role="dialog" aria-modal="true">
-      <n-form ref="formRef" :model="formData" label-placement="left" :label-width="120" class="my-form">
+      <n-form :rules="rules" ref="formRef" :model="formData" label-placement="left" :label-width="120" class="my-form">
         <n-select v-model:value="formData.brand" :options="brands" placeholder="Brand" />
         <n-input v-model:value="formData.model" placeholder="Model" />
         <n-date-picker v-model:value="formData.releaseDate" type="datetime" placeholder="Released date" />

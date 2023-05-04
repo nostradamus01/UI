@@ -1,7 +1,8 @@
 <script setup>
 import { ref, computed, h } from 'vue';
-import { NDataTable, NButton, NSpin, NModal, NCard, NSpace, NInput } from 'naive-ui';
+import { NDataTable, NButton, NSpin } from 'naive-ui';
 import { useDBStore } from '@/stores/dbStore';
+import StorageForm from '../forms/StorageForm.vue';
 
 const columns = [{
   title: 'No',
@@ -55,41 +56,11 @@ const data = computed(() => {
   return storages;
 });
 
-const showForm = ref(false);
-
-const HandleAddClick = () => {
-  showForm.value = true;
-}
-
-const hideForm = () => {
-  showForm.value = false;
-  storage.value = ''
-}
-
-const submitForm = () => {
-  // ....
-  hideForm();
-}
-
-const storage = ref('')
 
 </script>
 
 <template>
-  <n-modal v-model:show="showForm" :mask-closable="false">
-    <n-card style="width: 600px" title="Add Storage" :bordered="false" size="huge" role="dialog" aria-modal="true">
-      <n-space vertical>
-        <n-input v-model:value="storage" type="text" placeholder="Storages" />
-      </n-space>
-      <template #footer>
-        <n-button @click="hideForm" style="margin-right: 10px;">Close</n-button>
-        <n-button type="primary" @click="submitForm">Submit</n-button>
-      </template>
-    </n-card>
-  </n-modal>
-  <n-button type="primary" @click="HandleAddClick" class="table-toolbar">
-    Add Storage
-  </n-button>
+  <StorageForm />
   <n-spin :show="isLoading">
     <n-data-table :columns="columns" :data="data" />
   </n-spin>
