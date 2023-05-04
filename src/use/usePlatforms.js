@@ -34,7 +34,7 @@ export function usePlatforms() {
       cpu: platformData.cpu,
       gpu: platformData.gpu
     }
-    const response = await putRequest('Platforms/edit', data);
+    const response = await req.put('Platforms/edit', data);
     if (response.status !== 200) {
       return null;
     }
@@ -42,7 +42,7 @@ export function usePlatforms() {
   }
 
   const deletePlatform = async (platformId) => {
-    const response = await deleteRequest('http://localhost:5169/api/Platforms/delete', platformId);
+    const response = await req.delete('Platforms/delete/' + platformId);
     if (response.status !== 200) {
       return null;
     }
@@ -50,7 +50,6 @@ export function usePlatforms() {
   }
 
   return {
-    req,
     dbStore,
     getPlatforms,
     addPlatform,

@@ -1,7 +1,7 @@
 <script setup>
-import { ref, computed, h, reactive } from 'vue'
-import { NDataTable, NButton, NSpin, NModal, NCard, NSpace, NInput } from 'naive-ui'
-import { useDBStore } from '@/stores/dbStore'
+import { ref, computed, h, reactive, toRaw, onMounted } from 'vue'
+import { NDataTable, NButton, NSpin, NModal, NCard, NInput, NForm } from 'naive-ui'
+import { usePlatforms } from '@/use/usePlatforms'
 
 const columns = [{
   title: 'No',
@@ -28,7 +28,7 @@ const columns = [{
         NButton,
         {
           size: 'small',
-          onClick: () => EditRow(row)
+          onClick: () => editFn(row)
         },
         { default: () => 'Edit' }
       ),
@@ -36,7 +36,7 @@ const columns = [{
         NButton,
         {
           size: 'small',
-          onClick: () => DeleteRow(row)
+          onClick: () => deleteFn(row)
         },
         { default: () => 'Delete' }
       )
@@ -51,13 +51,13 @@ const columns = [{
   }
 }]
 
-const showForm = ref(false);
+const { dbStore,
+  getPlatforms,
+  addPlatform,
+  editPlatform,
+  deletePlatform } = usePlatforms();
 
-const isLoading = ref(false);
-
-const dbStore = useDBStore();
-
-const data = computed(() => {
+const tableData = computed(() => {
   const platforms = dbStore.platforms;
   platforms.forEach((platform, index) => {
     platform.n = index + 1;
@@ -65,52 +65,95 @@ const data = computed(() => {
   return platforms;
 });
 
-const HandleAddClick = () => {
-  showForm.value = true;
+
+
+const isLoading = ref(false);
+
+const form = reactive({
+  title: 'Add Platform',
+  mode: 'add',
+  isVisible: false
+});
+
+const deleteFn = async (row) => {
+  isLoading.value = true;
+  await deletePlatform(row.id);
+  getPlatformsFn();
+}
+
+const showForm = () => {
+  form.isVisible = true;
 }
 
 const hideForm = () => {
-  showForm.value = false;
-  platfrom.chipset = ''
-  platfrom.cpu = ''
-  platfrom.gpu = ''
+  form.isVisible = false;
+  formData.chipset = null;
+  formData.cpu = null;
+  formData.gpu = null;
 }
 
-const submitForm = () => {
-  // ....
+const addFn = () => {
+  form.title = 'Add Platform';
+  form.mode = 'add';
+  form.isVisible = true;
+}
+
+const submitForm = async () => {
+  const data = toRaw(formData);
+  const response = await addPlatform(data);
+  console.log(response);
   hideForm();
 }
 
-const platfrom = reactive({
-  chipset: '',
-  cpu: '',
-  gpu: ''
+const formData = reactive({
+  chipset: null,
+  cpu: null,
+  gpu: null
 });
+
+const getPlatformsFn = async () => {
+  isLoading.value = true;
+  dbStore.platforms = await getPlatforms();
+  isLoading.value = false;
+}
+
+const editFn = (row) => {
+  formData.chipset = row.chipset;
+  formData.cpu = row.cpu;
+  formData.gpu = row.gpu;
+  form.mode = 'edit';
+  form.title = 'Edit Platform'
+  showForm();
+}
+
+onMounted(async () => {
+  getPlatformsFn();
+})
 
 </script>
 
 <template>
-  <n-modal v-model:show="showForm" :mask-closable="false">
-    <n-card style="width: 600px" title="Add Platform" :bordered="false" size="huge" role="dialog" aria-modal="true">
-      <n-space vertical>
-        <n-input v-model:value="platfrom.chipset" type="text" placeholder="CHIPSET" />
-        <n-input v-model:value="platfrom.cpu" type="text" placeholder="CPU" />
-        <n-input v-model:value="platfrom.gpu" type="text" placeholder="GPU" />
-      </n-space>
+  <n-modal v-model:show="form.isVisible" :mask-closable="false" class="modal-form">
+    <n-card style="width: 500px" :title="form.title" :bordered="false" size="huge" role="dialog" aria-modal="true">
+      <n-form ref="formRef" :model="formData" class="my-form">
+        <n-input v-model:value="formData.chipset" placeholder="Chipset" />
+        <n-input v-model:value="formData.gpu" placeholder="GPU" />
+        <n-input v-model:value="formData.cpu" placeholder="CPU" />
+      </n-form>
       <template #footer>
-        <n-button @click="hideForm" style="margin-right: 10px;">Close</n-button>
-        <n-button type="primary" @click="submitForm">Submit</n-button>
+        <div style="display: flex; justify-content: flex-end;">
+          <n-button @click="hideForm" style="margin-right: 10px;">Close</n-button>
+          <n-button type="primary" @click="submitForm">Submit</n-button>
+        </div>
       </template>
     </n-card>
   </n-modal>
-  <n-button type="primary" @click="HandleAddClick" class="table-toolbar">
+  <n-button type="primary" @click="addFn" class="table-toolbar">
     Add Platform
   </n-button>
   <n-spin :show="isLoading">
-    <n-data-table :columns="columns" :data="data" />
+    <n-data-table :columns="columns" :data="tableData" />
   </n-spin>
 </template>
 
-<style>
-
-</style>
+<style></style>

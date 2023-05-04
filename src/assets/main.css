@@ -10,3 +10,14 @@
   display: flex;
   gap: 10px;
 }
+
+.modal-form {
+  margin-top: 30px;
+  margin-bottom: 30px;
+}
+
+.my-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}

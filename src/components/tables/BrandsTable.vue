@@ -1,6 +1,6 @@
 <script setup>
-import { NDataTable, NButton, NSpin, NModal, NCard, NSpace, NInput } from 'naive-ui';
-import { ref, computed, h } from 'vue';
+import { NDataTable, NButton, NSpin, NModal, NCard, NInput, NForm } from 'naive-ui';
+import { ref, computed, h, reactive } from 'vue';
 import { useDBStore } from '@/stores/dbStore';
 
 const columns = [{
@@ -57,13 +57,8 @@ const data = computed(() => {
 
 const showForm = ref(false);
 
-const HandleAddClick = () => {
+const showFormFn = () => {
   showForm.value = true;
-}
-
-const hideForm = () => {
-  showForm.value = false;
-  name.value = ''
 }
 
 const submitForm = () => {
@@ -71,23 +66,32 @@ const submitForm = () => {
   hideForm();
 }
 
-const name = ref('')
+const formData = reactive({
+  name: null
+});
+
+const hideForm = () => {
+  showForm.value = false;
+  formData.name = null;
+}
 
 </script>
 
 <template>
-  <n-modal v-model:show="showForm" :mask-closable="false">
-    <n-card style="width: 600px" title="Add Brand" :bordered="false" size="huge" role="dialog" aria-modal="true">
-      <n-space vertical>
-        <n-input v-model:value="name" type="text" placeholder="Brand" />
-      </n-space>
+  <n-modal v-model:show="showForm" :mask-closable="false" class="modal-form">
+    <n-card style="width: 500px" title="Add Brand" :bordered="false" size="huge" role="dialog" aria-modal="true">
+      <n-form ref="formRef" :model="formData" class="my-form">
+        <n-input v-model:value="formData.name" placeholder="Name" />
+      </n-form>
       <template #footer>
-        <n-button @click="hideForm" style="margin-right: 10px;">Close</n-button>
-        <n-button type="primary" @click="submitForm">Submit</n-button>
+        <div style="display: flex; justify-content: flex-end;">
+          <n-button @click="hideForm" style="margin-right: 10px;">Close</n-button>
+          <n-button type="primary" @click="submitForm">Submit</n-button>
+        </div>
       </template>
     </n-card>
   </n-modal>
-  <n-button type="primary" @click="HandleAddClick" class="table-toolbar">
+  <n-button type="primary" @click="showFormFn" class="table-toolbar">
     Add Brand
   </n-button>
   <n-spin :show="isLoading">
