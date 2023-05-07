@@ -87,6 +87,8 @@ const showForm = (row) => {
     form.title = 'Edit Platform'
   } else {
     Object.assign(data, initialData);
+    form.mode = 'add'
+    form.title = 'Add Platform'
   }
   form.isVisible = true;
 }
