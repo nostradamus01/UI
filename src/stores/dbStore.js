@@ -52,18 +52,6 @@ export const useDBStore = defineStore('db', {
       storageId: "000-000-000",
       ramId: "000-000-000"
     }],
-    users: [{
-      id: "000-000-000",
-      username: "Username",
-      firstName: "First Name",
-      lastName: "Last Name",
-      email: "Email@email.com",
-      phoneNum: "+1234567890",
-      country: "Armenia",
-      city: "Yerevan",
-      address: "Kentron 15",
-      postCode: "1001"
-    }],
     images: [{
       id: "000-000-000",
       name: "iPhone14ProMax_spaceBlack.png",
@@ -93,6 +81,27 @@ export const useDBStore = defineStore('db', {
     storages: [{
       id: "000-000-000",
       size: 256
+    }],
+    users: [{
+      id: "000-000-000",
+      username: "Username",
+      firstName: "First Name",
+      lastName: "Last Name",
+      email: "Email@email.com",
+      phoneNum: "+1234567890",
+      country: "Armenia",
+      city: "Yerevan",
+      address: "Kentron 15",
+      postCode: "1001"
+    }],
+    countries: [{
+      id: "000-000-000",
+      name: "Armenia"
+    }],
+    cities: [{
+      id: "000-000-000",
+      name: "Hrazdan",
+      countyId: "000-000-000"
     }]
   }),
   getters: {

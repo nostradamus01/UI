@@ -1,8 +1,8 @@
 <script setup>
-import { ref, computed, h, onMounted } from 'vue'
-import { NDataTable, NButton, NSpin } from 'naive-ui'
+import { ref, computed, h, onMounted, reactive, toRaw } from 'vue'
+import { NDataTable, NButton, NSpin, NInput, NForm } from 'naive-ui'
 import { usePlatforms } from '@/use/usePlatforms'
-import PlatformForm from '../forms/PlatformForm.vue';
+import Modal from '@/components/Modal.vue';
 
 const columns = [{
   title: 'No',
@@ -37,7 +37,7 @@ const columns = [{
         NButton,
         {
           size: 'small',
-          onClick: () => deleteFn(row)
+          onClick: () => removeFn(row)
         },
         { default: () => 'Delete' }
       )
@@ -52,11 +52,7 @@ const columns = [{
   }
 }]
 
-const { dbStore,
-  getPlatforms,
-  addPlatform,
-  editPlatform,
-  deletePlatform } = usePlatforms();
+const { dbStore, getAll, add, edit, remove } = usePlatforms();
 
 const tableData = computed(() => {
   const platforms = dbStore.platforms;
@@ -67,15 +63,91 @@ const tableData = computed(() => {
 });
 
 const isLoading = ref(false);
+const isFormLoading = ref(false);
+
+const form = reactive({
+  title: 'Add Platform',
+  mode: 'add',
+  isVisible: false
+});
+
+const initialData = {
+  id: null,
+  chipset: null,
+  cpu: null,
+  gpu: null
+}
+
+const data = reactive({...initialData});
+
+const showForm = (row) => {
+  if (row) {
+    Object.assign(data, row);
+    form.mode = 'edit'
+    form.title = 'Edit Platform'
+  } else {
+    Object.assign(data, initialData);
+  }
+  form.isVisible = true;
+}
+
+const hideForm = () => {
+  form.isVisible = false;
+}
+
+const getAllFn = async () => {
+  isLoading.value = true;
+  dbStore.platforms = await getAll();
+  isLoading.value = false;
+}
+
+const editFn = (row) => {
+  showForm(row);
+}
+
+const removeFn = async (row) => {
+  isLoading.value = true;
+  await remove(row.id);
+  getAllFn()
+}
+
+const addFn = () => {
+  showForm();
+}
+
+const submit = async () => {
+  isFormLoading.value = true;
+  const obj = toRaw(data);
+  if (form.mode === 'edit') {
+    await edit(obj);
+  } else {
+    await add(obj);
+  }
+  close();
+  getAllFn();
+}
+
+const close = () => {
+  isFormLoading.value = false;
+  hideForm();
+}
 
 onMounted(async () => {
-  getPlatformsFn();
-})
-
+  getAllFn();
+});
 </script>
 
 <template>
-  <PlatformForm />
+  <Modal :isVisible="form.isVisible" :title="form.title" @close="close" @submit="submit" :is-loading="isFormLoading">
+    <n-form ref="formRef" :model="data" class="my-form">
+      <n-input v-model:value="data.chipset" placeholder="Chipset" />
+      <n-input v-model:value="data.cpu" placeholder="CPU" />
+      <n-input v-model:value="data.gpu" placeholder="GPU" />
+    </n-form>
+  </Modal>
+  <n-button type="primary" @click="addFn" class="table-toolbar">
+    Add Platform
+  </n-button>
   <n-spin :show="isLoading">
     <n-data-table :columns="columns" :data="tableData" />
   </n-spin>

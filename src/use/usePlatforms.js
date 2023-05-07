@@ -1,59 +1,94 @@
 import { useServer } from '@/use/useServer'
 
 export function usePlatforms() {
-  const { req, dbStore } = useServer();
+  const { req, dbStore, getDB, setDB, getUuid, fakeTimeout } = useServer();
 
-  const getPlatforms = async () => {
-    const response = await req.get('Platforms/getAll');
-    if (response.status !== 200) {
-      alert("Something wrong!");
-      return null;
-    }
-    return await response.json();
+  const getAll = async () => {
+    await fakeTimeout();
+    // const response = await req.get('Platforms/getAll');
+    // if (response.status !== 200) {
+    //   alert("Something wrong!");
+    //   return null;
+    // }
+    // return await response.json();
+    return getDB().platforms;
   }
 
-  const addPlatform = async (data) => {
+  const get = async (id) => {
+    await fakeTimeout();
+    return true;
+  }
+
+  const add = async (data) => {
+    await fakeTimeout();
     const reqBody = {
+      id: getUuid(),
       chipset: data.chipset,
       cpu: data.cpu,
       gpu: data.gpu
     }
 
-    const response = await req.post('Platforms/add', reqBody);
-    if (response.status !== 200) {
-      alert("Something wrong!");
-      return null;
-    }
+    // const response = await req.post('Platforms/add', reqBody);
+    // if (response.status !== 200) {
+    //   alert("Something wrong!");
+    //   return null;
+    // }
+    // return true;
+    const db = getDB();
+    db.platforms.push(reqBody);
+    setDB(db);
     return true;
   }
 
-  const editPlatform = async (platformData) => {
-    const data = {
-      id: platformData.id,
-      chipset: platformData.chipset,
-      cpu: platformData.cpu,
-      gpu: platformData.gpu
+  const edit = async (data) => {
+    await fakeTimeout();
+    const newData = {
+      id: data.id,
+      chipset: data.chipset,
+      cpu: data.cpu,
+      gpu: data.gpu
     }
-    const response = await req.put('Platforms/edit', data);
-    if (response.status !== 200) {
-      return null;
+    // const response = await req.put('Platforms/edit', data);
+    // if (response.status !== 200) {
+    //   return null;
+    // }
+    const db = getDB();
+    const found = db.platforms.find(element => element.id === newData.id);
+    if (found) {
+      for (const key of Object.keys(found)) {
+        if (newData[key] !== null) {
+          found[key] = newData[key];
+        }
+      }
+    } else {
+      return 'Not found'
     }
+    setDB(db);
     return true;
   }
 
-  const deletePlatform = async (platformId) => {
-    const response = await req.delete('Platforms/delete/' + platformId);
-    if (response.status !== 200) {
-      return null;
-    }
+  const remove = async (id) => {
+    await fakeTimeout();
+    // const response = await req.delete('Platforms/delete', platformId);
+    // if (response.status !== 200) {
+    //   return null;
+    // }
+    const db = getDB();
+    db.platforms = db.platforms.filter(element => {
+      if (element.id !== id) {
+        return element;
+      }
+    });
+    setDB(db);
     return true;
   }
 
   return {
     dbStore,
-    getPlatforms,
-    addPlatform,
-    editPlatform,
-    deletePlatform
+    getAll,
+    get,
+    add,
+    edit,
+    remove
   }
 }

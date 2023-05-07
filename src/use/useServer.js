@@ -1,13 +1,34 @@
 import { useDBStore } from '@/stores/dbStore'
+import { v4 as uuidv4 } from 'uuid';
 
 const apiUrl = 'http://localhost:5169/api/';
 
 export function useServer() {
+  const setDB = (data) => {
+    localStorage.setItem('dbStore', JSON.stringify(data));
+  }
+
+  const getDB = () => {
+    return JSON.parse(localStorage.getItem('dbStore'));
+  }
+
+  const getUuid = () => {
+    return uuidv4();
+  }
+
+  const fakeTimeout = () => {
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        resolve();
+      }, 300);
+    })
+  }
+
   const req = {
     get: async (url) => {
       return await fetch(apiUrl + url);
     },
-  
+
     post: async (url, data) => {
       try {
         return await fetch(apiUrl + url, {
@@ -23,7 +44,7 @@ export function useServer() {
         }
       }
     },
-  
+
     put: async (url, data) => {
       return await fetch(apiUrl + url, {
         method: 'PUT',
@@ -33,9 +54,9 @@ export function useServer() {
         body: JSON.stringify(data)
       });
     },
-  
-    delete: async (url) => {
-      return await fetch(apiUrl + url, {
+
+    delete: async (url, id) => {
+      return await fetch(apiUrl + url + '/' + id, {
         method: 'DELETE'
       });
     }
@@ -45,6 +66,10 @@ export function useServer() {
 
   return {
     req,
-    dbStore
+    dbStore,
+    setDB,
+    getDB,
+    getUuid,
+    fakeTimeout
   }
 }
