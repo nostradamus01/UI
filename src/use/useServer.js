@@ -24,6 +24,22 @@ export function useServer() {
     })
   }
 
+  const toInt = (value) => {
+    const newValue = parseInt(value);
+    if (isNaN(newValue)) {
+      return 0;
+    }
+    return newValue;
+  }
+
+  const toReal = (value) => {
+    const newValue = parseFloat(value);
+    if (isNaN(newValue)) {
+      return 0;
+    }
+    return newValue;
+  }
+
   const req = {
     get: async (url) => {
       return await fetch(apiUrl + url);
@@ -70,6 +86,8 @@ export function useServer() {
     setDB,
     getDB,
     getUuid,
-    fakeTimeout
+    fakeTimeout,
+    toReal,
+    toInt
   }
 }
