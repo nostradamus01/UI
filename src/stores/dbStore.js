@@ -22,6 +22,7 @@ export const useDBStore = defineStore('db', {
       model: "iPhone 14 Pro Max",
       releaseDate: "2022, September 16",
       platformId: "000-000-000",
+      osId: '000-000-000',
       height: 160.7,
       width: 77.6,
       depth: 7.9,

@@ -25,7 +25,10 @@ if (!localStorage.getItem("dbStore")) {
   localStorage.setItem("dbStore", JSON.stringify(dbStore));
   
 }
-console.log(JSON.parse(localStorage.getItem("dbStore")));
+const data = JSON.parse(localStorage.getItem("dbStore"))
+for (const key of Object.keys(data)) {
+  dbStore[key] = data[key]
+}
 </script>
 
 <template>

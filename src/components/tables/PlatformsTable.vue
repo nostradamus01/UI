@@ -55,11 +55,11 @@ const columns = [{
 const { dbStore, getAll, add, edit, remove } = usePlatforms();
 
 const tableData = computed(() => {
-  const platforms = dbStore.platforms;
-  platforms.forEach((platform, index) => {
-    platform.n = index + 1;
+  const data = dbStore.platforms;
+  data.forEach((element, index) => {
+    element.n = index + 1;
   });
-  return platforms;
+  return data;
 });
 
 const isLoading = ref(false);
