@@ -18,6 +18,9 @@ export function usePhoneDetails() {
   const add = async (data) => {
     await fakeTimeout();
     const reqBody = data;
+    reqBody.brandId = reqBody.brand;
+    reqBody.platformId = reqBody.platform;
+    reqBody.osId = reqBody.os;
     reqBody.id = getUuid();
     const db = getDB();
     db[tableName].push(reqBody);
@@ -28,6 +31,9 @@ export function usePhoneDetails() {
   const edit = async (data) => {
     await fakeTimeout();
     const newData = data;
+    newData.brandId = newData.brand;
+    newData.platformId = newData.platform;
+    newData.osId = newData.os;
     const db = getDB();
     const found = db[tableName].find(element => element.id === newData.id);
     if (found) {

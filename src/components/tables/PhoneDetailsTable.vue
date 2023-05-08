@@ -2,12 +2,25 @@
 import { NInput, NDatePicker, NForm, NSelect, NInputNumber, NButton, NSpin, NDataTable } from 'naive-ui';
 import { ref, computed, h, reactive, onMounted, toRaw } from 'vue';
 import Modal from '@/components/Modal.vue';
-import { usePhoneDetails } from '@/use/usePhoneDetails'
+import { usePhoneDetails } from '@/use/usePhoneDetails';
+import moment from 'moment';
+
 
 const columns = [{
   title: 'No',
   key: 'n',
   width: 60
+}, {
+  title: "Brand",
+  key: "brandId",
+  resizable: true,
+  render(row) {
+    const brand = dbStore.brands.find(element => element.id === row.brandId);
+    if (brand) {
+      return brand.name
+    }
+    return 'ho du apush ches';
+  }
 }, {
   title: "Model",
   key: "model",
@@ -15,11 +28,35 @@ const columns = [{
 }, {
   title: "Release Date",
   key: "releaseDate",
-  resizable: true
+  resizable: true,
+  render(row) {
+    let day = moment(new Date(row.releaseDate)).format("DD.MM.YYYY").toString();
+    return day;
+  }
 }, {
-  title: "Release Date",
-  key: "releaseDate",
-  resizable: true
+  title: "Platform",
+  key: "platformId",
+  resizable: true,
+  render(row) {
+    // console.log('Id', row);
+    let platform =  dbStore.platforms.find(element => element.id === row.platformId);
+    if (platform) {
+      return platform.chipset
+    } 
+    return 'ho du apush ches';
+  }
+},{
+  title: "Os",
+  key: "osId",
+  resizable: true,
+  render(row) {
+    // console.log('Id', row);
+    let os =  dbStore.oses.find(element => element.id === row.osId);
+    if (os) {
+      return os.name
+    } 
+    return 'ho du apush ches';
+  }
 }, {
   title: "Height",
   key: "height",
@@ -129,7 +166,6 @@ const brands = computed(() => {
       value: brand.id
     });
   });
-  console.log(arr);
   return arr;
 });
 
@@ -219,18 +255,18 @@ onMounted(async () => {
   <Modal :isVisible="form.isVisible" :title="form.title" @close="close" @submit="submit" :is-loading="isFormLoading">
     <n-form ref="formRef" :model="data" class="my-form">
       <n-select v-model:value="data.brand" :options="brands" placeholder="Brand" />
-        <n-input v-model:value="data.model" placeholder="Model" />
-        <n-date-picker v-model:value="data.releaseDate" type="datetime" placeholder="Released date" />
-        <n-select v-model:value="data.platform" :options="platforms" placeholder="Platform" />
-        <n-select v-model:value="data.os" :options="oses" placeholder="OS" />
-        <n-input-number v-model:value="data.height" :show-button="false" placeholder="Height" />
-        <n-input-number v-model:value="data.width" :show-button="false" placeholder="Width" />
-        <n-input-number v-model:value="data.depth" :show-button="false" placeholder="Depth" />
-        <n-input-number v-model:value="data.screenSize" :show-button="false" placeholder="Screen Size" />
-        <n-input v-model:value="data.resolution" placeholder="Resolution" />
-        <n-input-number v-model:value="data.batteryCapacity" :show-button="false" placeholder="Battery Capacity" />
-        <n-input-number v-model:value="data.price" :show-button="false" placeholder="Price" />
-        <n-input-number v-model:value="data.discount" :show-button="false" placeholder="Discount" />
+      <n-input v-model:value="data.model" placeholder="Model" />
+      <n-date-picker v-model:value="data.releaseDate" type="datetime" placeholder="Released date" />
+      <n-select v-model:value="data.platform" :options="platforms" placeholder="Platform" />
+      <n-select v-model:value="data.os" :options="oses" placeholder="OS" />
+      <n-input-number v-model:value="data.height" :show-button="false" placeholder="Height" />
+      <n-input-number v-model:value="data.width" :show-button="false" placeholder="Width" />
+      <n-input-number v-model:value="data.depth" :show-button="false" placeholder="Depth" />
+      <n-input-number v-model:value="data.screenSize" :show-button="false" placeholder="Screen Size" />
+      <n-input v-model:value="data.resolution" placeholder="Resolution" />
+      <n-input-number v-model:value="data.batteryCapacity" :show-button="false" placeholder="Battery Capacity" />
+      <n-input-number v-model:value="data.price" :show-button="false" placeholder="Price" />
+      <n-input-number v-model:value="data.discount" :show-button="false" placeholder="Discount" />
     </n-form>
   </Modal>
   <n-button type="primary" @click="addFn" class="table-toolbar">
