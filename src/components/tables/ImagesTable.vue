@@ -50,9 +50,9 @@ const removeFn = async (row) => {
   getAllFn()
 }
 
-const addFn = () => {
-  showForm();
-}
+// const addFn = () => {
+//   showForm();
+// }
 
 const submit = async () => {
   isFormLoading.value = true;
