@@ -1,14 +1,79 @@
 <script setup>
 import { ref, reactive, onMounted } from 'vue'
-import { NButton, NUpload, NModal, NCard, NSelect, NSpace } from 'naive-ui'
-import { useDBStore } from '@/stores/dbStore'
+import { NButton, NUpload, NModal, NCard, NSelect, NSpace, NSpin } from 'naive-ui'
+import Modal from '@/components/Modal.vue';
+import { useImages } from '@/use/useImages'
 
+const { dbStore, getAll, add, edit, remove } = useImages();
+
+const tableData = computed(() => {
+  return dbStore.images;
+});
 
 const isLoading = ref(false);
-const showForm = ref(false);
-const showModal = ref(false)
+const isUploadFormLoading = ref(false);
+const isEditFormLoading = ref(false);
 
-const dbStore = useDBStore();
+const uploadForm = reactive({
+  title: 'Upload Images',
+  mode: 'add',
+  isVisible: false
+});
+
+const editForm = reactive({
+  title: 'Edit Image',
+  mode: 'edit',
+  isVisible: false
+});
+
+const showForm = (row) => {
+  form.isVisible = true;
+}
+
+const hideForm = () => {
+  form.isVisible = false;
+}
+
+const getAllFn = async () => {
+  isLoading.value = true;
+  dbStore.oses = await getAll();
+  isLoading.value = false;
+}
+
+const editFn = (row) => {
+  showForm(row);
+}
+
+const removeFn = async (row) => {
+  isLoading.value = true;
+  await remove(row.id);
+  getAllFn()
+}
+
+const addFn = () => {
+  showForm();
+}
+
+const submit = async () => {
+  isFormLoading.value = true;
+  const obj = toRaw(data);
+  if (form.mode === 'edit') {
+    await edit(obj);
+  } else {
+    await add(obj);
+  }
+  close();
+  getAllFn();
+}
+
+const close = () => {
+  isFormLoading.value = false;
+  hideForm();
+}
+
+onMounted(async () => {
+  getAllFn();
+});
 
 
 const HandleAddClick = () => {
@@ -28,10 +93,9 @@ function handlePreview(file) {
   showModalRef.value = true;
 }
 
-let fileList = [];
 
-const submitForm = () => {
-  console.log(fileList);
+
+const addFn = () => {
   fileList.forEach(async (file) => {
     const formData = new FormData();
     formData.append('formFile', file.file);
@@ -41,24 +105,22 @@ const submitForm = () => {
       body: formData
     });
   })
-  hideForm();
-}
-
-const hideForm = () => {
-  showForm.value = false;
-  showModal.value = false;
 }
 
 const uploadRef = ref(null);
 
-const handleChange = (data) => {
-  console.log(data);
+let fileList = [];
+const uploadImageFn = (data) => {
   fileList = data.fileList;
 }
 
 const images = reactive({
   names: []
 })
+
+const imgClickFn = (e) => {
+  console.log(e);
+}
 
 onMounted(async () => {
   images.names = ['Picture1_7f77d8d2-70eb-4ad9-b92c-032bc71858ef.png']
@@ -74,20 +136,22 @@ onMounted(async () => {
 const url = import.meta.env.BASE_URL;
 console.log(url);
 
-const phones = ref([{
-  label: dbStore.phoneDetails[0].model,
-  value: dbStore.phoneDetails[0].id,
-}, {
-  label: dbStore.phoneDetails[1].model,
-  value: dbStore.phoneDetails[1].id
-}
-])
+const phoneDetails = computed(() => {
+  const arr = []
+  dbStore.phoneDetails.forEach(phoneDetail => {
+    arr.push({
+      label: phoneDetail.model,
+      value: phoneDetail.id
+    });
+  });
+  return arr;
+});
 const colors = ref([])
 
-const isDisabled = ref(true)
-const bac = (value, option) => {
+const isColorsDisabled = ref(true);
+const phoneDetailSelectFn = (value, option) => {
   colors.value = [];
-  isDisabled.value = false
+  isColorsDisabled.value = false
   const colorsArr = []
   dbStore.colors.forEach(color => {
     if (color.phoneDetailId === value) {
@@ -100,42 +164,36 @@ const bac = (value, option) => {
   colors.value = colorsArr;
 }
 
+
+
 </script>
 
 <template>
-  <n-modal v-model:show="showForm" :mask-closable="false">
-    <n-card style="width: 600px" title="Upload Image" :bordered="false" size="huge" role="dialog" aria-modal="true">
-      <n-upload ref="uploadRef" :default-upload="false" multiple @change="handleChange" list-type="image-card">
-        Click to upload image
-      </n-upload>
-      <template #footer>
-        <n-button @click="hideForm" style="margin-right: 10px;">Close</n-button>
-        <n-button type="primary" @click="submitForm">Submit</n-button>
-      </template>
-    </n-card>
-  </n-modal>
-  <n-modal v-model:show="showModal" :mask-closable="false">
-    <n-card style="width: 600px" title="Update Image" :bordered="false" size="huge" role="dialog" aria-modal="true">
-      <div class="img-container">
-        <img :src="`${url}uploads/${images.names[0]}`" alt="">
-        <n-space vertical class="n">
-          <n-select @update:value="bac" :options="phones" style="display: flex;"/>
-          <n-select :disabled="isDisabled" :options="colors" />
-        </n-space>
-      </div>
-      <template #footer>
-        <n-button @click="hideForm" style="margin-right: 10px;">Close</n-button>
-        <n-button type="primary" @click="submitForm">Submit</n-button>
-      </template>
-    </n-card>
-  </n-modal>
-  <n-button type="primary" @click="HandleAddClick" class="table-toolbar">
-    Upload Image
+  <Modal :isVisible="uploadForm.isVisible" :title="uploadForm.title" @close="close" @submit="submit"
+    :is-loading="isUploadFormLoading">
+    <n-upload :default-upload="false" multiple @change="uploadImageFn" list-type="image-card">
+      Click to upload image
+    </n-upload>
+  </Modal>
+  <Modal :isVisible="editForm.isVisible" :title="editForm.title" @close="close" @submit="submit"
+    :is-loading="isEditFormLoading">
+    <div class="img-container">
+      <img :src="`${url}uploads/${images.names[0]}`" alt="">
+      <n-space vertical class="n">
+        <n-select @update:value="phoneDetailSelectFn" :options="phones" style="display: flex;" />
+        <n-select :disabled="isColorsDisabled" :options="colors" />
+      </n-space>
+    </div>
+  </Modal>
+  <n-button type="primary" @click="addFn" class="table-toolbar">
+    Upload Images
   </n-button>
   <h1>Uploaded Image</h1>
-  <div v-for="name in images.names" class="images-conatiner">
-    <img :src="`${url}uploads/${name}`" alt="" @click="HandleSelectClick">
-  </div>
+  <n-spin :show="isLoading">
+    <div v-for="data in tableData" class="images-conatiner">
+      <img :src="`${url}uploads/${data.name}`" alt="" @click="imgClickFn">
+    </div>
+  </n-spin>
 </template>
 
 <style>
