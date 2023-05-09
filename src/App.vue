@@ -1,6 +1,6 @@
 <script setup>
 import { RouterLink, RouterView } from 'vue-router'
-import Header from '@/components/Header.vue';
+
 import { useDBStore } from '@/stores/dbStore';
 
 const dbStore = useDBStore();
@@ -32,7 +32,6 @@ for (const key of Object.keys(data)) {
 </script>
 
 <template>
-  <Header></Header>
   <RouterView />
 </template>
 

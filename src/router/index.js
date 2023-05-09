@@ -6,10 +6,36 @@ const router = createRouter({
   routes: [
     {
       path: '/',
-      name: 'about',
-      component: MainView
-    },
-    {
+      component: MainView,
+      children: [{
+        path: '',
+        name: 'home',
+        component: () => import('@/components/ui/Main.vue')
+      }, {
+        path: 'details/:id',
+        name: 'details',
+        component: () => import('@/components/ui/Details.vue')
+      }, {
+        path: 'cart',
+        name: 'cart',
+        component: () => import('@/components/ui/Cart.vue')
+      }, {
+        path: 'compare',
+        name: 'compare',
+        component: () => import('@/components/ui/Compare.vue')
+      }, {
+        path: 'user',
+        name: 'user',
+        component: () => import('@/components/ui/User.vue')
+      }, {
+        path: '/:pathMatch(.*)*',
+        redirect: '/'
+      }]
+    }, {
+      path: '/login',
+      name: 'login',
+      component: () => import('@/views/LoginView.vue')
+    }, {
       path: '/admin',
       component: () => import('@/views/AdminView.vue'),
       children: [{

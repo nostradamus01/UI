@@ -1,6 +1,7 @@
 <script setup>
 import { NTabs, NTab } from 'naive-ui'
 import { useRouter, useRoute } from 'vue-router'
+import Header from '@/components/Header.vue';
 
 const router = useRouter()
 const route = useRoute()
@@ -12,6 +13,7 @@ const handleUpdateValue = (value) => {
 </script>
 
 <template>
+  <Header></Header>
   <main>
     <n-tabs :default-value="route.name" type="segment" @update:value="handleUpdateValue">
       <n-tab name="phoneDetails">
