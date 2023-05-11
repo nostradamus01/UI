@@ -88,10 +88,10 @@ watch(searchValue, (newValue, oldValue) => {
 
 <style lang="scss">
 .header {
+  background-color: #fff;
   display: flex;
   justify-content: center;
   height: 60px;
-  border-bottom: 1px solid #00000048;
 
   .inner-header {
     height: 100%;
