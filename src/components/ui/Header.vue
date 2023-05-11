@@ -66,7 +66,6 @@ watch(searchValue, (newValue, oldValue) => {
     <div class="inner-header container">
       <div class="logo-container" @click="() => { router.push('/') }">
         <MobileIcon></MobileIcon>
-        <h1>MyMobile</h1>
       </div>
       <div class="search-container">
         <n-auto-complete class="search" v-model:value="searchValue" :options="searchOptions" clear-after-select
