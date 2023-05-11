@@ -3,15 +3,18 @@ import CartIcon from '@/components/icons/CartIcon.vue';
 import ScaleIcon from '@/components/icons/ScaleIcon.vue';
 import UserIcon from '@/components/icons/UserIcon.vue';
 import MobileIcon from '@/components/icons/MobileIcon.vue';
-import { NDropdown, NAutoComplete } from 'naive-ui';
+import { NDropdown, NAutoComplete, NBadge } from 'naive-ui';
 import { useRouter, useRoute } from 'vue-router'
-import { ref, watch } from 'vue'
+import { usePhonesStore } from '@/stores/phonesStore'
+import { ref, watch, computed } from 'vue'
 
 const router = useRouter();
 
+const phonesStore = usePhonesStore();
+
 const userOptions = ref([{
-  label: 'Settings',
-  key: 'settings'
+  label: 'Profile',
+  key: 'profile'
 }, {
   label: 'Admin Panel',
   key: 'admin'
@@ -23,7 +26,7 @@ const userOptions = ref([{
 const handleSelect = (key) => {
   if (key === 'logout') {
     router.push('login')
-  } else if (key === 'settings') {
+  } else if (key === 'profile') {
     router.push('user')
   } else if (key === 'admin') {
     router.push('admin')
@@ -40,6 +43,13 @@ const optionsArr = [{
 
 const searchOptions = ref([]);
 const searchValue = ref('');
+const itemsInCart = computed(() => {
+  console.log(phonesStore.cart.length)
+  return phonesStore.cart.length
+})
+const itemsInCompare = computed(() => {
+  return phonesStore.compare.length
+})
 
 watch(searchValue, (newValue, oldValue) => {
   searchOptions.value = [];
@@ -53,7 +63,7 @@ watch(searchValue, (newValue, oldValue) => {
 
 <template>
   <header class="header">
-    <div class="inner-header">
+    <div class="inner-header container">
       <div class="logo-container" @click="() => { router.push('/') }">
         <MobileIcon></MobileIcon>
         <h1>MyMobile</h1>
@@ -63,8 +73,12 @@ watch(searchValue, (newValue, oldValue) => {
           placeholder="Search" />
       </div>
       <div class="toolbar">
-        <ScaleIcon @click="() => { router.push('compare') }"></ScaleIcon>
-        <CartIcon @click="() => { router.push('cart') }"></CartIcon>
+        <n-badge :value="itemsInCompare">
+          <ScaleIcon @click="() => { router.push('compare') }"></ScaleIcon>
+        </n-badge>
+        <n-badge :value="itemsInCart">
+          <CartIcon @click="() => { router.push('cart') }"></CartIcon>
+        </n-badge>
         <n-dropdown :options="userOptions" trigger="click" @select="handleSelect">
           <UserIcon></UserIcon>
         </n-dropdown>
@@ -86,9 +100,6 @@ watch(searchValue, (newValue, oldValue) => {
     gap: 20px;
     justify-content: space-between;
     align-items: center;
-    max-width: 1200px;
-    width: 100%;
-    padding: 0 20px;
 
     .logo-container {
       height: 100%;
@@ -116,6 +127,7 @@ watch(searchValue, (newValue, oldValue) => {
 
       svg {
         cursor: pointer;
+        color: #000;
 
         &:hover {
           color: #2f2f2f

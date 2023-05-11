@@ -11,3 +11,9 @@ body {
   min-height: 100vh;
   background-color: #ededed;
 }
+
+.container {
+  max-width: 1400px;
+  padding: 0 20px;
+  width: 100%;
+}
