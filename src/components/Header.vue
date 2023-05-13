@@ -26,11 +26,11 @@ const userOptions = ref([{
 
 const handleSelect = (key) => {
   if (key === 'logout') {
-    router.push('login')
+    router.push({ name: 'login' })
   } else if (key === 'profile') {
-    router.push('user')
+    router.push({ name: 'user' })
   } else if (key === 'admin') {
-    router.push('admin')
+    router.push({ name: 'admin' })
   }
 }
 
@@ -60,7 +60,7 @@ watch(searchValue, (newValue, oldValue) => {
 <template>
   <header class="header">
     <div class="inner-header container">
-      <div class="logo-container" @click="() => { router.push('/') }">
+      <div class="logo-container" @click="() => { router.push({ name: 'home' }) }">
         <MyIcon class="myicon"></MyIcon>
         <MobileIcon class="mobileicon"></MobileIcon>
       </div>
@@ -70,10 +70,10 @@ watch(searchValue, (newValue, oldValue) => {
       </div>
       <div class="toolbar">
         <n-badge :value="phonesStore.compareSize">
-          <ScaleIcon @click="() => { router.push('compare') }"></ScaleIcon>
+          <ScaleIcon @click="() => { router.push({ name: 'compare' })}"></ScaleIcon>
         </n-badge>
         <n-badge :value="phonesStore.cartSize">
-          <CartIcon @click="() => { router.push('cart') }"></CartIcon>
+          <CartIcon @click="() => { router.push({ name: 'cart' }) }"></CartIcon>
         </n-badge>
         <n-dropdown class="user-icon" :options="userOptions" trigger="click" @select="handleSelect">
           <UserIcon></UserIcon>

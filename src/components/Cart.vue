@@ -56,7 +56,7 @@ const uncheckPhone = (id) => {
           </n-space>
         </div>
         <div class="phone-image">
-          <img :src="`public/uploads/${phone.image}`" alt="smartphone image">
+          <img :src="`/uploads/${phone.image}`" alt="smartphone image">
         </div>
         <div class="about">
           <div class="description">

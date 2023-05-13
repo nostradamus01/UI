@@ -4,7 +4,10 @@ import CartIcon from '@/icons/CartIcon.vue'
 import ScaleIcon from '@/icons/ScaleIcon.vue'
 import { usePhonesStore } from '@/stores/phonesStore'
 import { computed } from 'vue'
+import { useRouter, useRoute } from 'vue-router'
 
+const route = useRoute();
+const router = useRouter();
 const url = import.meta.env.BASE_URL;
 const phonesStore = usePhonesStore();
 
@@ -35,7 +38,7 @@ defineProps({
     <div class="phones-list">
       <n-card v-for="phone in phonesList" :key="phone.id" :title="phone.brand + ' ' + phone.model" class="phone-card">
         <template #cover>
-          <div class="phone-image">
+          <div class="phone-image" @click="()=>{ router.push({ name: 'details', params: { id: phone.id } }) }">
             <img :src="`${url}uploads/${phone.image}`" alt="smartphone image">
           </div>
         </template>

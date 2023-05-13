@@ -29,7 +29,7 @@ phonesStore.compare.forEach(element => {
     <div class="cards">
       <n-card v-for="phone in phonesList" :key="phone.id" class="phone-card">
         <div class="phone-image">
-          <img :src="`public/uploads/${phone.image}`" alt="smartphone image">
+          <img :src="`/uploads/${phone.image}`" alt="smartphone image">
         </div>
         <div class="about">
           <div class="description">

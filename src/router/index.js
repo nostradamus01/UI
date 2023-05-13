@@ -40,6 +40,7 @@ const router = createRouter({
       component: () => import('@/views/AdminView.vue'),
       children: [{
         path: '',
+        name: 'admin',
         redirect: { name: 'phoneDetails' },
       }, {
         path: 'phoneDetails',
