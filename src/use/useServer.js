@@ -3,6 +3,23 @@ import { v4 as uuidv4 } from 'uuid';
 
 const apiUrl = 'http://localhost:5169/api/';
 
+const TABLES = {
+  Brands: 'Brands',
+  Platforms: 'Platforms',
+  OSes: 'OSes',
+  PhoneDetails: 'PhoneDetails',
+  Colors: 'Colors',
+  Storages: 'Storages',
+  RAMs: 'RAMs',
+  Images: 'Images',
+  Phones: 'Phones',
+  Countries: 'Countries',
+  Cities: 'Cities',
+  Users: 'Users',
+  Carts: 'Carts',
+  Orders: 'Orders'
+}
+
 export function useServer() {
   const setDB = (data) => {
     localStorage.setItem('dbStore', JSON.stringify(data));
@@ -20,7 +37,7 @@ export function useServer() {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
         resolve();
-      }, 180);
+      }, 50);
     })
   }
 
@@ -78,6 +95,15 @@ export function useServer() {
     }
   }
 
+  const initialize = () => {
+    for (const tableName of Object.values(TABLES)) {
+      const item = localStorage.getItem(tableName);
+      if (!item) {
+        localStorage.setItem(tableName, JSON.stringify("[]"));
+      }
+    }
+  }
+
   const dbStore = useDBStore();
 
   return {
@@ -88,6 +114,7 @@ export function useServer() {
     getUuid,
     fakeTimeout,
     toReal,
-    toInt
+    toInt,
+    initialize
   }
 }

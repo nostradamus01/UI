@@ -2,8 +2,18 @@ import { useServer } from '@/use/useServer'
 
 const tableName = 'images';
 
+const imageNames = [
+  'iph14p.jpg',
+  'iPhone14Pro_Gold.jpg',
+  'iPhone14Pro_Silver.jpg',
+]
+
 export function useImages() {
   const { req, dbStore, getDB, setDB, getUuid, fakeTimeout } = useServer();
+
+  const getNames = async () => {
+    await fakeTimeout();
+  }
 
   const getAll = async () => {
     await fakeTimeout();
