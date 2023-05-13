@@ -11,19 +11,19 @@ const isLoading = ref(false);
   <div class="main-content">
     <div class="inner-main container">
       <div class="photos">
-        <div class="photoN">
+        <div class="photoN photo">
           <span>NOKIA</span>
           <img src="/images/photoN.jpg">
         </div>
-        <div class="photoS">
+        <div class="photoS photo">
           <span>SAMSUNG</span>
           <img src="/images/photoS.jpg">
         </div>
-        <div class="photoI">
-          <span>iPhone</span>
+        <div class="photoI photo">
+          <span>iPHONE</span>
           <img src="/images/photoI.jpg">
         </div>
-        <div class="photoX">
+        <div class="photoX photo">
           <span>XIAOMI</span>
           <img src="/images/photoX.jpg">
         </div>
@@ -100,26 +100,34 @@ const isLoading = ref(false);
       object-fit: cover;
     }
 
-    .photoN {
-
-      span {
-        position: absolute;
-        z-index: 1;
-        bottom: 0;
-        right: 5px;
-        font-size: 30px;
+    .photo {
+      img{
+        transition: 700ms linear;
+      }
+      &:hover{
+        img{
+          transform:scale(1.2);
+        }
       }
 
-      span:hover {
-        color: green;
+
+    }      
+    .photoN{
+        span {
+          position: absolute;
+          z-index: 1;
+          bottom: 0;
+          right: 5px;
+          font-size: 30px;
       }
-    }
+    }  
+
 
     .photoS {
       grid-column-start: 2;
       grid-row-start: 1;
       grid-row-end: 3;
-
+      
       span {
         position: absolute;
         z-index: 1;
@@ -127,9 +135,6 @@ const isLoading = ref(false);
         font-size: 30px;
       }
 
-      span:hover {
-        color: green;
-      }
     }
 
     .photoI {
@@ -145,10 +150,6 @@ const isLoading = ref(false);
         bottom: 10%;
         font-size: 30px;
       }
-
-      span:hover {
-        color: green;
-      }
     }
 
     .photoX {
@@ -162,9 +163,6 @@ const isLoading = ref(false);
         font-size: 30px;
       }
 
-      span:hover {
-        color: green;
-      }
     }
 
     .phones-container {
@@ -174,11 +172,9 @@ const isLoading = ref(false);
 }
 
 
-@media (max-width: 1500px) {
+@media (max-width: 1000px) {
   .photos {
-    display: flex;
-    flex-wrap: wrap;
-    background-color: #00bfff;
+    display: none !important;
   }
 }
 </style>

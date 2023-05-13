@@ -2,6 +2,7 @@
 import CartIcon from '@/icons/CartIcon.vue';
 import ScaleIcon from '@/icons/ScaleIcon.vue';
 import UserIcon from '@/icons/UserIcon.vue';
+import MyIcon from '@/icons/MyIcon.vue';
 import MobileIcon from '@/icons/MobileIcon.vue';
 import { NDropdown, NAutoComplete, NBadge } from 'naive-ui';
 import { useRouter, useRoute } from 'vue-router'
@@ -60,7 +61,8 @@ watch(searchValue, (newValue, oldValue) => {
   <header class="header">
     <div class="inner-header container">
       <div class="logo-container" @click="() => { router.push('/') }">
-        <MobileIcon></MobileIcon>
+        <MyIcon class="myicon"></MyIcon>
+        <MobileIcon class="mobileicon"></MobileIcon>
       </div>
       <div class="search-container">
         <n-auto-complete class="search" v-model:value="searchValue" :options="searchOptions" clear-after-select
@@ -106,6 +108,15 @@ watch(searchValue, (newValue, oldValue) => {
       svg {
         height: 100%;
       }
+
+      .myicon{
+        height: 55px;
+      }
+      .mobileicon{
+        margin: -7px;
+        height: 80%;
+      }
+
     }
 
     .search-container {
