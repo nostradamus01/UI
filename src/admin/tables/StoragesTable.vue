@@ -1,24 +1,16 @@
 <script setup>
-import { ref, computed, h, onMounted, reactive, toRaw } from 'vue'
-import { NDataTable, NButton, NSpin, NInput, NForm } from 'naive-ui'
-import { usePlatforms } from '@/use/usePlatforms'
-import Modal from '@/components/Modal.vue';
+import { NButton, NInputNumber, NForm, NDataTable, NSpin } from 'naive-ui';
+import { ref, computed, h, reactive, onMounted, toRaw } from 'vue';
+import Modal from '@/admin/Modal.vue';
+import { useStorages } from '@/use/useStorages'
 
 const columns = [{
   title: 'No',
   key: 'n',
   width: 60
 }, {
-  title: "Chipset",
-  key: "chipset",
-  resizable: true
-}, {
-  title: "CPU",
-  key: "cpu",
-  resizable: true
-}, {
-  title: "GPU",
-  key: "gpu",
+  title: "Size",
+  key: "size",
   resizable: true
 }, {
   title: 'Action',
@@ -52,10 +44,10 @@ const columns = [{
   }
 }]
 
-const { dbStore, getAll, add, edit, remove } = usePlatforms();
+const { dbStore, getAll, add, edit, remove } = useStorages();
 
 const tableData = computed(() => {
-  const data = dbStore.platforms;
+  const data = dbStore.storages;
   data.forEach((element, index) => {
     element.n = index + 1;
   });
@@ -66,16 +58,14 @@ const isLoading = ref(false);
 const isFormLoading = ref(false);
 
 const form = reactive({
-  title: 'Add Platform',
+  title: 'Add Storage',
   mode: 'add',
   isVisible: false
 });
 
 const initialData = {
   id: null,
-  chipset: null,
-  cpu: null,
-  gpu: null
+  size: null
 }
 
 const data = reactive({...initialData});
@@ -84,11 +74,11 @@ const showForm = (row) => {
   if (row) {
     Object.assign(data, row);
     form.mode = 'edit'
-    form.title = 'Edit Platform'
+    form.title = 'Edit Storage'
   } else {
     Object.assign(data, initialData);
     form.mode = 'add'
-    form.title = 'Add Platform'
+    form.title = 'Add Storage'
   }
   form.isVisible = true;
 }
@@ -99,7 +89,7 @@ const hideForm = () => {
 
 const getAllFn = async () => {
   isLoading.value = true;
-  dbStore.platforms = await getAll();
+  dbStore.storages = await getAll();
   isLoading.value = false;
 }
 
@@ -137,22 +127,19 @@ const close = () => {
 onMounted(async () => {
   getAllFn();
 });
+
 </script>
 
 <template>
   <Modal :isVisible="form.isVisible" :title="form.title" @close="close" @submit="submit" :is-loading="isFormLoading">
     <n-form ref="formRef" :model="data" class="my-form">
-      <n-input v-model:value="data.chipset" placeholder="Chipset" />
-      <n-input v-model:value="data.cpu" placeholder="CPU" />
-      <n-input v-model:value="data.gpu" placeholder="GPU" />
+      <n-input-number v-model:value="data.size" :show-button="false" placeholder="Size" />
     </n-form>
   </Modal>
   <n-button type="primary" @click="addFn" class="table-toolbar">
-    Add Platform
+    Add Storages
   </n-button>
   <n-spin :show="isLoading">
     <n-data-table :columns="columns" :data="tableData" />
   </n-spin>
 </template>
-
-<style></style>

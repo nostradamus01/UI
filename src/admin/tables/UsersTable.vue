@@ -1,6 +1,6 @@
 <script setup>
 import { ref, computed, h } from 'vue'
-import { NDataTable, NButton, NSpin } from 'naive-ui'
+import { NDataTable, NSpin } from 'naive-ui'
 import { useDBStore } from '@/stores/dbStore'
 
 const columns = [{
@@ -43,36 +43,6 @@ const columns = [{
   title: "Post Code",
   key: "postCode",
   resizable: true
-}, {
-  title: 'Action',
-  key: 'actions',
-  render(row) {
-    const buttons = [
-      h(
-        NButton,
-        {
-          size: 'small',
-          onClick: () => EditRow(row)
-        },
-        { default: () => 'Edit' }
-      ),
-      h(
-        NButton,
-        {
-          size: 'small',
-          onClick: () => DeleteRow(row)
-        },
-        { default: () => 'Delete' }
-      )
-    ]
-    return h(
-      'div',
-      {
-        class: 'table-actions-conatiner'
-      },
-      buttons
-    )
-  }
 }]
 
 const isLoading = ref(false);

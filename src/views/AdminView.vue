@@ -1,7 +1,7 @@
 <script setup>
 import { NTabs, NTab } from 'naive-ui'
 import { useRouter, useRoute } from 'vue-router'
-import Header from '@/components/Header.vue';
+import Header from '@/admin/Header.vue';
 
 const router = useRouter()
 const route = useRoute()

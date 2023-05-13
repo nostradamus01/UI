@@ -1,7 +1,7 @@
 <script setup>
 import { NForm, NSelect, NButton, NSpin, NDataTable } from 'naive-ui';
 import { ref, computed, h, reactive, onMounted, toRaw } from 'vue';
-import Modal from '@/components/Modal.vue';
+import Modal from '@/admin/Modal.vue';
 import { usePhones } from '@/use/usePhones';
 
 const columns = [{

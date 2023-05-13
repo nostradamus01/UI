@@ -1,7 +1,7 @@
 <script setup>
 import { NInput, NDatePicker, NForm, NSelect, NInputNumber, NButton, NSpin, NDataTable } from 'naive-ui';
 import { ref, computed, h, reactive, onMounted, toRaw } from 'vue';
-import Modal from '@/components/Modal.vue';
+import Modal from '@/admin/Modal.vue';
 import { usePhoneDetails } from '@/use/usePhoneDetails';
 import moment from 'moment';
 

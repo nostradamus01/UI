@@ -1,7 +1,7 @@
 <script setup>
-import { ref, reactive, onMounted } from 'vue'
+import { ref, reactive, onMounted, computed } from 'vue'
 import { NButton, NUpload, NModal, NCard, NSelect, NSpace, NSpin } from 'naive-ui'
-import Modal from '@/components/Modal.vue';
+import Modal from '@/admin/Modal.vue';
 import { useImages } from '@/use/useImages'
 
 const { dbStore, getAll, add, edit, remove } = useImages();

@@ -1,8 +1,8 @@
 <script setup>
-import CartIcon from '@/components/icons/CartIcon.vue';
-import ScaleIcon from '@/components/icons/ScaleIcon.vue';
-import UserIcon from '@/components/icons/UserIcon.vue';
-import MobileIcon from '@/components/icons/MobileIcon.vue';
+import CartIcon from '@/icons/CartIcon.vue';
+import ScaleIcon from '@/icons/ScaleIcon.vue';
+import UserIcon from '@/icons/UserIcon.vue';
+import MobileIcon from '@/icons/MobileIcon.vue';
 import { NDropdown, NAutoComplete, NBadge } from 'naive-ui';
 import { useRouter, useRoute } from 'vue-router'
 import { usePhonesStore } from '@/stores/phonesStore'

@@ -1,8 +1,8 @@
 <script setup>
-import { NButton, NInput, NForm, NDataTable, NSpin } from 'naive-ui';
-import { ref, computed, h, reactive, onMounted, toRaw } from 'vue';
-import Modal from '@/components/Modal.vue';
-import { useOS } from '@/use/useOS'
+import { NDataTable, NButton, NSpin, NForm, NInput, NColorPicker } from 'naive-ui';
+import { ref, computed, h, reactive,  onMounted, toRaw } from 'vue';
+import Modal from '@/admin/Modal.vue';
+import { useColors } from '@/use/useColors'
 
 const columns = [{
   title: 'No',
@@ -11,6 +11,10 @@ const columns = [{
 }, {
   title: "Name",
   key: "name",
+  resizable: true
+}, {
+  title: "HEX",
+  key: "hex",
   resizable: true
 }, {
   title: 'Action',
@@ -43,11 +47,10 @@ const columns = [{
     )
   }
 }]
-
-const { dbStore, getAll, add, edit, remove } = useOS();
+const { dbStore, getAll, add, edit, remove } = useColors();
 
 const tableData = computed(() => {
-  const data = dbStore.oses;
+  const data = dbStore.colors;
   data.forEach((element, index) => {
     element.n = index + 1;
   });
@@ -58,14 +61,15 @@ const isLoading = ref(false);
 const isFormLoading = ref(false);
 
 const form = reactive({
-  title: 'Add OS',
+  title: 'Add Color',
   mode: 'add',
   isVisible: false
 });
 
 const initialData = {
   id: null,
-  name: null
+  name: null,
+  hex: null
 }
 
 const data = reactive({...initialData});
@@ -74,11 +78,11 @@ const showForm = (row) => {
   if (row) {
     Object.assign(data, row);
     form.mode = 'edit'
-    form.title = 'Edit OS'
+    form.title = 'Edit Color'
   } else {
     Object.assign(data, initialData);
     form.mode = 'add'
-    form.title = 'Add OS'
+    form.title = 'Add Color'
   }
   form.isVisible = true;
 }
@@ -89,7 +93,7 @@ const hideForm = () => {
 
 const getAllFn = async () => {
   isLoading.value = true;
-  dbStore.oses = await getAll();
+  dbStore.colors = await getAll();
   isLoading.value = false;
 }
 
@@ -127,19 +131,21 @@ const close = () => {
 onMounted(async () => {
   getAllFn();
 });
-
 </script>
 
 <template>
   <Modal :isVisible="form.isVisible" :title="form.title" @close="close" @submit="submit" :is-loading="isFormLoading">
     <n-form ref="formRef" :model="data" class="my-form">
       <n-input v-model:value="data.name" placeholder="Name" />
+      <n-color-picker  v-model:value="data.hex" :modes="['hex']" />
     </n-form>
   </Modal>
   <n-button type="primary" @click="addFn" class="table-toolbar">
-    Add OS
+    Add Color
   </n-button>
   <n-spin :show="isLoading">
     <n-data-table :columns="columns" :data="tableData" />
   </n-spin>
 </template>
+
+<style></style>

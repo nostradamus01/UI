@@ -1,16 +1,16 @@
 <script setup>
-import { NButton, NInputNumber, NForm, NDataTable, NSpin } from 'naive-ui';
+import { NButton, NInput, NForm, NDataTable, NSpin } from 'naive-ui';
 import { ref, computed, h, reactive, onMounted, toRaw } from 'vue';
-import Modal from '@/components/Modal.vue';
-import { useRAM } from '@/use/useRAM'
+import Modal from '@/admin/Modal.vue';
+import { useOS } from '@/use/useOS'
 
 const columns = [{
   title: 'No',
   key: 'n',
   width: 60
 }, {
-  title: "Size",
-  key: "size",
+  title: "Name",
+  key: "name",
   resizable: true
 }, {
   title: 'Action',
@@ -44,10 +44,10 @@ const columns = [{
   }
 }]
 
-const { dbStore, getAll, add, edit, remove } = useRAM();
+const { dbStore, getAll, add, edit, remove } = useOS();
 
 const tableData = computed(() => {
-  const data = dbStore.rams;
+  const data = dbStore.oses;
   data.forEach((element, index) => {
     element.n = index + 1;
   });
@@ -58,14 +58,14 @@ const isLoading = ref(false);
 const isFormLoading = ref(false);
 
 const form = reactive({
-  title: 'Add RAM',
+  title: 'Add OS',
   mode: 'add',
   isVisible: false
 });
 
 const initialData = {
   id: null,
-  size: null
+  name: null
 }
 
 const data = reactive({...initialData});
@@ -74,11 +74,11 @@ const showForm = (row) => {
   if (row) {
     Object.assign(data, row);
     form.mode = 'edit'
-    form.title = 'Edit RAM'
+    form.title = 'Edit OS'
   } else {
     Object.assign(data, initialData);
     form.mode = 'add'
-    form.title = 'Add RAM'
+    form.title = 'Add OS'
   }
   form.isVisible = true;
 }
@@ -89,7 +89,7 @@ const hideForm = () => {
 
 const getAllFn = async () => {
   isLoading.value = true;
-  dbStore.rams = await getAll();
+  dbStore.oses = await getAll();
   isLoading.value = false;
 }
 
@@ -133,11 +133,11 @@ onMounted(async () => {
 <template>
   <Modal :isVisible="form.isVisible" :title="form.title" @close="close" @submit="submit" :is-loading="isFormLoading">
     <n-form ref="formRef" :model="data" class="my-form">
-      <n-input-number v-model:value="data.size" :show-button="false" placeholder="Size" />
+      <n-input v-model:value="data.name" placeholder="Name" />
     </n-form>
   </Modal>
   <n-button type="primary" @click="addFn" class="table-toolbar">
-    Add RAM
+    Add OS
   </n-button>
   <n-spin :show="isLoading">
     <n-data-table :columns="columns" :data="tableData" />

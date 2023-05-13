@@ -1,7 +1,7 @@
 <script setup>
-import FilterIcon from '@/components/icons/FilterIcon.vue'
-import CartIcon from '@/components/icons/CartIcon.vue'
-import ScaleIcon from '@/components/icons/ScaleIcon.vue'
+import FilterIcon from '@/icons/FilterIcon.vue'
+import CartIcon from '@/icons/CartIcon.vue'
+import ScaleIcon from '@/icons/ScaleIcon.vue'
 import { NCard, NButton, NIcon, NSpin, NCheckbox, NSpace, NSlider, NInputNumber } from 'naive-ui'
 import { usePhonesStore } from '@/stores/phonesStore'
 import { computed, ref } from 'vue'
@@ -63,7 +63,7 @@ const sliderValue = ref([0, 3000]);
           </n-checkbox>
         </n-space>
         <h2 class="filter-name">Price</h2>
-        <n-slider v-model:value="sliderValue" range :step="1" max="3000" />
+        <n-slider v-model:value="sliderValue" range :step="1" :max="3000" />
         <n-space style="padding-top: 10px;">
           <n-input-number v-model:value="sliderValue[0]" :show-button="false"  size="small" style="width: 100px;"/>
           -
