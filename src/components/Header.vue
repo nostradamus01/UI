@@ -43,21 +43,16 @@ const optionsArr = [{
 
 const searchOptions = ref([]);
 const searchValue = ref('');
-const itemsInCart = computed(() => {
-  console.log(phonesStore.cart.length)
-  return phonesStore.cart.length
-})
-const itemsInCompare = computed(() => {
-  return phonesStore.compare.length
-})
 
 watch(searchValue, (newValue, oldValue) => {
   searchOptions.value = [];
-  optionsArr.forEach(option => {
-    if (option.label.toLowerCase().includes(newValue.toLowerCase())) {
-      searchOptions.value.push(option);
-    }
-  })
+  if (newValue !== null && newValue.trim() !== '') {
+    optionsArr.forEach(option => {
+      if (option.label.toLowerCase().includes(newValue.toLowerCase())) {
+        searchOptions.value.push(option);
+      }
+    })
+  }
 })
 </script>
 
@@ -72,10 +67,10 @@ watch(searchValue, (newValue, oldValue) => {
           placeholder="Search" />
       </div>
       <div class="toolbar">
-        <n-badge :value="itemsInCompare">
+        <n-badge :value="phonesStore.compareSize">
           <ScaleIcon @click="() => { router.push('compare') }"></ScaleIcon>
         </n-badge>
-        <n-badge :value="itemsInCart">
+        <n-badge :value="phonesStore.cartSize">
           <CartIcon @click="() => { router.push('cart') }"></CartIcon>
         </n-badge>
         <n-dropdown :options="userOptions" trigger="click" @select="handleSelect">

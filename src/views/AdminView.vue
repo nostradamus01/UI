@@ -57,8 +57,14 @@ const handleUpdateValue = (value) => {
   <router-view></router-view>
 </template>
 
-<style scoped>
+<style lang="scss">
 main {
   padding: 2rem;
+}
+
+.table-toolbar {
+  margin-bottom: 20px;
+  border-radius: 20px;
+  padding: 20px;
 }
 </style>

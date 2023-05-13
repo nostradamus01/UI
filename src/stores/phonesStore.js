@@ -43,11 +43,16 @@ export const usePhonesStore = defineStore('phones', {
     compare: []
   }),
   getters: {
-    //...
+    cartSize(state) {
+      return state.cart.length;
+    },
+    compareSize(state) {
+      return state.compare.length;
+    }
   },
   actions: {
     addToCart(id) {
-      if (this.isInCart(id)) {
+      if (this.cart.includes(id)) {
         this.removeFromCart(id);
       } else {
         this.cart.push(id);
@@ -60,11 +65,8 @@ export const usePhonesStore = defineStore('phones', {
         }
       });
     },
-    isInCart(id) {
-      return this.cart.includes(id);
-    },
     addToCompare(id) {
-      if (this.isInCompare(id)) {
+      if (this.compare.includes(id)) {
         this.removeFromCompare(id);
       } else if (this.compare.length < 3) {
         this.compare.push(id);
@@ -76,9 +78,6 @@ export const usePhonesStore = defineStore('phones', {
           return el;
         }
       });
-    },
-    isInCompare(id) {
-      return this.compare.includes(id);
     }
   }
 });
