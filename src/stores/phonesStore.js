@@ -28,7 +28,7 @@ export const usePhonesStore = defineStore('phones', {
       storage: 512,
       ram: 8,
       color: 'Black',
-      image: 'SamsungGalaxyS23Plus_Black.jpg'
+      image: 'SamsungGalaxyS23+_Pink.png'
     }, {
       id: '000-000-002',
       brand: 'Xiaomi',
@@ -37,7 +37,7 @@ export const usePhonesStore = defineStore('phones', {
       storage: 128,
       ram: 4,
       color: 'Gray',
-      image: 'xiaomi.jpg'
+      image: 'XiaomiRedmiNote12_Onyx-Gray.png'
     }],
     cart: [],
     compare: []
