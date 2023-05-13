@@ -1,64 +1,51 @@
 import { useServer } from '@/use/useServer'
 
-const tableName = 'phoneDetails';
+const { TABLES, server, dbStore, toReal } = useServer();
+
+const table = TABLES.PhoneDetails;
 
 export function usePhoneDetails() {
-  const { req, dbStore, getDB, setDB, getUuid, fakeTimeout } = useServer();
+  const constructData = (data) => {
+    return {
+      id: data.id || null,
+      brandId: data.brand,
+      platformId: data.platform,
+      osId: data.os,
+      model: data.model,
+      releaseDate: data.releaseDate || new Date(),
+      height: toReal(data.height),
+      width: toReal(data.width),
+      depth: toReal(data.depth),
+      screenSize: toReal(data.screenSize),
+      resolution: data.resolution || '0x0',
+      batteryCapacity: toReal(data.batteryCapacity),
+      price: toReal(data.price),
+      discount: toReal(data.discount)
+    }
+  }
 
   const getAll = async () => {
-    await fakeTimeout();
-    return getDB()[tableName];
+    const response = await server.get(table);
+    return response;
   }
 
   const get = async (id) => {
-    await fakeTimeout();
-    return true;
+    const response = await server.get(table, id);
+    return response;
   }
 
   const add = async (data) => {
-    await fakeTimeout();
-    const reqBody = data;
-    reqBody.brandId = reqBody.brand;
-    reqBody.platformId = reqBody.platform;
-    reqBody.osId = reqBody.os;
-    reqBody.id = getUuid();
-    const db = getDB();
-    db[tableName].push(reqBody);
-    setDB(db);
-    return true;
+    const newData = constructData(data);
+    await server.post(table, newData);
   }
 
   const edit = async (data) => {
-    await fakeTimeout();
-    const newData = data;
-    newData.brandId = newData.brand;
-    newData.platformId = newData.platform;
-    newData.osId = newData.os;
-    const db = getDB();
-    const found = db[tableName].find(element => element.id === newData.id);
-    if (found) {
-      for (const key of Object.keys(found)) {
-        if (newData[key] !== null) {
-          found[key] = newData[key];
-        }
-      }
-    } else {
-      return 'Not found'
-    }
-    setDB(db);
-    return true;
+    const newData = constructData(data);
+    await server.put(table, newData);
   }
 
   const remove = async (id) => {
-    await fakeTimeout();
-    const db = getDB();
-    db[tableName] = db[tableName].filter(element => {
-      if (element.id !== id) {
-        return element;
-      }
-    });
-    setDB(db);
-    return true;
+    await server.delete(table, id);
   }
 
   return {

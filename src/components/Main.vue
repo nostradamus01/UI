@@ -1,5 +1,6 @@
 <script setup>
 import { ref } from 'vue'
+
 import FilterIcon from '@/icons/FilterIcon.vue'
 import Phones from '@/components/Phones.vue'
 import Filters from '@/components/Filters.vue'

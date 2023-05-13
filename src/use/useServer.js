@@ -1,5 +1,6 @@
 import { useDBStore } from '@/stores/dbStore'
-import { v4 as uuidv4 } from 'uuid';
+import { v4 as uuidv4 } from 'uuid'
+import { useMessage } from 'naive-ui'
 
 const apiUrl = 'http://localhost:5169/api/';
 
@@ -20,21 +21,13 @@ const TABLES = {
   Orders: 'Orders'
 }
 
+const message = useMessage();
+
 export function useServer() {
-  
-
-  
-
-  const getUuid = () => {
-    return uuidv4();
-  }
-
-  const fakeTimeout = () => {
-    return new Promise((resolve, reject) => {
-      setTimeout(() => {
-        resolve();
-      }, 50);
-    })
+  const showError = (msg) => {
+    message.error(msg, {
+      closable: true
+    });
   }
 
   const toInt = (value) => {
@@ -53,7 +46,7 @@ export function useServer() {
     return newValue;
   }
 
-  const server = {
+  const req = {
     get: async (url) => {
       return await fetch(apiUrl + url);
     },
@@ -95,46 +88,86 @@ export function useServer() {
     return JSON.parse(localStorage.getItem(table));
   }
 
-  const setTable = (table) => {
+  const setTable = (table, data) => {
     localStorage.setItem(table, JSON.stringify(data));
   }
 
-  const req = {
+  const getUuid = () => {
+    return uuidv4();
+  }
+
+  const artificialTimeout = () => {
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        resolve();
+      }, 100);
+    })
+  }
+
+  const server = {
     get: async (table, id) => {
-      return new Promise((resolve) => {
+      return new Promise(async (resolve) => {
         let data = getTable(table);
         if (id) {
           data = data.find(el => el.id === id);
         }
+        await artificialTimeout();
         resolve(data);
       })
     },
 
     post: async (table, data) => {
-      return new Promise((resolve) => {
+      return new Promise(async (resolve) => {
         const uuid = getUuid();
         let tableData = getTable(table);
         data.id = uuid;
         tableData.push(data);
         setTable(table, tableData);
-        resolve(data);
+        await artificialTimeout();
+        resolve(true);
       })
     },
 
-    put: async (url, data) => {
-      return await fetch(apiUrl + url, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(data)
-      });
+    put: async (table, data) => {
+      return new Promise(async (resolve, reject) => {
+        const id = data.id;
+        if (!id) {
+          showError("Bad request");
+          reject();
+        }
+        let tableData = getTable(table);
+        const record = tableData.find(el => el.id === id);
+        if (!record) {
+          showError("Can't find the record to update");
+          reject();
+        }
+        for (const key of Object.keys(record)) {
+          if (data[key] !== null) {
+            record[key] = data[key];
+          }
+        }
+        setTable(table, tableData);
+        await artificialTimeout();
+        resolve(true);
+      })
     },
 
-    delete: async (url, id) => {
-      return await fetch(apiUrl + url + '/' + id, {
-        method: 'DELETE'
-      });
+    delete: async (table, id) => {
+      return new Promise(async (resolve) => {
+        if (!id) {
+          showError("Bad request");
+          reject();
+        }
+        let tableData = getTable(table);
+        tableData = tableData.filter(element => {
+          if (element.id !== id) {
+            return element;
+          }
+        });
+        setTable(table, tableData);
+        await artificialTimeout();
+        resolve(true);
+      })
     }
   }
 
@@ -142,7 +175,7 @@ export function useServer() {
     for (const tableName of Object.values(TABLES)) {
       const item = localStorage.getItem(tableName);
       if (!item) {
-        localStorage.setItem(tableName, JSON.stringify("[]"));
+        localStorage.setItem(tableName, JSON.stringify([]));
       }
     }
   }
@@ -150,13 +183,11 @@ export function useServer() {
   const dbStore = useDBStore();
 
   return {
+    TABLES,
+    initialize,
     server,
-    req,
     dbStore,
-    getUuid,
-    fakeTimeout,
     toReal,
-    toInt,
-    initialize
+    toInt
   }
 }

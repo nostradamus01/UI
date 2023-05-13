@@ -104,10 +104,10 @@ const form = reactive({
 });
 
 const initialData = {
-  phoneDetailId: null,
-  colorId: null,
-  storageId: null,
-  ramId: null
+  phoneDetail: null,
+  color: null,
+  storage: null,
+  ram: null
 }
 
 const data = reactive({ ...initialData });
@@ -122,6 +122,7 @@ const phoneDetails = computed(() => {
   });
   return arr;
 });
+
 const colors = computed(() => {
   const arr = []
   dbStore.colors.forEach(color => {
@@ -132,6 +133,7 @@ const colors = computed(() => {
   });
   return arr;
 });
+
 const storages = computed(() => {
   const arr = []
   dbStore.storages.forEach(storage => {
@@ -142,6 +144,7 @@ const storages = computed(() => {
   });
   return arr;
 });
+
 const rams = computed(() => {
   const arr = []
   dbStore.rams.forEach(ram => {
@@ -216,10 +219,10 @@ onMounted(async () => {
 <template>
   <Modal :isVisible="form.isVisible" :title="form.title" @close="close" @submit="submit" :is-loading="isFormLoading">
     <n-form ref="formRef" :model="data" class="my-form">
-      <n-select v-model:value="data.phoneDetailId" :options="phoneDetails" placeholder="Phone Detail" />
-      <n-select v-model:value="data.colorId" :options="colors" placeholder="Color" />
-      <n-select v-model:value="data.storageId" :options="storages" placeholder="Storage" />
-      <n-select v-model:value="data.ramId" :options="rams" placeholder="RAM" />
+      <n-select v-model:value="data.phoneDetail" :options="phoneDetails" placeholder="Phone Detail" />
+      <n-select v-model:value="data.color" :options="colors" placeholder="Color" />
+      <n-select v-model:value="data.storage" :options="storages" placeholder="Storage" />
+      <n-select v-model:value="data.ram" :options="rams" placeholder="RAM" />
     </n-form>
   </Modal>
   <n-button type="primary" @click="addFn" class="table-toolbar">
