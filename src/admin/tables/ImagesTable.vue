@@ -67,7 +67,7 @@ const submit = async () => {
 }
 
 const close = () => {
-  isFormLoading.value = false;
+  form.isVisible = true;
   hideForm();
 }
 
