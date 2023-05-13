@@ -66,9 +66,20 @@ defineProps({
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
   gap: 20px;
   padding: 10px 0;
+  cursor: pointer;
 
   .phone-image {
     height: 260px;
+    
+    
+      img{
+        transition: 700ms linear;
+      }
+      &:hover{
+        img{
+          transform:scale(1.2);
+        }
+      }
 
     img {
       height: 100%;

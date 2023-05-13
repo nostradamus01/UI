@@ -75,7 +75,7 @@ watch(searchValue, (newValue, oldValue) => {
         <n-badge :value="phonesStore.cartSize">
           <CartIcon @click="() => { router.push('cart') }"></CartIcon>
         </n-badge>
-        <n-dropdown :options="userOptions" trigger="click" @select="handleSelect">
+        <n-dropdown class="user-icon" :options="userOptions" trigger="click" @select="handleSelect">
           <UserIcon></UserIcon>
         </n-dropdown>
       </div>
@@ -129,6 +129,10 @@ watch(searchValue, (newValue, oldValue) => {
       gap: 60px;
       height: 100%;
       padding: 16px 0;
+
+      .user-icon{
+        outline: none;
+      }
 
       svg {
         cursor: pointer;

@@ -20,7 +20,7 @@ const isLoading = ref(false);
           <img src="/images/photoS.jpg">
         </div>
         <div class="photoI photo">
-          <span>iPHONE</span>
+          <span>APPLE</span>
           <img src="/images/photoI.jpg">
         </div>
         <div class="photoX photo">
@@ -63,6 +63,7 @@ const isLoading = ref(false);
     }
     .filters-container {
       flex: 1;
+      margin-right: 20px;
     }
 
     .container-name {

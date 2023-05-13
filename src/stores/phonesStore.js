@@ -27,17 +27,17 @@ export const usePhonesStore = defineStore('phones', {
       price: 900,
       storage: 512,
       ram: 8,
-      color: 'Black',
-      image: 'SamsungGalaxyS23Plus_Black.jpg'
+      color: 'Pink',
+      image: 'SamsungGalaxyS23+_Pink.png'
     }, {
       id: '000-000-002',
       brand: 'Xiaomi',
-      model: 'Redmi Note 11',
+      model: '12',
       price: 250,
       storage: 128,
       ram: 4,
-      color: 'Gray',
-      image: 'xiaomi.jpg'
+      color: 'Lite Green',
+      image: 'Xiaomi12Lite_Green.png'
     }],
     cart: [],
     compare: []

@@ -22,7 +22,7 @@ const sliderValue = ref([0, 3000]);
         Nokia
       </n-checkbox>
       <n-checkbox value="Option 31">
-        Huawei
+        Realme
       </n-checkbox>
     </n-space>
     <h2 class="filter-name">Price</h2>
