@@ -21,13 +21,9 @@ const TABLES = {
 }
 
 export function useServer() {
-  const setDB = (data) => {
-    localStorage.setItem('dbStore', JSON.stringify(data));
-  }
+  
 
-  const getDB = () => {
-    return JSON.parse(localStorage.getItem('dbStore'));
-  }
+  
 
   const getUuid = () => {
     return uuidv4();
@@ -57,7 +53,7 @@ export function useServer() {
     return newValue;
   }
 
-  const req = {
+  const server = {
     get: async (url) => {
       return await fetch(apiUrl + url);
     },
@@ -95,6 +91,53 @@ export function useServer() {
     }
   }
 
+  const getTable = (table) => {
+    return JSON.parse(localStorage.getItem(table));
+  }
+
+  const setTable = (table) => {
+    localStorage.setItem(table, JSON.stringify(data));
+  }
+
+  const req = {
+    get: async (table, id) => {
+      return new Promise((resolve) => {
+        let data = getTable(table);
+        if (id) {
+          data = data.find(el => el.id === id);
+        }
+        resolve(data);
+      })
+    },
+
+    post: async (table, data) => {
+      return new Promise((resolve) => {
+        const uuid = getUuid();
+        let tableData = getTable(table);
+        data.id = uuid;
+        tableData.push(data);
+        setTable(table, tableData);
+        resolve(data);
+      })
+    },
+
+    put: async (url, data) => {
+      return await fetch(apiUrl + url, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+      });
+    },
+
+    delete: async (url, id) => {
+      return await fetch(apiUrl + url + '/' + id, {
+        method: 'DELETE'
+      });
+    }
+  }
+
   const initialize = () => {
     for (const tableName of Object.values(TABLES)) {
       const item = localStorage.getItem(tableName);
@@ -107,6 +150,7 @@ export function useServer() {
   const dbStore = useDBStore();
 
   return {
+    server,
     req,
     dbStore,
     setDB,
