@@ -153,8 +153,6 @@ export function useServer() {
     server,
     req,
     dbStore,
-    setDB,
-    getDB,
     getUuid,
     fakeTimeout,
     toReal,
