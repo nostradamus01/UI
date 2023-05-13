@@ -10,23 +10,23 @@ const router = createRouter({
       children: [{
         path: '',
         name: 'home',
-        component: () => import('@/components/ui/Main.vue')
+        component: () => import('@/components/Main.vue')
       }, {
         path: 'details/:id',
         name: 'details',
-        component: () => import('@/components/ui/Details.vue')
+        component: () => import('@/components/Details.vue')
       }, {
         path: 'cart',
         name: 'cart',
-        component: () => import('@/components/ui/Cart.vue')
+        component: () => import('@/components/Cart.vue')
       }, {
         path: 'compare',
         name: 'compare',
-        component: () => import('@/components/ui/Compare.vue')
+        component: () => import('@/components/Compare.vue')
       }, {
         path: 'user',
         name: 'user',
-        component: () => import('@/components/ui/User.vue')
+        component: () => import('@/components/User.vue')
       }, {
         path: '/:pathMatch(.*)*',
         redirect: '/'
@@ -44,51 +44,51 @@ const router = createRouter({
       }, {
         path: 'phoneDetails',
         name: 'phoneDetails',
-        component: () => import('@/components/tables/PhoneDetailsTable.vue')
+        component: () => import('@/admin/tables/PhoneDetailsTable.vue')
       }, {
         path: 'brands',
         name: 'brands',
-        component: () => import('@/components/tables/BrandsTable.vue')
+        component: () => import('@/admin/tables/BrandsTable.vue')
       }, {
         path: 'platforms',
         name: 'platforms',
-        component: () => import('@/components/tables/PlatformsTable.vue')
+        component: () => import('@/admin/tables/PlatformsTable.vue')
       }, {
         path: 'oses',
         name: 'oses',
-        component: () => import('@/components/tables/OsesTable.vue')
+        component: () => import('@/admin/tables/OsesTable.vue')
       }, {
         path: 'phones',
         name: 'phones',
-        component: () => import('@/components/tables/PhonesTable.vue')
+        component: () => import('@/admin/tables/PhonesTable.vue')
       }, {
         path: 'storages',
         name: 'storages',
-        component: () => import('@/components/tables/StoragesTable.vue')
+        component: () => import('@/admin/tables/StoragesTable.vue')
       }, {
         path: 'rams',
         name: 'rams',
-        component: () => import('@/components/tables/RAMsTable.vue')
+        component: () => import('@/admin/tables/RAMsTable.vue')
       }, {
         path: 'colors',
         name: 'colors',
-        component: () => import('@/components/tables/ColorsTable.vue')
+        component: () => import('@/admin/tables/ColorsTable.vue')
       }, {
         path: 'images',
         name: 'images',
-        component: () => import('@/components/tables/ImagesTable.vue')
+        component: () => import('@/admin/tables/ImagesTable.vue')
       }, {
         path: 'users',
         name: 'users',
-        component: () => import('@/components/tables/UsersTable.vue')
+        component: () => import('@/admin/tables/UsersTable.vue')
       }, {
         path: 'countries',
         name: 'countries',
-        component: () => import('@/components/tables/CountriesTable.vue')
+        component: () => import('@/admin/tables/CountriesTable.vue')
       }, {
         path: 'cities',
         name: 'cities',
-        component: () => import('@/components/tables/CitiesTable.vue')
+        component: () => import('@/admin/tables/CitiesTable.vue')
       }]
     },
   ]
