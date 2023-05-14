@@ -21,11 +21,10 @@
 
 <style lang="scss">
 .footer {
-  background-color: #fff;
-  display: flex;
-  justify-content: center;
-
   .inner-footer {
+    background-color: #fff;
+    display: flex;
+    justify-content: center;
 
     .footer-menu {
       display: flex;

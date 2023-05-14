@@ -3,6 +3,7 @@ import { NCard, NButton, NInputNumber, NCheckbox, NSpace, NIcon } from 'naive-ui
 import { ref } from 'vue'
 import { usePhonesStore } from '@/stores/phonesStore'
 import MoneyIcon from '@/icons/MoneyIcon.vue'
+import CartIcon from '../icons/CartIcon.vue';
 
 
 const phonesStore = usePhonesStore();
@@ -22,7 +23,9 @@ phonesStore.cart.forEach(element => {
 const validator = (value) => {
   return value > 0 && value < 10;
 }
-
+const isInCart = (id) => {
+  return phonesStore.cart.includes(id);
+}
 const isDisabled = ref(true);
 const checkedPhones = new Set();
 
@@ -72,10 +75,10 @@ const uncheckPhone = (id) => {
       <n-button type="primary" :disabled="isDisabled" size="large">
         <template #icon>
           <n-icon>
-            <MoneyIcon />
+            <CartIcon />
           </n-icon>
         </template>
-        Buy
+        <!-- {{ isInCart(phone.id) ? 'Buy' : <MoneyIcon /> }} -->
       </n-button>
     </div>
   </div>
