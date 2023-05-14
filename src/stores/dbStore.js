@@ -13,7 +13,8 @@ export const useDBStore = defineStore('db', {
     storages: [],
     users: [],
     countries: [],
-    cities: []
+    cities: [],
+    orders: []
   }),
   getters: {
     //...
@@ -30,6 +31,9 @@ export const useDBStore = defineStore('db', {
       this.colors = [];
       this.rams = [];
       this.storages = [];
+      this.countries = [];
+      this.cities = [];
+      this.orders = [];
     }
   }
 });

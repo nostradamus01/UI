@@ -1,5 +1,5 @@
 <script setup>
-import { NDataTable, NButton, NSpin, NForm, NInput, NColorPicker } from 'naive-ui';
+import { NDataTable, NButton, NSpin, NForm, NInput, NColorPicker, NSelect } from 'naive-ui';
 import { ref, computed, h, reactive,  onMounted, toRaw } from 'vue';
 import Modal from '@/admin/Modal.vue';
 import { useColors } from '@/use/useColors'
@@ -8,6 +8,14 @@ const columns = [{
   title: 'No',
   key: 'n',
   width: 60
+}, {
+  title: "Phone Details",
+  key: "phoneDetail",
+  resizable: true,
+  render(row) {
+    const phoneBrand = dbStore.brands.find(brand => brand.id === row.phoneDetail?.brandId);
+    return row.phoneDetail ? phoneBrand?.name + ' ' + row.phoneDetail.model : '';
+  }
 }, {
   title: "Name",
   key: "name",
@@ -66,21 +74,35 @@ const form = reactive({
   isVisible: false
 });
 
+const phoneDetails = computed(() => {
+  const arr = []
+  dbStore.phoneDetails.forEach(phoneDetail => {
+    const phoneBrand = dbStore.brands.find(brand => brand.id === phoneDetail.brandId);
+    arr.push({
+      label: phoneBrand?.name + ' ' + phoneDetail.model,
+      value: phoneDetail.id
+    });
+  });
+  return arr;
+});
+
 const initialData = {
   id: null,
   name: null,
-  hex: null
+  hex: null,
+  phoneDetail: null
 }
 
 const data = reactive({...initialData});
 
 const showForm = (row) => {
+  Object.assign(data, initialData);
   if (row) {
     Object.assign(data, row);
+    data.phoneDetail = row.phoneDetailId;
     form.mode = 'edit'
     form.title = 'Edit Color'
   } else {
-    Object.assign(data, initialData);
     form.mode = 'add'
     form.title = 'Add Color'
   }
@@ -136,6 +158,7 @@ onMounted(async () => {
 <template>
   <Modal :isVisible="form.isVisible" :title="form.title" @close="close" @submit="submit" :is-loading="isFormLoading">
     <n-form ref="formRef" :model="data" class="my-form">
+      <n-select v-model:value="data.phoneDetail" :options="phoneDetails" placeholder="Phone Detail" />
       <n-input v-model:value="data.name" placeholder="Name" />
       <n-color-picker  v-model:value="data.hex" :modes="['hex']" />
     </n-form>

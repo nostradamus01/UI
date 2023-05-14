@@ -14,6 +14,9 @@ export function useStorages() {
 
   const getAll = async () => {
     const response = await server.get(table);
+    if (Array.isArray(response)) {
+      dbStore.storages = response;
+    }
     return response;
   }
 

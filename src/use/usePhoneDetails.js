@@ -25,7 +25,22 @@ export function usePhoneDetails() {
   }
 
   const getAll = async () => {
+    const relatedTables = await server.getTables([TABLES.Brands, TABLES.Platforms, TABLES.OSes]);
     const response = await server.get(table);
+    if (Array.isArray(response)) {
+      response.forEach(record => {
+        const brandsTable = relatedTables[TABLES.Brands];
+        dbStore.brands = brandsTable;
+        const platformsTable = relatedTables[TABLES.Platforms];
+        dbStore.platforms = platformsTable;
+        const osesTable = relatedTables[TABLES.OSes];
+        dbStore.oses = osesTable;
+        record.brand = (Array.isArray(brandsTable) && brandsTable.length > 0) ? brandsTable.find(el => el.id === record.brandId) : null;
+        record.platform = (Array.isArray(platformsTable) && platformsTable.length > 0) ? platformsTable.find(el => el.id === record.platformId) : null;
+        record.os = (Array.isArray(osesTable) && osesTable.length > 0) ? osesTable.find(el => el.id === record.osId) : null;
+      })
+      dbStore.phoneDetails = response;
+    }
     return response;
   }
 

@@ -1,4 +1,5 @@
 import { useServer } from '@/use/useServer'
+import { usePhoneDetails } from '@/use/usePhoneDetails';
 
 const imageNames = [
   'iPhone12_Green.jpg',
@@ -54,6 +55,7 @@ const imageNames = [
 ]
 
 const { TABLES, server, dbStore } = useServer();
+const phoneDetails = usePhoneDetails();
 
 const table = TABLES.Images;
 
@@ -72,7 +74,20 @@ export function useImages() {
   }
 
   const getAll = async () => {
+    await phoneDetails.getAll();
+    const relatedTables = await server.getTables([TABLES.PhoneDetails, TABLES.Colors]);
     const response = await server.get(table);
+    if (Array.isArray(response)) {
+      response.forEach(record => {
+        const phoneDetailsTable = relatedTables[TABLES.PhoneDetails];
+        dbStore.phoneDetails = phoneDetailsTable;
+        const colorsTable = relatedTables[TABLES.Colors];
+        dbStore.colors = colorsTable;
+        record.phoneDetail = (Array.isArray(phoneDetailsTable) && phoneDetailsTable.length > 0) ? phoneDetailsTable.find(el => el.id === record.phoneDetailId) : null;
+        record.color = (Array.isArray(colorsTable) && colorsTable.length > 0) ? colorsTable.find(el => el.id === record.colorId) : null;
+      })
+      dbStore.images = response;
+    }
     return response;
   }
 
@@ -88,11 +103,25 @@ export function useImages() {
 
   const edit = async (data) => {
     const newData = constructData(data);
+    console.log(newData);
     await server.put(table, newData);
   }
 
   const remove = async (id) => {
     await server.delete(table, id);
+  }
+
+  const initialize = async () => {
+    const table = await getAll();
+    if (Array.isArray(table) && table.length === 0) {
+      imageNames.forEach(async image => {
+        await add({
+          name: image,
+          phoneDetail: null,
+          color: null
+        });
+      })
+    }
   }
 
   return {
@@ -102,6 +131,7 @@ export function useImages() {
     add,
     edit,
     remove,
-    getNames
+    getNames,
+    initialize
   }
 }

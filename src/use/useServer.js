@@ -1,6 +1,5 @@
 import { useDBStore } from '@/stores/dbStore'
 import { v4 as uuidv4 } from 'uuid'
-import { useMessage } from 'naive-ui'
 
 const apiUrl = 'http://localhost:5169/api/';
 
@@ -21,13 +20,9 @@ const TABLES = {
   Orders: 'Orders'
 }
 
-const message = useMessage();
-
 export function useServer() {
   const showError = (msg) => {
-    message.error(msg, {
-      closable: true
-    });
+    alert(msg);
   }
 
   const toInt = (value) => {
@@ -96,11 +91,11 @@ export function useServer() {
     return uuidv4();
   }
 
-  const artificialTimeout = () => {
-    return new Promise((resolve, reject) => {
+  const artificialTimeout = (time) => {
+    return new Promise((resolve) => {
       setTimeout(() => {
         resolve();
-      }, 100);
+      }, time || 100);
     })
   }
 
@@ -111,7 +106,7 @@ export function useServer() {
         if (id) {
           data = data.find(el => el.id === id);
         }
-        await artificialTimeout();
+        await artificialTimeout(1);
         resolve(data);
       })
     },
@@ -123,23 +118,23 @@ export function useServer() {
         data.id = uuid;
         tableData.push(data);
         setTable(table, tableData);
-        await artificialTimeout();
+        await artificialTimeout(1);
         resolve(true);
       })
     },
 
     put: async (table, data) => {
-      return new Promise(async (resolve, reject) => {
+      return new Promise(async (resolve) => {
         const id = data.id;
         if (!id) {
           showError("Bad request");
-          reject();
+          return resolve();
         }
         let tableData = getTable(table);
         const record = tableData.find(el => el.id === id);
         if (!record) {
           showError("Can't find the record to update");
-          reject();
+          return resolve();
         }
         for (const key of Object.keys(record)) {
           if (data[key] !== null) {
@@ -147,7 +142,7 @@ export function useServer() {
           }
         }
         setTable(table, tableData);
-        await artificialTimeout();
+        await artificialTimeout(1);
         resolve(true);
       })
     },
@@ -156,7 +151,7 @@ export function useServer() {
       return new Promise(async (resolve) => {
         if (!id) {
           showError("Bad request");
-          reject();
+          return resolve();
         }
         let tableData = getTable(table);
         tableData = tableData.filter(element => {
@@ -167,6 +162,20 @@ export function useServer() {
         setTable(table, tableData);
         await artificialTimeout();
         resolve(true);
+      })
+    },
+
+    getTables: async (tables) => {
+      return new Promise(async (resolve) => {
+        const result = {};
+        tables.forEach(table => {
+          const tableData = getTable(table);
+          if (Array.isArray(tableData)) {
+            result[table] = tableData;
+          }
+        });
+        await artificialTimeout(20);
+        resolve(result);
       })
     }
   }
