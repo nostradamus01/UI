@@ -272,12 +272,6 @@ onMounted(async () => {
           background-color: green;
         }
 
-        // div {
-        //   width: 30px;
-        //   height: 30px;
-        //   margin: 10px;
-        //   background-color: aqua;
-        // }
       }
 
       .mini-storige {

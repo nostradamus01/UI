@@ -68,7 +68,7 @@ phonesStore.compare.forEach(element => {
 
   .about {
     display: inline;
-    align-items: start;
+
   }
 
   .phone-card {

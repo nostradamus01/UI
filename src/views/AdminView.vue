@@ -59,7 +59,7 @@ const handleUpdateValue = (value) => {
 
 <style lang="scss">
 main {
-  padding: 2rem;
+  padding: 1rem;
 }
 
 .table-toolbar {

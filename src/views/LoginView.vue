@@ -90,10 +90,10 @@ const countrySelectFn = () => {
         <n-tab-pane name="signin" tab="Sign in">
           <n-form :rules="rules" ref="formRef" :model="formValue">
             <n-form-item-row label="Username" path="username">
-              <n-input v-model:value="formValue.username" />
+              <n-input v-model:value="formValue.username"  placeholder=""/>
             </n-form-item-row>
             <n-form-item-row label="Password" path="password">
-              <n-input type="password" show-password-on="click" v-model:value="formValue.password" />
+              <n-input type="password" show-password-on="click" v-model:value="formValue.password" placeholder=""/>
             </n-form-item-row>
           </n-form>
           <n-form-item class="login">
@@ -105,28 +105,28 @@ const countrySelectFn = () => {
         <n-tab-pane name="signup" tab="Sign up">
           <n-form :rules="rules" ref="formRef" :model="signUpFormValue">
             <n-form-item-row label="First Name" path="firstname">
-              <n-input v-model:value="signUpFormValue.firstname" />
+              <n-input v-model:value="signUpFormValue.firstname" placeholder=""/>
             </n-form-item-row>
             <n-form-item-row label="Last Name" path="lastname">
-              <n-input v-model:value="signUpFormValue.lastname" />
+              <n-input v-model:value="signUpFormValue.lastname" placeholder=""/>
             </n-form-item-row>
             <n-form-item-row label="Username" path="username">
-              <n-input v-model:value="signUpFormValue.username" />
+              <n-input v-model:value="signUpFormValue.username" placeholder=""/>
             </n-form-item-row>
             <n-form-item-row label="Password" path="password">
-              <n-input v-model:value="signUpFormValue.password" />
+              <n-input v-model:value="signUpFormValue.password" placeholder=""/>
             </n-form-item-row>
             <n-form-item-row label="Reenter Password" path="password1">
-              <n-input v-model:value="signUpFormValue.password1" />
+              <n-input v-model:value="signUpFormValue.password1" placeholder=""/>
             </n-form-item-row>
             <n-form-item-row label="Country" path="country">
-              <n-select v-model:value="options.value" :options="options" @update:value="countrySelectFn" />
+              <n-select v-model:value="options.value" :options="options" @update:value="countrySelectFn" placeholder=""/>
             </n-form-item-row>
             <n-form-item-row label="City" path="city">
-              <n-select v-model:value="options1.value" :disabled="isDisabled" :options="options1" />
+              <n-select v-model:value="options1.value" :disabled="isDisabled" :options="options1" placeholder=""/>
             </n-form-item-row>
             <n-form-item-row label="Post Code" path="postcode">
-              <n-input v-model:value="signUpFormValue.postcode" />
+              <n-input v-model:value="signUpFormValue.postcode" placeholder=""/>
             </n-form-item-row>
 
           </n-form>
