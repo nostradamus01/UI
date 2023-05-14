@@ -61,15 +61,14 @@ const isInCompare = (id) => {
 <style lang="scss">
 .phones-list {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(260px, 360px));
   gap: 20px;
   padding: 10px 0;
   cursor: pointer;
 
   .phone-image {
     height: 260px;
-    
-    
+  
       img{
         transition: 700ms linear;
       }

@@ -2,6 +2,8 @@
 import { NCard, NTabs, NTabPane, NForm, NFormItemRow, NInput, NButton, NFormItem, useMessage, NSelect } from 'naive-ui';
 import { useRouter } from 'vue-router';
 import { reactive, ref } from "vue";
+import MyIcon from '@/icons/MyIcon.vue';
+
 
 const router = useRouter();
 const formRef = ref(null);
@@ -83,6 +85,9 @@ const countrySelectFn = () => {
 </script>
 
 <template>
+  <div class="user-icon">
+    <MyIcon class="my-icon" @click="() => { router.push({ name: 'home' }) }"></MyIcon>
+  </div>
   <div class="login-container">
     <n-card class="login-card">
       <n-tabs class="card-tabs" default-value="signin" size="large" animated style="margin: 0 -4px"
@@ -139,12 +144,23 @@ const countrySelectFn = () => {
   </div>
 </template>
 <style lang="scss">
+.user-icon{
+  display: flex;
+  justify-content: center;
+
+  .my-icon{
+  width: 50px;
+  height: 50px;
+  cursor: pointer;
+  margin: 10px;
+}
+}
+
 .login-container {
   min-height: 100vh;
   min-width: 100vw;
   display: flex;
-  align-items: center;
-  justify-content: center;
+  flex-direction: column;
 
   .login-card {
     max-width: 400px;

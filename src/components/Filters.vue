@@ -7,7 +7,6 @@ import { useMain } from '@/use/useMain';
 const phonesStore = usePhonesStore();
 const { getFiltered } = useMain();
 
-
 let timeout = null;
 
 watch(phonesStore.filters, () => {
@@ -28,7 +27,7 @@ watch(phonesStore.filters, () => {
       </n-checkbox>
     </n-space>
     <h2 class="filter-name">Price</h2>
-    <n-slider v-model:value="phonesStore.filters.price" range :step="1" :max="2500" />
+    <n-slider class="n-slider" v-model:value="phonesStore.filters.price" range :step="1" :max="2500" />
     <n-space style="padding-top: 10px;">
       <n-input-number v-model:value="phonesStore.filters.price[0]" :show-button="false" size="small" style="width: 100px;" />
       -
@@ -53,5 +52,9 @@ watch(phonesStore.filters, () => {
 .filter-name {
   margin-top: 14px;
   margin-bottom: 4px;
+  cursor: pointer;
+}
+.n-slider{
+  width: 200px;
 }
 </style>
