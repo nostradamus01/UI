@@ -28,6 +28,10 @@ const router = createRouter({
         name: 'user',
         component: () => import('@/components/User.vue')
       }, {
+        path: 'searchResult/:query',
+        name: 'searchResult',
+        component: () => import('@/components/SearchResult.vue')
+      }, {
         path: '/:pathMatch(.*)*',
         redirect: '/'
       }]

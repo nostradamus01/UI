@@ -1,53 +1,40 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import { useMain } from '@/use/useMain';
-import FilterIcon from '@/icons/FilterIcon.vue'
 import Phones from '@/components/Phones.vue'
-import Filters from '@/components/Filters.vue'
 import { usePhonesStore } from '@/stores/phonesStore'
+import { useRoute, useRouter, onBeforeRouteUpdate } from 'vue-router'
 
+console.log('ekel em');
+
+const route = useRoute();
 const phonesStore = usePhonesStore();
-const { getFiltered } = useMain();
 
-const isPhotosVisible = ref(true);
+const main = useMain();
+
+const doSearch = async (query) => {
+  phonesStore.searchQuery = query;
+  await main.getSearchResult();
+}
+
+onBeforeRouteUpdate(async (to, from) => {
+  if (to.params.query !== from.params.query) {
+    await doSearch(to.params.query);
+  }
+});
 
 onMounted(async () => {
-  await getFiltered();
+  await doSearch(route.params.query);
 })
 </script>
 
 <template>
   <div class="main-content">
     <div class="inner-main container">
-      <div class="photos" v-if="isPhotosVisible">
-        <div class="photoN photo" @click="() => { phonesStore.filters.brands.Nokia = true; isPhotosVisible = false; }">
-          <span>NOKIA</span>
-          <img src="/images/photoN.jpg">
-        </div>
-        <div class="photoS photo" @click="() => { phonesStore.filters.brands.Samsung = true; isPhotosVisible = false; }">
-          <span>SAMSUNG</span>
-          <img src="/images/photoS.jpg">
-        </div>
-        <div class="photoI photo" @click="() => { phonesStore.filters.brands.Apple = true; isPhotosVisible = false; }">
-          <span>APPLE</span>
-          <img src="/images/photoI.jpg">
-        </div>
-        <div class="photoX photo" @click="() => { phonesStore.filters.brands.Xiaomi = true; isPhotosVisible = false; } ">
-          <span>XIAOMI</span>
-          <img src="/images/photoX.jpg">
-        </div>
-      </div>
       <div class="fil-phone">
-        <div class="filters-container">
-          <div class="container-name">
-            <h1>Filters</h1>
-            <FilterIcon></FilterIcon>
-          </div>
-          <Filters></Filters>
-        </div>
         <div class="phones-container">
           <div class="container-name">
-            <h1>Smartphones</h1>
+            <h1>Search Result: "{{ route.params.query }}"</h1>
           </div>
           <Phones></Phones>
         </div>
@@ -67,9 +54,10 @@ onMounted(async () => {
     gap: 40px;
     flex-direction: column;
 
-    .fil-phone{
+    .fil-phone {
       display: flex;
     }
+
     .filters-container {
       flex: 1;
       margin-right: 20px;
@@ -111,33 +99,35 @@ onMounted(async () => {
     }
 
     .photo {
-      img{
+      img {
         transition: 700ms linear;
       }
-      &:hover{
-        img{
-          transform:scale(1.2);
+
+      &:hover {
+        img {
+          transform: scale(1.2);
         }
       }
 
 
-    }      
-    .photoN{
-        span {
-          position: absolute;
-          z-index: 1;
-          bottom: 0;
-          right: 5px;
-          font-size: 30px;
+    }
+
+    .photoN {
+      span {
+        position: absolute;
+        z-index: 1;
+        bottom: 0;
+        right: 5px;
+        font-size: 30px;
       }
-    }  
+    }
 
 
     .photoS {
       grid-column-start: 2;
       grid-row-start: 1;
       grid-row-end: 3;
-      
+
       span {
         position: absolute;
         z-index: 1;

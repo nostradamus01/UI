@@ -1,26 +1,32 @@
 <script setup>
 import { NCard, NButton, NSpace, NRadioGroup, NRadioButton } from 'naive-ui'
-import { ref } from 'vue'
+import { ref, onMounted, computed } from 'vue'
 import { usePhonesStore } from '@/stores/phonesStore'
 import { useDBStore } from '@/stores/dbStore'
+import { useRoute, useRouter } from 'vue-router'
+import { useMain } from '@/use/useMain';
 
+const route = useRoute();
 const phonesStore = usePhonesStore();
-const phonesList = ref([]);
+const { getPhoneDetails } = useMain();
+
+const load = async (id) => {
+  await getPhoneDetails(id);
+}
+
+const details = computed(() => {
+  console.log(phonesStore.phoneDetails);
+  return phonesStore.phoneDetails;
+})
+
+
+
 const options = [{
   cpu: 'Hexa-core (2x3.46 GHz Everest + 4x2.02 GHz Sawtooth)',
   gpu: 'Apple GPU (5-core graphics)',
   os: 'iOS 16'
 }]
 
-phonesStore.compare.forEach(element => {
-  const phone = phonesStore.phones.find(phone => {
-    return phone.id === element
-  })
-
-  if (phone) {
-    phonesList.value.push(phone)
-  }
-});
 
 const storages = [{
   value: "Rock'n'Roll Star",
@@ -44,30 +50,45 @@ const colors = [{
   value: "green",
   label: ""
 }]
+
+const ramValue = ref(0);
+const storageValue = ref(0);
+const colorValue = ref('');
+const selectedImg = ref('');
+const imgNames = ref([]);
+
+onMounted(async () => {
+  await load(route.params.id);
+  ramValue.value = phonesStore.phoneDetails.rams[0];
+  storageValue.value = phonesStore.phoneDetails.storages[0];
+  colorValue.value = phonesStore.phoneDetails.colors[0].id;
+  selectedImg.value = phonesStore.phoneDetails.colors[0].images[0];
+  imgNames.value = phonesStore.phoneDetails.colors[0].images
+})
 </script>
 
 <template>
   <div class="details">
     <div class="inner-details">
       <div class="images">
-        <img :src="`/uploads/iPhone14ProMax_Deep-Purple.jpg`" alt="smartphone image">
-
+        <img :src="`/uploads/${selectedImg}`" alt="smartphone image">
         <div class="mini-img">
-          <img :src="`/uploads/iPhone14ProMax_Deep-Purple.jpg`" alt="smartphone image">
-          <img :src="`/uploads/iPhone14ProMax_Deep-Purple.jpg`" alt="smartphone image">
+          <img v-for="img in imgNames" :src="`/uploads/${img}`" alt="smartphone image">
         </div>
       </div>
       <div class="about">
-        <h2>iPhone 14 Pro Max</h2>
+        <h2>{{ details.name }}</h2>
         <div class="color-details">
           <h3>Color</h3>
           <div class="mini-color">
             <n-space vertical>
-              <n-radio-group v-model:value="value" name="radiobuttongroup2">
-                <n-radio-button :key="colors[0].value" :value="colors[0].value" :label="colors[0].label" class="red" />
-                <n-radio-button :key="colors[1].value" :value="colors[1].value" :label="colors[1].label" class="green" />
+              <n-radio-group v-model:value="colorValue" name="radiobuttongroup2">
+                <n-radio-button v-for="color in details.colors" :key="color.id" :value="color.id" :style="{
+                  backgroundColor: color.hex
+                }" />
               </n-radio-group>
             </n-space>
+            <!-- <div class="color" v-for="color in details.colors">{{  color.hex }}</div> -->
           </div>
           <!-- <n-space item-style="display: flex;">
                                       <n-checkbox size="large" label="large" />
@@ -77,9 +98,9 @@ const colors = [{
           <h3>Storage</h3>
           <div class="mini-storige">
             <n-space vertical>
-              <n-radio-group v-model:value="value" name="radiobuttongroup1" class="group">
-                <n-radio-button v-for="storage in storages" :key="storage.value" :value="storage.value"
-                  :label="storage.label" />
+              <n-radio-group v-model:value="storageValue" name="radiobuttongroup1" class="group">
+                <n-radio-button v-for="storage in details.storages" :key="storage" :value="storage"
+                  :label="storage + ' GB'" />
               </n-radio-group>
             </n-space>
           </div>
@@ -88,8 +109,8 @@ const colors = [{
           <h3>Ram</h3>
           <div class="ram">
             <n-space vertical>
-              <n-radio-group v-model:value="value" name="radiobuttongroup1" class="group">
-                <n-radio-button v-for="ram in rams" :key="ram.value" :value="ram.value" :label="ram.label" />
+              <n-radio-group v-model:value="ramValue" name="radiobuttongroup1" class="group">
+                <n-radio-button v-for="ram in details.rams" :key="ram" :value="ram" :label="ram + ' GB'" />
               </n-radio-group>
             </n-space>
           </div>
@@ -98,7 +119,7 @@ const colors = [{
         <div class="price-details">
           <h3>Price</h3>
           <div class="mini-price">
-            <span>999$</span>
+            <span>{{ details.price }}</span>
           </div>
         </div>
         <div class="cart-details">
@@ -189,11 +210,11 @@ const colors = [{
       table {
         flex: 1;
 
-          td{
-            background-color: #ffffff;
-            font-size: 18px;
-            padding: 10px;
-          }
+        td {
+          background-color: #ffffff;
+          font-size: 18px;
+          padding: 10px;
+        }
       }
     }
 

@@ -6,7 +6,6 @@ import { usePhonesStore } from '@/stores/phonesStore'
 import { computed } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 
-const route = useRoute();
 const router = useRouter();
 const url = import.meta.env.BASE_URL;
 const phonesStore = usePhonesStore();
@@ -27,14 +26,10 @@ const isInCart = (id) => {
 const isInCompare = (id) => {
   return phonesStore.compare.includes(id);
 }
-
-defineProps({
-  isLoading: Boolean
-});
 </script>
 
 <template>
-  <n-spin :show="isLoading">
+  <n-spin :show="phonesStore.isPhonesLoading">
     <div class="phones-list">
       <n-card v-for="phone in phonesList" :key="phone.id" :title="phone.name" class="phone-card">
         <template #cover>

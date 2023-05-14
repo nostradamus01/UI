@@ -7,7 +7,7 @@ import MobileIcon from '@/icons/MobileIcon.vue';
 import { NDropdown, NAutoComplete, NBadge } from 'naive-ui';
 import { useRouter, useRoute } from 'vue-router'
 import { usePhonesStore } from '@/stores/phonesStore'
-import { ref, watch, computed } from 'vue'
+import { ref, watch, reactive, toRaw } from 'vue'
 
 const router = useRouter();
 
@@ -44,10 +44,24 @@ const optionsArr = [{
 
 const searchOptions = ref([]);
 const searchValue = ref('');
+const searchInput = ref(null);
+let query = '';
+
+const onDblClick = () => {
+  location.reload();
+}
+
+const onKeyDown = async (e) => {
+  if (e.key === 'Enter') {
+    searchValue.value = query;
+    router.push({ name: 'searchResult', params: { query: query } });
+  }
+}
 
 watch(searchValue, (newValue, oldValue) => {
   searchOptions.value = [];
   if (newValue !== null && newValue.trim() !== '') {
+    query = newValue;
     optionsArr.forEach(option => {
       if (option.label.toLowerCase().includes(newValue.toLowerCase())) {
         searchOptions.value.push(option);
@@ -60,17 +74,17 @@ watch(searchValue, (newValue, oldValue) => {
 <template>
   <header class="header">
     <div class="inner-header container">
-      <div class="logo-container" @click="() => { router.push({ name: 'home' }) }">
+      <div class="logo-container" @click="() => { router.push({ name: 'home' }) }" @dblclick="onDblClick">
         <MyIcon class="myicon"></MyIcon>
         <MobileIcon class="mobileicon"></MobileIcon>
       </div>
       <div class="search-container">
-        <n-auto-complete class="search" v-model:value="searchValue" :options="searchOptions" clear-after-select
-          placeholder="Search" />
+        <n-auto-complete class="search" ref="searchInput" v-model:value="searchValue" :options="searchOptions"
+          placeholder="Search" @keydown="onKeyDown" />
       </div>
       <div class="toolbar">
         <n-badge :value="phonesStore.compareSize">
-          <ScaleIcon @click="() => { router.push({ name: 'compare' })}"></ScaleIcon>
+          <ScaleIcon @click="() => { router.push({ name: 'compare' }) }"></ScaleIcon>
         </n-badge>
         <n-badge :value="phonesStore.cartSize">
           <CartIcon @click="() => { router.push({ name: 'cart' }) }"></CartIcon>
@@ -109,10 +123,11 @@ watch(searchValue, (newValue, oldValue) => {
         height: 100%;
       }
 
-      .myicon{
+      .myicon {
         height: 55px;
       }
-      .mobileicon{
+
+      .mobileicon {
         margin: -7px;
         height: 80%;
       }
@@ -130,7 +145,7 @@ watch(searchValue, (newValue, oldValue) => {
       height: 100%;
       padding: 16px 0;
 
-      .user-icon{
+      .user-icon {
         outline: none;
       }
 

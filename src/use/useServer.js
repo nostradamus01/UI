@@ -105,7 +105,7 @@ export function useServer() {
         if (id) {
           data = data.find(el => el.id === id);
         }
-        await artificialTimeout(1);
+        await artificialTimeout(100);
         resolve(data);
       })
     },
@@ -173,7 +173,7 @@ export function useServer() {
             result[table] = tableData;
           }
         });
-        await artificialTimeout(20);
+        await artificialTimeout(200);
         resolve(result);
       })
     }
