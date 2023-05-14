@@ -1,5 +1,5 @@
 <script setup>
-import { NCard, NTabs, NTabPane, NForm, NFormItemRow, NInput, NButton, NFormItem, useMessage } from 'naive-ui';
+import { NCard, NTabs, NTabPane, NForm, NFormItemRow, NInput, NButton, NFormItem, useMessage, NSelect } from 'naive-ui';
 import { useRouter } from 'vue-router';
 import { reactive, ref } from "vue";
 
@@ -15,12 +15,51 @@ const rules = ref({
     required: true,
     message: "Please input your password",
     trigger: "blur"
+  }, firstname: {
+  }, password1: {
+    required: true,
+    message: "Please input your password",
+    trigger: "blur"
+  }, firstname: {
+    required: true,
+    message: "Please input your First Name",
+    trigger: "blur"
+  }, lastname: {
+    required: true,
+    message: "Please input your Last Name",
+    trigger: "blur"
   }
-})
+});
+
+const options = ref([{
+  label: "Armenia",
+  value: ""
+},
+{
+  label: "USA",
+  value: ""
+},])
+const options1 = ref([{
+  label: "Erevan",
+  value: ""
+},
+{
+  label: "Shnogh",
+  value: ""
+},])
 
 const formValue = reactive({
   username: "",
   password: ""
+})
+
+const signUpFormValue = reactive({
+  firstname: "",
+  lastname: "",
+  username: "",
+  password: "",
+  password1: "",
+  postcode: ""
 })
 
 const handleValidateClick = (e) => {
@@ -33,6 +72,12 @@ const handleValidateClick = (e) => {
       message.error("Invalid");
     }
   })
+}
+
+const value = ref(null);
+const isDisabled = ref(true);
+const countrySelectFn = () => {
+  isDisabled.value = false
 }
 
 </script>
@@ -48,7 +93,7 @@ const handleValidateClick = (e) => {
               <n-input v-model:value="formValue.username" />
             </n-form-item-row>
             <n-form-item-row label="Password" path="password">
-              <n-input type="password" show-password-on="click" v-model:value="formValue.password"/>
+              <n-input type="password" show-password-on="click" v-model:value="formValue.password" />
             </n-form-item-row>
           </n-form>
           <n-form-item class="login">
@@ -56,23 +101,36 @@ const handleValidateClick = (e) => {
               Login
             </n-button>
           </n-form-item>
-          <!-- <n-button type="primary" block secondary strong @click="() => {router.push('/')}">
-                            Sign In
-                          </n-button> -->
         </n-tab-pane>
         <n-tab-pane name="signup" tab="Sign up">
-          <n-form>
-            <n-form-item-row label="Username">
-              <n-input />
+          <n-form :rules="rules" ref="formRef" :model="signUpFormValue">
+            <n-form-item-row label="First Name" path="firstname">
+              <n-input v-model:value="signUpFormValue.firstname" />
             </n-form-item-row>
-            <n-form-item-row label="Password">
-              <n-input />
+            <n-form-item-row label="Last Name" path="lastname">
+              <n-input v-model:value="signUpFormValue.lastname" />
             </n-form-item-row>
-            <n-form-item-row label="Reenter Password">
-              <n-input />
+            <n-form-item-row label="Username" path="username">
+              <n-input v-model:value="signUpFormValue.username" />
             </n-form-item-row>
+            <n-form-item-row label="Password" path="password">
+              <n-input v-model:value="signUpFormValue.password" />
+            </n-form-item-row>
+            <n-form-item-row label="Reenter Password" path="password1">
+              <n-input v-model:value="signUpFormValue.password1" />
+            </n-form-item-row>
+            <n-form-item-row label="Country" path="country">
+              <n-select v-model:value="options.value" :options="options" @update:value="countrySelectFn" />
+            </n-form-item-row>
+            <n-form-item-row label="City" path="city">
+              <n-select v-model:value="options1.value" :disabled="isDisabled" :options="options1" />
+            </n-form-item-row>
+            <n-form-item-row label="Post Code" path="postcode">
+              <n-input v-model:value="signUpFormValue.postcode" />
+            </n-form-item-row>
+
           </n-form>
-          <n-button type="primary" block secondary strong @click="() => { router.push('/') }">
+          <n-button type="primary" block secondary strong @click="handleValidateClick">
             Sign up
           </n-button>
         </n-tab-pane>
