@@ -48,7 +48,6 @@ const colors = [{
 
 <template>
   <div class="details">
-    <h1>Details</h1>
     <div class="inner-details">
       <div class="images">
         <img :src="`/uploads/iPhone14ProMax_Deep-Purple.jpg`" alt="smartphone image">
@@ -108,9 +107,24 @@ const colors = [{
           </n-button>
         </div>
       </div>
+
     </div>
     <div class="too-details">
-
+      <h1>Details</h1>
+      <div class="table">
+        <table>
+          <tr>
+            <td>Real</td>
+            <td>2022</td>
+          </tr>
+        </table>
+        <table>
+          <tr>
+            <td>stast</td>
+            <td>11111 oyukf gf</td>
+          </tr>
+        </table>
+      </div>
     </div>
   </div>
 </template>
@@ -118,19 +132,45 @@ const colors = [{
 
 <style lang="scss">
 .details {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   width: 90%;
   margin: 0 auto;
+
+  .too-details {
+    display: flex;
+    flex-direction: column;
+
+    .table {
+      // width: 20%;
+      display: flex;
+      gap: 20px;
+
+      table {
+        flex: 1;
+      }
+    }
+
+    .announsed {
+      display: flex;
+    }
+
+  }
 
   .inner-details {
     display: flex;
     justify-content: center;
     gap: 150px;
     height: 550px;
+    margin-top: 20px;
+
 
 
     .images {
       display: flex;
       flex-direction: column;
+      margin-right: 30px;
 
       img {
         width: 400px;

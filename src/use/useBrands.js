@@ -14,6 +14,9 @@ export function useBrands() {
 
   const getAll = async () => {
     const response = await server.get(table);
+    if (Array.isArray(response)) {
+      dbStore.brands = response;
+    }
     return response;
   }
 

@@ -12,14 +12,10 @@ const columns = [{
   width: 60
 }, {
   title: "Brand",
-  key: "brandId",
+  key: "brand",
   resizable: true,
   render(row) {
-    const brand = dbStore.brands.find(element => element.id === row.brandId);
-    if (brand) {
-      return brand.name
-    }
-    return 'ho du apush ches';
+    return row.brand?.name;
   }
 }, {
   title: "Model",
@@ -35,27 +31,17 @@ const columns = [{
   }
 }, {
   title: "Platform",
-  key: "platformId",
+  key: "platform",
   resizable: true,
   render(row) {
-    // console.log('Id', row);
-    let platform =  dbStore.platforms.find(element => element.id === row.platformId);
-    if (platform) {
-      return platform.chipset
-    } 
-    return 'ho du apush ches';
+    return row.platform?.name;
   }
 },{
   title: "Os",
-  key: "osId",
+  key: "os",
   resizable: true,
   render(row) {
-    // console.log('Id', row);
-    let os =  dbStore.oses.find(element => element.id === row.osId);
-    if (os) {
-      return os.name
-    } 
-    return 'ho du apush ches';
+    return row.os?.name;
   }
 }, {
   title: "Height",
@@ -192,12 +178,15 @@ const oses = computed(() => {
 });
 
 const showForm = (row) => {
+  Object.assign(data, initialData);
   if (row) {
     Object.assign(data, row);
+    data.brand = row.brandId;
+    data.platform = row.platformId;
+    data.os = row.osId;
     form.mode = 'edit'
     form.title = 'Edit Phone details'
   } else {
-    Object.assign(data, initialData);
     form.mode = 'add'
     form.title = 'Add Phone details'
   }
@@ -210,7 +199,7 @@ const hideForm = () => {
 
 const getAllFn = async () => {
   isLoading.value = true;
-  dbStore.phoneDetails = await getAll();
+  await getAll();
   isLoading.value = false;
 }
 

@@ -10,47 +10,32 @@ const columns = [{
   width: 60
 }, {
   title: "Phone Details",
-  key: "phoneDetailId",
+  key: "phoneDetail",
   resizable: true,
   render(row) {
-    const phoneDetail = dbStore.phoneDetails.find(element => element.id === row.phoneDetailId);
-    if (phoneDetail) {
-      return phoneDetail.model
-    }
-    return 'ho du apush ches';
+    const phoneBrand = dbStore.brands.find(brand => brand.id === row.phoneDetail?.brandId);
+    return row.phoneDetail ? phoneBrand?.name + ' ' + row.phoneDetail.model : '';
   }
 }, {
   title: "Color",
-  key: "colorId",
+  key: "color",
   resizable: true,
   render(row) { 
-    const color = dbStore.colors.find(element => element.id === row.colorId);
-    if (color) {
-      return color.name
-    }
-    return 'ho du apush ches';
+    return row.color ? row.color.name + ' (' + row.color.hex + ')' : '';
   }
 }, {
   title: "Storage",
-  key: "storageId",
+  key: "storage",
   resizable: true,
   render(row) {
-    const storage = dbStore.storages.find(element => element.id === row.storageId);
-    if (storage) {
-      return storage.size + ' GB'
-    }
-    return 'ho du apush ches';
+    return row.storage ? row.storage.size + ' GB' : '';
   }
 }, {
   title: "RAM",
-  key: "ramId",
+  key: "ram",
   resizable: true,
   render(row) {
-    const ram = dbStore.rams.find(element => element.id === row.ramId);
-    if (ram) {
-      return ram.size + ' GB'
-    }
-    return 'ho du apush ches';
+    return row.ram ? row.ram.size + ' GB' : '';
   }
 }, {
   title: 'Action',
@@ -115,8 +100,9 @@ const data = reactive({ ...initialData });
 const phoneDetails = computed(() => {
   const arr = []
   dbStore.phoneDetails.forEach(phoneDetail => {
+    const phoneBrand = dbStore.brands.find(brand => brand.id === phoneDetail.brandId);
     arr.push({
-      label: phoneDetail.model,
+      label: phoneBrand?.name + ' ' + phoneDetail.model,
       value: phoneDetail.id
     });
   });
@@ -157,12 +143,16 @@ const rams = computed(() => {
 });
 
 const showForm = (row) => {
+  Object.assign(data, initialData);
   if (row) {
     Object.assign(data, row);
+    data.phoneDetail = row.phoneDetailId;
+    data.color = row.colorId;
+    data.storage = row.storageId;
+    data.ram = row.ramId;
     form.mode = 'edit'
     form.title = 'Edit Phone details'
   } else {
-    Object.assign(data, initialData);
     form.mode = 'add'
     form.title = 'Add Phone details'
   }
@@ -175,7 +165,7 @@ const hideForm = () => {
 
 const getAllFn = async () => {
   isLoading.value = true;
-  dbStore.phones = await getAll();
+  await getAll();
   isLoading.value = false;
 }
 

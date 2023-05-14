@@ -24,10 +24,6 @@ const columns = [{
   key: "email",
   resizable: true
 }, {
-  title: "Phone Number",
-  key: "phoneNum",
-  resizable: true
-}, {
   title: "Country",
   key: "country",
   resizable: true
