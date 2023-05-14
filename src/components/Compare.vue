@@ -33,7 +33,7 @@ phonesStore.compare.forEach(element => {
         </div>
         <div class="about">
           <div class="description">
-            <span>{{ phone.brand + ' ' + phone.model }}</span> <br>
+            <span>{{ phone.name }}</span> <br>
             <span>{{ phone.ram + '/' + phone.storage + 'GB, ' + phone.color }}</span>
             <div class="price">{{ phone.price }}$</div>
           </div>

@@ -1,11 +1,17 @@
 <script setup>
-import { ref } from 'vue'
-
+import { ref, onMounted } from 'vue'
+import { useMain } from '@/use/useMain';
 import FilterIcon from '@/icons/FilterIcon.vue'
 import Phones from '@/components/Phones.vue'
 import Filters from '@/components/Filters.vue'
 
 const isLoading = ref(false);
+
+const { getAll } = useMain();
+
+onMounted(async () => {
+  await getAll();
+})
 </script>
 
 <template>

@@ -2,43 +2,7 @@ import { defineStore } from 'pinia'
 
 export const usePhonesStore = defineStore('phones', {
   state: () => ({
-    phones: [{
-      id: '000-000-000',
-      brand: 'Apple',
-      model: 'iPhone 14 Pro Max',
-      price: 1000,
-      storage: 256,
-      ram: 6,
-      color: 'Space Black',
-      image: 'iPhone14ProMax_Space-Black.jpg'
-    }, {
-      id: '000-000-003',
-      brand: 'Apple',
-      model: 'iPhone 14 Pro',
-      price: 750,
-      storage: 256,
-      ram: 4,
-      color: 'Gold',
-      image: 'iPhone14Pro_Gold.jpg'
-    }, {
-      id: '000-000-001',
-      brand: 'Samsung',
-      model: 'Galaxy S23+',
-      price: 900,
-      storage: 512,
-      ram: 8,
-      color: 'Pink',
-      image: 'SamsungGalaxyS23+_Pink.png'
-    }, {
-      id: '000-000-002',
-      brand: 'Xiaomi',
-      model: '12',
-      price: 250,
-      storage: 128,
-      ram: 4,
-      color: 'Lite Green',
-      image: 'Xiaomi12Lite_Green.png'
-    }],
+    phones: [],
     cart: [],
     compare: []
   }),

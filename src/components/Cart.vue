@@ -60,7 +60,7 @@ const uncheckPhone = (id) => {
         </div>
         <div class="about">
           <div class="description">
-            <span>{{ phone.brand + ' ' + phone.model }}</span> <br>
+            <span>{{ phone.name }}</span> <br>
             <span>{{ phone.ram + '/' + phone.storage + 'GB, ' + phone.color }}</span>
             <div class="price">{{ phone.price }}$</div>
             <n-input-number v-model:value="count" :validator="validator" placeholder="quantity" />

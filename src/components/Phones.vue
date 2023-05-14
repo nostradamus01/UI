@@ -36,7 +36,7 @@ defineProps({
 <template>
   <n-spin :show="isLoading">
     <div class="phones-list">
-      <n-card v-for="phone in phonesList" :key="phone.id" :title="phone.brand + ' ' + phone.model" class="phone-card">
+      <n-card v-for="phone in phonesList" :key="phone.id" :title="phone.name" class="phone-card">
         <template #cover>
           <div class="phone-image" @click="()=>{ router.push({ name: 'details', params: { id: phone.id } }) }">
             <img :src="`${url}uploads/${phone.image}`" alt="smartphone image">
