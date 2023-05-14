@@ -14,7 +14,9 @@ export const useDBStore = defineStore('db', {
     users: [],
     countries: [],
     cities: [],
-    orders: []
+    orders: [],
+    username: localStorage.getItem('username'),
+    user: {}
   }),
   getters: {
     //...
@@ -34,6 +36,16 @@ export const useDBStore = defineStore('db', {
       this.countries = [];
       this.cities = [];
       this.orders = [];
+      this.username = null;
+      this.user = {};
+    },
+    setUsername(username) {
+      this.username = username;
+      localStorage.setItem('username', username);
+    },
+    resetUser() {
+      this.username = null;
+      localStorage.setItem('username', null);
     }
   }
 });
