@@ -25,7 +25,6 @@ phonesStore.compare.forEach(element => {
 
 <template>
   <div class="details">
-    <h1>Details</h1>
     <div class="inner-details">
       <div class="images">
         <img :src="`/uploads/iPhone14ProMax_Deep-Purple.jpg`" alt="smartphone image">
@@ -57,7 +56,7 @@ phonesStore.compare.forEach(element => {
         <div class="price-details">
           <h3>Price</h3>
           <div class="mini-price">
-            <span>999</span>
+            <span>999$</span>
           </div>
         </div>
         <div class="cart-details">
@@ -68,9 +67,24 @@ phonesStore.compare.forEach(element => {
           </n-space>
         </div>
       </div>
+
     </div>
     <div class="too-details">
-      
+      <h1>Details</h1>
+      <div class="table">
+        <table>
+          <tr>
+            <td>Real</td>
+            <td>2022</td>
+          </tr>
+        </table>
+        <table>
+          <tr>
+            <td>stast</td>
+            <td>11111 oyukf gf</td>
+          </tr>
+        </table>
+      </div>
     </div>
   </div>
 </template>
@@ -78,18 +92,44 @@ phonesStore.compare.forEach(element => {
 
 <style lang="scss">
 .details {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   width: 90%;
   margin: 0 auto;
 
+  .too-details {
+    display: flex;
+    flex-direction: column;
+
+    .table {
+      // width: 20%;
+      display: flex;
+      gap: 20px;
+
+      table {
+        flex: 1;
+      }
+    }
+
+    .announsed {
+      display: flex;
+    }
+
+  }
+
   .inner-details {
     display: flex;
-    justify-content: space-around;
+    justify-content: center;
     height: 550px;
+    margin-top: 20px;
 
-    
+
+
     .images {
       display: flex;
       flex-direction: column;
+      margin-right: 30px;
 
       img {
         width: 400px;
