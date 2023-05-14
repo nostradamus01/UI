@@ -1,7 +1,7 @@
 <script setup>
-import { ref, computed, h } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import { NDataTable, NSpin } from 'naive-ui'
-import { useDBStore } from '@/stores/dbStore'
+import { useUsers } from '@/use/useUsers'
 
 const columns = [{
   title: 'No',
@@ -13,33 +13,35 @@ const columns = [{
   resizable: true
 }, {
   title: "First Name",
-  key: "firstName",
+  key: "firstname",
   resizable: true
 }, {
   title: "Last Name",
-  key: "lastName",
-  resizable: true
-}, {
-  title: "Email",
-  key: "email",
+  key: "lastname",
   resizable: true
 }, {
   title: "Country",
   key: "country",
-  resizable: true
+  resizable: true,
+  render(row) { 
+    return row.country?.name;
+  }
 }, {
   title: "City",
   key: "city",
-  resizable: true
+  resizable: true,
+  render(row) { 
+    return row.city?.name;
+  }
 }, {
   title: "Post Code",
-  key: "postCode",
+  key: "postcode",
   resizable: true
 }]
 
-const isLoading = ref(false);
+const { dbStore, getAll } = useUsers();
 
-const dbStore = useDBStore();
+const isLoading = ref(false);
 
 const data = computed(() => {
   const users = dbStore.users;
@@ -49,6 +51,15 @@ const data = computed(() => {
   return users;
 });
 
+const getAllFn = async () => {
+  isLoading.value = true;
+  dbStore.users = await getAll();
+  isLoading.value = false;
+}
+
+onMounted(async () => {
+  getAllFn();
+});
 </script>
 
 <template>

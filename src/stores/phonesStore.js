@@ -2,11 +2,7 @@ import { defineStore } from 'pinia'
 
 export const usePhonesStore = defineStore('phones', {
   state: () => ({
-    phoneDetails: {
-      name: '',
-      phoneDetails: {},
-      
-    },
+    phoneDetails: {},
     phones: [],
     cart: [],
     compare: [],
