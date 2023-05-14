@@ -93,7 +93,6 @@ const phoneDetailSelectFn = (value) => {
 }
 
 const showEditForm = (imageData) => {
-  console.log(imageData);
   Object.assign(data, initialData);
   if (imageData) {
     data.id = imageData.id;
@@ -132,8 +131,8 @@ const close = () => {
 }
 
 onMounted(async () => {
-  await getAllFn();
   await initialize()
+  await getAllFn();
 })
 </script>
 

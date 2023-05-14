@@ -127,7 +127,6 @@ const close = () => {
 onMounted(async () => {
   getAllFn();
 });
-
 </script>
 
 <template>

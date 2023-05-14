@@ -16,7 +16,6 @@ const TABLES = {
   Countries: 'Countries',
   Cities: 'Cities',
   Users: 'Users',
-  Carts: 'Carts',
   Orders: 'Orders'
 }
 
