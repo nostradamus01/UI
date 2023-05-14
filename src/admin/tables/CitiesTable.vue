@@ -1,13 +1,20 @@
 <script setup>
-import { NButton, NInput, NForm, NDataTable, NSpin } from 'naive-ui';
+import { NButton, NInput, NForm, NDataTable, NSpin, NSelect } from 'naive-ui';
 import { ref, computed, h, reactive, onMounted, toRaw } from 'vue';
 import Modal from '@/admin/Modal.vue';
-import { useOS } from '@/use/useOS'
+import { useCities } from '@/use/useCities'
 
 const columns = [{
   title: 'No',
   key: 'n',
   width: 60
+}, {
+  title: "Country",
+  key: "country",
+  resizable: true,
+  render(row) {
+    return row.country?.name;
+  }
 }, {
   title: "Name",
   key: "name",
@@ -44,7 +51,7 @@ const columns = [{
   }
 }]
 
-const { dbStore, getAll, add, edit, remove } = useOS();
+const { dbStore, getAll, add, edit, remove, initialize } = useCities();
 
 const tableData = computed(() => {
   const data = dbStore.oses;
@@ -58,30 +65,42 @@ const isLoading = ref(false);
 const isFormLoading = ref(false);
 
 const form = reactive({
-  title: 'Add OS',
+  title: 'Add City',
   mode: 'add',
   isVisible: false
 });
 
 const initialData = {
   id: null,
+  country: null,
   name: null
 }
 
 const data = reactive({...initialData});
 
 const showForm = (row) => {
+  Object.assign(data, initialData);
   if (row) {
     Object.assign(data, row);
     form.mode = 'edit'
-    form.title = 'Edit OS'
+    form.title = 'Edit City'
   } else {
-    Object.assign(data, initialData);
     form.mode = 'add'
-    form.title = 'Add OS'
+    form.title = 'Add City'
   }
   form.isVisible = true;
 }
+
+const countries = computed(() => {
+  const arr = []
+  dbStore.countries.forEach(country => {
+    arr.push({
+      label: country.name,
+      value: country.id
+    });
+  });
+  return arr;
+});
 
 const hideForm = () => {
   form.isVisible = false;
@@ -133,11 +152,12 @@ onMounted(async () => {
 <template>
   <Modal :isVisible="form.isVisible" :title="form.title" @close="close" @submit="submit" :is-loading="isFormLoading">
     <n-form ref="formRef" :model="data" class="my-form">
+      <n-select v-model:value="data.country" :options="countries" placeholder="Country" />
       <n-input v-model:value="data.name" placeholder="Name" />
     </n-form>
   </Modal>
   <n-button type="primary" @click="addFn" class="table-toolbar">
-    Add OS
+    Add City
   </n-button>
   <n-spin :show="isLoading">
     <n-data-table :columns="columns" :data="tableData" />

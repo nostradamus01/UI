@@ -34,7 +34,7 @@ const columns = [{
   key: "platform",
   resizable: true,
   render(row) {
-    return row.platform?.name;
+    return row.platform?.chipset;
   }
 },{
   title: "Os",
@@ -66,14 +66,6 @@ const columns = [{
 }, {
   title: "Battery Capacity",
   key: "batteryCapacity",
-  resizable: true
-}, {
-  title: "Price",
-  key: "price",
-  resizable: true
-}, {
-  title: "Discount",
-  key: "discount",
   resizable: true
 }, {
   title: 'Action',
@@ -137,9 +129,7 @@ const initialData = {
   depth: null,
   screenSize: null,
   resolution: null,
-  batteryCapacity: null,
-  price: null,
-  discount: null,
+  batteryCapacity: null
 }
 
 const data = reactive({ ...initialData });
@@ -254,8 +244,6 @@ onMounted(async () => {
       <n-input-number v-model:value="data.screenSize" :show-button="false" placeholder="Screen Size" />
       <n-input v-model:value="data.resolution" placeholder="Resolution" />
       <n-input-number v-model:value="data.batteryCapacity" :show-button="false" placeholder="Battery Capacity" />
-      <n-input-number v-model:value="data.price" :show-button="false" placeholder="Price" />
-      <n-input-number v-model:value="data.discount" :show-button="false" placeholder="Discount" />
     </n-form>
   </Modal>
   <n-button type="primary" @click="addFn" class="table-toolbar">

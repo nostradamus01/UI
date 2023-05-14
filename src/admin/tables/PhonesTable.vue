@@ -1,5 +1,5 @@
 <script setup>
-import { NForm, NSelect, NButton, NSpin, NDataTable } from 'naive-ui';
+import { NForm, NSelect, NButton, NSpin, NDataTable, NInputNumber } from 'naive-ui';
 import { ref, computed, h, reactive, onMounted, toRaw } from 'vue';
 import Modal from '@/admin/Modal.vue';
 import { usePhones } from '@/use/usePhones';
@@ -37,6 +37,10 @@ const columns = [{
   render(row) {
     return row.ram ? row.ram.size + ' GB' : '';
   }
+}, {
+  title: "Price",
+  key: "price",
+  resizable: true
 }, {
   title: 'Action',
   key: 'actions',
@@ -92,7 +96,8 @@ const initialData = {
   phoneDetail: null,
   color: null,
   storage: null,
-  ram: null
+  ram: null,
+  price: null
 }
 
 const data = reactive({ ...initialData });
@@ -213,6 +218,7 @@ onMounted(async () => {
       <n-select v-model:value="data.color" :options="colors" placeholder="Color" />
       <n-select v-model:value="data.storage" :options="storages" placeholder="Storage" />
       <n-select v-model:value="data.ram" :options="rams" placeholder="RAM" />
+      <n-input-number v-model:value="data.price" :show-button="false" placeholder="Price" />
     </n-form>
   </Modal>
   <n-button type="primary" @click="addFn" class="table-toolbar">

@@ -32,10 +32,6 @@ const columns = [{
   key: "city",
   resizable: true
 }, {
-  title: "Address",
-  key: "address",
-  resizable: true
-}, {
   title: "Post Code",
   key: "postCode",
   resizable: true

@@ -1,7 +1,7 @@
 import { useServer } from '@/use/useServer'
 import { usePhoneDetails } from '@/use/usePhoneDetails';
 
-const { TABLES, server, dbStore } = useServer();
+const { TABLES, server, dbStore, toReal } = useServer();
 const phoneDetails = usePhoneDetails();
 
 const table = TABLES.Phones;
@@ -13,7 +13,8 @@ export function usePhones() {
       phoneDetailId: data.phoneDetail,
       colorId: data.color,
       storageId: data.storage,
-      ramId: data.ram
+      ramId: data.ram,
+      price: toReal(data.price)
     }
   }
 

@@ -2,7 +2,7 @@
 import { NButton, NInput, NForm, NDataTable, NSpin } from 'naive-ui';
 import { ref, computed, h, reactive, onMounted, toRaw } from 'vue';
 import Modal from '@/admin/Modal.vue';
-import { useOS } from '@/use/useOS'
+import { useCountries } from '@/use/useCountries'
 
 const columns = [{
   title: 'No',
@@ -44,10 +44,10 @@ const columns = [{
   }
 }]
 
-const { dbStore, getAll, add, edit, remove } = useOS();
+const { dbStore, getAll, add, edit, remove } = useCountries();
 
 const tableData = computed(() => {
-  const data = dbStore.oses;
+  const data = dbStore.countries;
   data.forEach((element, index) => {
     element.n = index + 1;
   });
@@ -58,7 +58,7 @@ const isLoading = ref(false);
 const isFormLoading = ref(false);
 
 const form = reactive({
-  title: 'Add OS',
+  title: 'Add Country',
   mode: 'add',
   isVisible: false
 });
@@ -74,11 +74,11 @@ const showForm = (row) => {
   if (row) {
     Object.assign(data, row);
     form.mode = 'edit'
-    form.title = 'Edit OS'
+    form.title = 'Edit Country'
   } else {
     Object.assign(data, initialData);
     form.mode = 'add'
-    form.title = 'Add OS'
+    form.title = 'Add Country'
   }
   form.isVisible = true;
 }
@@ -137,7 +137,7 @@ onMounted(async () => {
     </n-form>
   </Modal>
   <n-button type="primary" @click="addFn" class="table-toolbar">
-    Add OS
+    Add Country
   </n-button>
   <n-spin :show="isLoading">
     <n-data-table :columns="columns" :data="tableData" />
