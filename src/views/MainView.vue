@@ -1,20 +1,22 @@
 <script setup>
 import Header from '@/components/Header.vue';
 import Footer from '@/components/Footer.vue';
-
+import { NDialogProvider } from 'naive-ui';
 
 </script>
 
 <template>
-  <Header></Header>
-  <div class="r-view">
+  <n-dialog-provider>
+    <Header></Header>
+    <div class="r-view">
       <RouterView></RouterView>
-  </div>
-  <Footer></Footer>
+    </div>
+    <Footer></Footer>
+  </n-dialog-provider>
 </template>
 
 <style>
-.r-view{
+.r-view {
   margin-bottom: 10px;
   min-height: 100vh;
 }

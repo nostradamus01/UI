@@ -181,6 +181,19 @@ export function useMain() {
     }
   }
 
+  const getPhonesInCart = () => {
+    let cart = localStorage.getItem('cart');
+    if (cart) {
+      cart = JSON.parse(localStorage.getItem('cart'));
+    }
+    const phones = [];
+    cart.forEach(async id => {
+      const phone = await getPhoneDetails(id);
+      phones.push(phone);
+    })
+    return phones;
+  }
+
   return {
     dbStore,
     getAll,
