@@ -76,15 +76,17 @@ phonesStore.compare.forEach(element => {
     max-width: 300px;
   }
 
-  .details {
-    margin-top: 30px;
-    display: flex;
-    flex-direction: column;
-    // gap: 20px;
+  .options {
 
-    p {
-      margin: 10px 0;
-      border-top: 1px solid black;
+    .details {
+      margin-top: 30px;
+      display: flex;
+      flex-direction: column;
+
+      p {
+        margin: 10px 0;
+        border-top: 1px solid black;
+      }
     }
   }
 }
