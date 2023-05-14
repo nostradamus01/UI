@@ -12,6 +12,12 @@ export function useUsers() {
     }
   }
 
+  const loadCountries = async () => {
+    const relatedTables = await server.getTables([TABLES.Countries, TABLES.Cities]);
+    dbStore.countries = relatedTables[TABLES.Countries];
+    dbStore.cities = relatedTables[TABLES.Cities];
+  }
+
   const getAll = async () => {
     const response = await server.get(table);
     if (Array.isArray(response)) {
@@ -45,6 +51,7 @@ export function useUsers() {
     get,
     add,
     edit,
-    remove
+    remove,
+    loadCountries
   }
 }

@@ -4,6 +4,10 @@ import { useRouter } from 'vue-router';
 import { reactive, ref } from "vue";
 import MyIcon from '@/icons/MyIcon.vue';
 
+import { useUsers } from '@/use/useUsers';
+
+const { loadCountries } = useUsers();
+loadCountries();
 
 const router = useRouter();
 const formRef = ref(null);

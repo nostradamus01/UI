@@ -1,20 +1,17 @@
 import { useServer } from '@/use/useServer'
 import { usePhonesStore } from '@/stores/phonesStore'
 
-const { TABLES, server, dbStore, toInt } = useServer();
+const { TABLES, server, dbStore } = useServer();
 const phonesStore = usePhonesStore();
 
 export function useMain() {
 
-  const getAll = async (loadPhones) => {
-    if (loadPhones) {
-      phonesStore.isPhonesLoading = true;
-    }
+  const getAll = async () => {
+    phonesStore.isPhonesLoading = true;
     const relatedTables = await server.getTables([...Object.keys(TABLES)]);
     const result = [];
     const phones = relatedTables.Phones;
     phones.forEach((phone) => {
-      // debugger;
       const phoneDetail = relatedTables[TABLES.PhoneDetails].find(el => el.id === phone.phoneDetailId);
       let brand = 'Apple';
       if (phoneDetail) {
@@ -44,22 +41,6 @@ export function useMain() {
     phonesStore.phones = result;
     phonesStore.isPhonesLoading = false;
     return result;
-    // const response = await server.get(table);
-    // if (Array.isArray(response)) {
-    //   response.forEach(record => {
-    //     const brandsTable = relatedTables[TABLES.Brands];
-    //     dbStore.brands = brandsTable;
-    //     const platformsTable = relatedTables[TABLES.Platforms];
-    //     dbStore.platforms = platformsTable;
-    //     const osesTable = relatedTables[TABLES.OSes];
-    //     dbStore.oses = osesTable;
-    //     record.brand = (Array.isArray(brandsTable) && brandsTable.length > 0) ? brandsTable.find(el => el.id === record.brandId) : null;
-    //     record.platform = (Array.isArray(platformsTable) && platformsTable.length > 0) ? platformsTable.find(el => el.id === record.platformId) : null;
-    //     record.os = (Array.isArray(osesTable) && osesTable.length > 0) ? osesTable.find(el => el.id === record.osId) : null;
-    //   })
-    //   dbStore.phoneDetails = response;
-    // }
-    // return response;
   }
 
   const getFiltered = async () => {
@@ -67,7 +48,6 @@ export function useMain() {
     const brandsFilter = phonesStore.filters.brands;
     const brands = [];
     for (const key of Object.keys(brandsFilter)) {
-      // debugger;
       if (brandsFilter[key]) {
         brands.push(key);
       }
@@ -174,62 +154,37 @@ export function useMain() {
   const getPhoneDetails = async (id) => {
     const relatedTables = await server.getTables([...Object.keys(TABLES)]);
     const phones = relatedTables.Phones;
-    let result = {
-      rams: [],
-      storages: [],
-      colors: []
-    };
+    let result = {};
     const phone = phones.find(el => el.id === id);
     if (phone) {
+      result.id = id;
+      result.ram = relatedTables[TABLES.RAMs].find(el => el.id === phone.ramId)?.size;
+      result.storage = relatedTables[TABLES.Storages].find(el => el.id === phone.storageId)?.size;
+      result.color = relatedTables[TABLES.Colors].find(el => el.id === phone.colorId);
       const phoneDetail = relatedTables[TABLES.PhoneDetails].find(el => el.id === phone.phoneDetailId);
       result.phoneDetail = phoneDetail;
       result.brand = relatedTables[TABLES.Brands].find(el => el.id === phoneDetail.brandId)?.name;
       result.platform = relatedTables[TABLES.Platforms].find(el => el.id === phoneDetail.platformId);
       result.os = relatedTables[TABLES.OSes].find(el => el.id === phoneDetail.osId)?.name;
       result.name = result.brand + ' ' + phoneDetail?.model;
-      const phonesWithSameDetails = phones.filter(el => el.phoneDetailId === phone.phoneDetailId);
-
-      phonesWithSameDetails.forEach((phone, index) => {
-        const ram = relatedTables[TABLES.RAMs].find(el => el.id === phone.ramId)?.size;
-        ram.phoneId = phone.id;
-        if (!result.rams.includes(ram)) {
-          result.rams.push(ram);
-        }
-        const storage = relatedTables[TABLES.Storages].find(el => el.id === phone.storageId)?.size;
-        storage.phoneId = phone.id;
-        if (!result.storages.includes(storage)) {
-          result.storages.push(storage);
-        }
-        const color = relatedTables[TABLES.Colors].find(el => el.id === phone.colorId);
-        const images = relatedTables[TABLES.Images].filter(el => {
-          if (el.colorId === color.id) {
-            if (el.phoneDetailId === phone.phoneDetailId) {
-              return true;
-            }
+      result.images  = relatedTables[TABLES.Images].filter(el => {
+        if (el.colorId === result.color.id) {
+          if (el.phoneDetailId === phone.phoneDetailId) {
+            return true;
           }
-          return false;
-        });
-        if (!result.colors.find(el => el.id === color.id)) {
-          color.images = images.map(el => el.name);
-          result.colors.push(color);
         }
-        if (index === 0) {
-
-        }
+        return false;
       });
+      result.images = result.images.map(el => el.name);
+      result.price = phone.price;
       phonesStore.phoneDetails = result;
+      console.log(result);
     }
-  }
-
-  const get = async (id) => {
-    const response = await server.get(table, id);
-    return response;
   }
 
   return {
     dbStore,
     getAll,
-    get,
     getFiltered,
     getSearchResult,
     getPhoneDetails

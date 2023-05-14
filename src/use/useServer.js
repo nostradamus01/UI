@@ -16,7 +16,9 @@ const TABLES = {
   Countries: 'Countries',
   Cities: 'Cities',
   Users: 'Users',
-  Orders: 'Orders'
+  Orders: 'Orders',
+  Compares: 'Compares',
+  Carts: 'Carts'
 }
 
 export function useServer() {

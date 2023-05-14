@@ -24,7 +24,7 @@ phonesStore.compare.forEach(element => {
 </script>
 
 <template>
-  <div class="compare-cont">
+  <div class="compare-cont container">
     <h1>Compare</h1>
     <div class="cards">
       <n-card v-for="phone in phonesList" :key="phone.id" class="phone-card">
