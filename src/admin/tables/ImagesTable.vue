@@ -132,7 +132,7 @@ const close = () => {
 }
 
 onMounted(async () => {
-  // await getAllFn();
+  await getAllFn();
   await initialize()
 })
 </script>
