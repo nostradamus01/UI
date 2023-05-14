@@ -1,5 +1,5 @@
 <script setup>
-import { NCard, NButton, NSpace } from 'naive-ui'
+import { NCard, NButton, NSpace, NRadioGroup, NRadioButton } from 'naive-ui'
 import { ref } from 'vue'
 import { usePhonesStore } from '@/stores/phonesStore'
 import { useDBStore } from '@/stores/dbStore'
@@ -21,6 +21,29 @@ phonesStore.compare.forEach(element => {
     phonesList.value.push(phone)
   }
 });
+
+const storages = [{
+  value: "Rock'n'Roll Star",
+  label: "256GB"
+}, {
+  value: "Shakermaker",
+  label: "512GB"
+}]
+const rams = [{
+  value: "Ram6",
+  label: "6GB"
+}, {
+  value: "Ram4",
+  label: "4GB"
+}]
+
+const colors = [{
+  value: "red",
+  label: ""
+}, {
+  value: "green",
+  label: ""
+}]
 </script>
 
 <template>
@@ -36,41 +59,58 @@ phonesStore.compare.forEach(element => {
         </div>
       </div>
       <div class="about">
-        <h2>iPhone14ProMax_Deep-Purple.jpg</h2>
+        <h2>iPhone 14 Pro Max</h2>
         <div class="color-details">
           <h3>Color</h3>
           <div class="mini-color">
-            <div></div>
-            <div></div>
+            <n-space vertical>
+              <n-radio-group v-model:value="value" name="radiobuttongroup2">
+                <n-radio-button :key="colors[0].value" :value="colors[0].value" :label="colors[0].label" class="red" />
+                <n-radio-button :key="colors[1].value" :value="colors[1].value" :label="colors[1].label" class="green" />
+              </n-radio-group>
+            </n-space>
           </div>
           <!-- <n-space item-style="display: flex;">
-            <n-checkbox size="large" label="large" />
-          </n-space> -->
+                                      <n-checkbox size="large" label="large" />
+                                    </n-space> -->
         </div>
         <div class="storige-details">
-          <h3>Storige</h3>
+          <h3>Storage</h3>
           <div class="mini-storige">
-            <div></div>
-            <div></div>
+            <n-space vertical>
+              <n-radio-group v-model:value="value" name="radiobuttongroup1" class="group">
+                <n-radio-button v-for="storage in storages" :key="storage.value" :value="storage.value"
+                  :label="storage.label" />
+              </n-radio-group>
+            </n-space>
           </div>
         </div>
+        <div class="storige-details">
+          <h3>Ram</h3>
+          <div class="ram">
+            <n-space vertical>
+              <n-radio-group v-model:value="value" name="radiobuttongroup1" class="group">
+                <n-radio-button v-for="ram in rams" :key="ram.value" :value="ram.value" :label="ram.label" />
+              </n-radio-group>
+            </n-space>
+          </div>
+        </div>
+
         <div class="price-details">
           <h3>Price</h3>
           <div class="mini-price">
-            <span>999</span>
+            <span>999$</span>
           </div>
         </div>
         <div class="cart-details">
-          <n-space>
-            <n-button type="warning">
-              Add to Cart
-            </n-button>
-          </n-space>
+          <n-button type="primary"  size="large">
+            Add to Cart
+          </n-button>
         </div>
       </div>
     </div>
     <div class="too-details">
-      
+
     </div>
   </div>
 </template>
@@ -83,10 +123,11 @@ phonesStore.compare.forEach(element => {
 
   .inner-details {
     display: flex;
-    justify-content: space-around;
+    justify-content: center;
+    gap: 150px;
     height: 550px;
 
-    
+
     .images {
       display: flex;
       flex-direction: column;
@@ -118,30 +159,32 @@ phonesStore.compare.forEach(element => {
       .mini-color {
         display: flex;
 
-        div {
-          width: 30px;
-          height: 30px;
-          margin: 10px;
-          background-color: aqua;
+        .red {
+          background-color: red;
+          margin-right: 5px;
         }
+
+        .green {
+          background-color: green;
+        }
+
+        // div {
+        //   width: 30px;
+        //   height: 30px;
+        //   margin: 10px;
+        //   background-color: aqua;
+        // }
       }
 
       .mini-storige {
         display: flex;
-
-        div {
-          width: 70px;
-          height: 30px;
-          margin: 10px;
-          background-color: rgb(9, 255, 0);
-        }
       }
 
       .mini-price {
         display: flex;
 
         span {
-          font-size: 50px;
+          font-size: 36px;
         }
       }
     }
