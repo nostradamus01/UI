@@ -102,26 +102,67 @@ const colors = [{
           </div>
         </div>
         <div class="cart-details">
-          <n-button type="primary"  size="large">
+          <n-button type="primary" size="large">
             Add to Cart
           </n-button>
         </div>
       </div>
-
     </div>
     <div class="too-details">
       <h1>Details</h1>
       <div class="table">
         <table>
           <tr>
-            <td>Real</td>
-            <td>2022</td>
+            <td>OS Version</td>
+            <td>iOS 16</td>
           </tr>
-        </table>
-        <table>
           <tr>
-            <td>stast</td>
-            <td>11111 oyukf gf</td>
+            <td>Screen Type</td>
+            <td>LTPO Super Retina XDR OLED</td>
+          </tr>
+          <tr>
+            <td>Screen resolution</td>
+            <td>1290 x 2796</td>
+          </tr>
+          <tr>
+            <td>Screen size</td>
+            <td>6.7 inch</td>
+          </tr>
+          <tr>
+            <td>Chipset</td>
+            <td>Apple A16 Bionic (4 nm)</td>
+          </tr>
+          <tr>
+            <td>CPU</td>
+            <td>2x3.46 GHz Everest + 4x2.02 GHz Sawtooth</td>
+          </tr>
+          <tr>
+            <td>RAM</td>
+            <td>6 GB</td>
+          </tr>
+          <tr>
+            <td>Memory</td>
+            <td>256 GB</td>
+          </tr>
+          <tr>
+            <td>Battery capacity</td>
+            <td>4323mAh</td>
+          </tr>
+          <tr>
+            <td>Weight</td>
+            <td>240 g</td>
+          </tr>
+          <tr>
+            <td>Thickness</td>
+            <td>7.9 mm</td>
+          </tr>
+          <tr>
+            <td>Height</td>
+            <td>160.7 mm</td>
+          </tr>
+          <tr>
+            <td>Weight</td>
+            <td>77.6 mm</td>
           </tr>
         </table>
       </div>
@@ -139,16 +180,20 @@ const colors = [{
   margin: 0 auto;
 
   .too-details {
-    display: flex;
-    flex-direction: column;
+    width: 645px;
 
     .table {
-      // width: 20%;
       display: flex;
-      gap: 20px;
+      width: 100%;
 
       table {
         flex: 1;
+
+          td{
+            background-color: #ffffff;
+            font-size: 18px;
+            padding: 10px;
+          }
       }
     }
 
@@ -161,11 +206,9 @@ const colors = [{
   .inner-details {
     display: flex;
     justify-content: center;
-    gap: 150px;
+    gap: 20px;
     height: 550px;
     margin-top: 20px;
-
-
 
     .images {
       display: flex;
