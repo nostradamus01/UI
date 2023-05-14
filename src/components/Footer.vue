@@ -1,5 +1,4 @@
 <script setup>
-import { NDropdown, NAutoComplete, NBadge } from 'naive-ui';
 
 </script>
 
@@ -35,14 +34,12 @@ import { NDropdown, NAutoComplete, NBadge } from 'naive-ui';
       cursor: pointer;
 
       .f-icons {
-        display: flex;
 
         img {
           width: 20px;
           height: 20px;
           margin: 10px 0;
           margin-right: 10px;
-          
         }
 
         .copyright {
