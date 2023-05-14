@@ -2,6 +2,10 @@
 import { NCard, NTabs, NTabPane, NForm, NFormItemRow, NInput, NButton, NFormItem, useMessage, NSelect } from 'naive-ui';
 import { useRouter } from 'vue-router';
 import { reactive, ref } from "vue";
+import { useUsers } from '@/use/useUsers';
+
+const { loadCountries } = useUsers();
+loadCountries();
 
 const router = useRouter();
 const formRef = ref(null);

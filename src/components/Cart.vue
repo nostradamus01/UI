@@ -40,7 +40,7 @@ const uncheckPhone = (id) => {
 </script>
 
 <template>
-  <div class="cart-cont">
+  <div class="cart-cont container">
     <h1>Cart</h1>
     <n-card v-for="phone in phonesList" :key="phone.id" class="phone-card">
       <div class="card-cont">
