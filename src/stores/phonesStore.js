@@ -4,8 +4,8 @@ export const usePhonesStore = defineStore('phones', {
   state: () => ({
     phoneDetails: {},
     phones: [],
-    cart: [],
-    compare: [],
+    cart: localStorage.getItem('cart') ? JSON.parse(localStorage.getItem('cart')) : [],
+    compare: localStorage.getItem('compare') ? JSON.parse(localStorage.getItem('compare')) : [],
     filters: {
       brands: {
         Samsung: false,
@@ -45,11 +45,23 @@ export const usePhonesStore = defineStore('phones', {
   },
   actions: {
     addToCart(id) {
+      let cart = localStorage.getItem('cart');
+      if (!cart) {
+        localStorage.setItem('cart', JSON.stringify([]));
+      }
+      cart = JSON.parse(localStorage.getItem('cart'));
       if (this.cart.includes(id)) {
+        cart = cart.filter(el => {
+          if (el !== id) {
+            return el;
+          }
+        });
         this.removeFromCart(id);
       } else {
         this.cart.push(id);
+        cart.push(id);
       }
+      localStorage.setItem('cart', JSON.stringify(cart));
     },
     removeFromCart(id) {
       this.cart = this.cart.filter(el => {
@@ -59,11 +71,23 @@ export const usePhonesStore = defineStore('phones', {
       });
     },
     addToCompare(id) {
+      let compare = localStorage.getItem('compare');
+      if (!compare) {
+        localStorage.setItem('compare', JSON.stringify([]));
+      }
+      compare = JSON.parse(localStorage.getItem('compare'));
       if (this.compare.includes(id)) {
+        compare = compare.filter(el => {
+          if (el !== id) {
+            return el;
+          }
+        });
         this.removeFromCompare(id);
       } else if (this.compare.length < 3) {
         this.compare.push(id);
+        compare.push(id);
       }
+      localStorage.setItem('compare', JSON.stringify(compare));
     },
     removeFromCompare(id) {
       this.compare = this.compare.filter(el => {

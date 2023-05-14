@@ -178,7 +178,6 @@ export function useMain() {
       result.images = result.images.map(el => el.name);
       result.price = phone.price;
       phonesStore.phoneDetails = result;
-      console.log(result);
     }
   }
 
