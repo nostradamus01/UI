@@ -7,7 +7,6 @@ const router = useRouter()
 const route = useRoute()
 
 const handleUpdateValue = (value) => {
-  console.log(route.name);
   router.push({ name: value });
 }
 </script>
@@ -15,7 +14,7 @@ const handleUpdateValue = (value) => {
 <template>
   <Header></Header>
   <main>
-    <n-tabs :default-value="route.name" type="segment" @update:value="handleUpdateValue">
+    <n-tabs :default-value="route.name" type="segment" @update:value="handleUpdateValue" class="admin-tabs">
       <n-tab name="phoneDetails">
         Phone Details
       </n-tab>
@@ -53,8 +52,9 @@ const handleUpdateValue = (value) => {
         Cities
       </n-tab>
     </n-tabs>
+    <router-view></router-view>
   </main>
-  <router-view></router-view>
+  
 </template>
 
 <style lang="scss">
@@ -66,5 +66,9 @@ main {
   margin-bottom: 20px;
   border-radius: 20px;
   padding: 20px;
+}
+
+.admin-tabs {
+  margin-bottom: 20px;
 }
 </style>

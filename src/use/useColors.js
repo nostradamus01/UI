@@ -1,6 +1,8 @@
 import { useServer } from '@/use/useServer'
+import { usePhoneDetails } from '@/use/usePhoneDetails';
 
 const { TABLES, server, dbStore } = useServer();
+const phoneDetails = usePhoneDetails();
 
 const table = TABLES.Colors;
 
@@ -9,12 +11,24 @@ export function useColors() {
     return {
       id: data.id || null,
       name: data.name,
-      hex: data.hex
+      hex: data.hex,
+      phoneDetailId: data.phoneDetail
     }
   }
 
   const getAll = async () => {
+    await phoneDetails.getAll();
+    const relatedTables = await server.getTables([TABLES.PhoneDetails]);
     const response = await server.get(table);
+    if (Array.isArray(response)) {
+      response.forEach(record => {
+        const phoneDetailsTable = relatedTables[TABLES.PhoneDetails];
+        dbStore.phoneDetails = phoneDetailsTable;
+        record.phoneDetail = (Array.isArray(phoneDetailsTable) && phoneDetailsTable.length > 0) ? phoneDetailsTable.find(el => el.id === record.phoneDetailId) : null;
+      })
+      dbStore.colors = response;
+    }
+    console.log(response);
     return response;
   }
 

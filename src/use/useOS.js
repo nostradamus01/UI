@@ -14,6 +14,9 @@ export function useOS() {
 
   const getAll = async () => {
     const response = await server.get(table);
+    if (Array.isArray(response)) {
+      dbStore.oses = response;
+    }
     return response;
   }
 

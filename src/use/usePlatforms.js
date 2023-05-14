@@ -16,6 +16,9 @@ export function usePlatforms() {
 
   const getAll = async () => {
     const response = await server.get(table);
+    if (Array.isArray(response)) {
+      dbStore.platforms = response;
+    }
     return response;
   }
 
