@@ -207,16 +207,17 @@ const handleRegistration = (e) => {
   </div>
 </template>
 <style lang="scss">
-.user-icon{
+.user-icon {
   display: flex;
   justify-content: center;
 
-  .my-icon{
-  width: 50px;
-  height: 50px;
-  cursor: pointer;
-  margin: 10px;
-}
+
+  .my-icon {
+    width: 50px;
+    height: 50px;
+    cursor: pointer;
+    margin: 10px;
+  }
 }
 
 .login-container {
@@ -224,6 +225,7 @@ const handleRegistration = (e) => {
   min-width: 100vw;
   display: flex;
   flex-direction: column;
+  // align-items: center;
 
   .login-card {
     max-width: 400px;
