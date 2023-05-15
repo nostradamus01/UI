@@ -182,16 +182,16 @@ export function useMain() {
     return result;
   }
 
-  const getPhonesInCart = () => {
+  const getPhonesInCart = async () => {
     let cart = localStorage.getItem('cart');
     if (cart) {
       cart = JSON.parse(localStorage.getItem('cart'));
     }
     const phones = [];
-    cart.forEach(async id => {
+    for (const id of cart) {
       const phone = await getPhoneDetails(id);
       phones.push(phone);
-    })
+    }
     phonesStore.cartPhones = phones;
     return phones;
   }
@@ -206,11 +206,6 @@ export function useMain() {
       const phone = await getPhoneDetails(id);
       phones.push(phone);
     }
-    // compare.forEach(async id => {
-    //   const phone = await getPhoneDetails(id);
-      
-    //   phones.push(JSON.parse(JSON.stringify(phone)));
-    // })
     phonesStore.comparePhones = phones;
     
     return phones;

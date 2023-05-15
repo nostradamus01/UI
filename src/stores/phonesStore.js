@@ -6,8 +6,6 @@ export const usePhonesStore = defineStore('phones', {
     phones: [],
     cart: localStorage.getItem('cart') ? JSON.parse(localStorage.getItem('cart')) : [],
     compare: localStorage.getItem('compare') ? JSON.parse(localStorage.getItem('compare')) : [],
-    cartPhones: [],
-    comparePhones: [],
     filters: {
       brands: {
         Samsung: false,
@@ -53,24 +51,22 @@ export const usePhonesStore = defineStore('phones', {
       }
       cart = JSON.parse(localStorage.getItem('cart'));
       if (this.cart.includes(id)) {
-        cart = cart.filter(el => {
-          if (el !== id) {
-            return el;
-          }
-        });
         this.removeFromCart(id);
       } else {
         this.cart.push(id);
         cart.push(id);
+        localStorage.setItem('cart', JSON.stringify(cart));
       }
-      localStorage.setItem('cart', JSON.stringify(cart));
     },
     removeFromCart(id) {
+      let cart = [];
       this.cart = this.cart.filter(el => {
         if (el !== id) {
+          cart.push(el);
           return el;
         }
       });
+      localStorage.setItem('cart', JSON.stringify(cart));
     },
     addToCompare(id) {
       let compare = localStorage.getItem('compare');
@@ -79,24 +75,26 @@ export const usePhonesStore = defineStore('phones', {
       }
       compare = JSON.parse(localStorage.getItem('compare'));
       if (this.compare.includes(id)) {
-        compare = compare.filter(el => {
-          if (el !== id) {
-            return el;
-          }
-        });
         this.removeFromCompare(id);
       } else if (this.compare.length < 3) {
         this.compare.push(id);
         compare.push(id);
+        localStorage.setItem('compare', JSON.stringify(compare));
       }
-      localStorage.setItem('compare', JSON.stringify(compare));
     },
     removeFromCompare(id) {
+      let compare = [];
       this.compare = this.compare.filter(el => {
         if (el !== id) {
+          compare.push(id);
           return el;
         }
       });
+      localStorage.setItem('compare', JSON.stringify(compare));
+    },
+    emptyCart() {
+      this.cart = [];
+      localStorage.setItem('cart', JSON.stringify([]));
     }
   }
 });
