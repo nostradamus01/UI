@@ -5,7 +5,7 @@ import { ref, onMounted, computed } from 'vue'
 import { usePhonesStore } from '@/stores/phonesStore'
 import { useDBStore } from '@/stores/dbStore'
 import { useRoute, useRouter } from 'vue-router'
-import { useMain } from '@/use/useMain';
+import { useMain } from '@/use/useMain'
 
 const route = useRoute();
 const phonesStore = usePhonesStore();

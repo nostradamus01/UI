@@ -22,7 +22,7 @@ const { dbStore, getAll, add, edit, remove, initialize } = useImages();
 // }
 
 // const addFn = () => {
-//   fileList.forEach(async (file) => {
+//   fileList.forEach((file) => {
 //     const formData = new FormData();
 //     formData.append('formFile', file.file);
 //     console.log(formData);

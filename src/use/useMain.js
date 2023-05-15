@@ -167,7 +167,7 @@ export function useMain() {
       result.platform = relatedTables[TABLES.Platforms].find(el => el.id === phoneDetail.platformId);
       result.os = relatedTables[TABLES.OSes].find(el => el.id === phoneDetail.osId)?.name;
       result.name = result.brand + ' ' + phoneDetail?.model;
-      result.images  = relatedTables[TABLES.Images].filter(el => {
+      result.images = relatedTables[TABLES.Images].filter(el => {
         if (el.colorId === result.color.id) {
           if (el.phoneDetailId === phone.phoneDetailId) {
             return true;
@@ -178,8 +178,42 @@ export function useMain() {
       result.images = result.images.map(el => el.name);
       result.price = phone.price;
       phonesStore.phoneDetails = result;
-      console.log(result);
     }
+    return result;
+  }
+
+  const getPhonesInCart = () => {
+    let cart = localStorage.getItem('cart');
+    if (cart) {
+      cart = JSON.parse(localStorage.getItem('cart'));
+    }
+    const phones = [];
+    cart.forEach(async id => {
+      const phone = await getPhoneDetails(id);
+      phones.push(phone);
+    })
+    phonesStore.cartPhones = phones;
+    return phones;
+  }
+
+  const getPhonesInCompare = async () => {
+    let compare = localStorage.getItem('compare');
+    if (compare) {
+      compare = JSON.parse(localStorage.getItem('compare'));
+    }
+    const phones = [];
+    for (const id of compare) {
+      const phone = await getPhoneDetails(id);
+      phones.push(phone);
+    }
+    // compare.forEach(async id => {
+    //   const phone = await getPhoneDetails(id);
+      
+    //   phones.push(JSON.parse(JSON.stringify(phone)));
+    // })
+    phonesStore.comparePhones = phones;
+    
+    return phones;
   }
 
   return {
@@ -187,6 +221,8 @@ export function useMain() {
     getAll,
     getFiltered,
     getSearchResult,
-    getPhoneDetails
+    getPhoneDetails,
+    getPhonesInCompare,
+    getPhonesInCart
   }
 }
