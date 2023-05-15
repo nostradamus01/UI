@@ -42,6 +42,7 @@ const handleBuy = async () => {
     const items = [];
     for (const item of checkedPhones) {
       phonesStore.userPhones.push(item);
+      phonesStore.removeFromCart(item)
       items.push(item);
     }
     localStorage.setItem('userPhones', JSON.stringify(items));
