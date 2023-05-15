@@ -54,10 +54,16 @@ const phonesList = computed(() => {
         </div>
         <div class="options">
           <div class="details">
-            <h2>{{ phone.storage }} GB</h2>
-            <h2>{{ phone.ram }} GB</h2>
-            <h2>{{ phone.storage }} GB</h2>
-
+            <p>Storage {{ phone.storage }} GB</p>
+            <p>Ram {{ phone.ram }} GB</p>
+            <p>Cpu {{ phone.platform?.cpu }} </p>
+            <p>Gpu {{ phone.platform?.gpu }} </p>
+            <p>Chipset {{ phone.platform?.chipset }} </p>
+            <p>Depth {{ phone.phoneDetail?.depth }} </p>
+            <p>Height {{ phone.phoneDetail?.height }} </p>
+            <p>Width {{ phone.phoneDetail?.width }} </p>
+            <p>Resolution {{ phone.phoneDetail?.resolution }} </p>
+            <p>Screen Size {{ phone.phoneDetail?.screenSize }} </p>
           </div>
         </div>
       </n-card>
