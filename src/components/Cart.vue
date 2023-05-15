@@ -1,13 +1,14 @@
 <script setup>
 import { NCard, NButton, NInputNumber, NCheckbox, NSpace, NIcon, NSpin } from 'naive-ui'
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
 import { usePhonesStore } from '@/stores/phonesStore'
 import MoneyIcon from '@/icons/MoneyIcon.vue'
 import CartIcon from '../icons/CartIcon.vue';
 import { useRoute, useRouter } from 'vue-router'
 import { useDialog } from 'naive-ui'
+import { useMain } from '@/use/useMain'
 
-
+const { getPhonesInCart } = useMain();
 const phonesStore = usePhonesStore();
 const phonesList = ref([]);
 const count = ref(1);
@@ -59,6 +60,9 @@ const handleBuy = async () => {
   }, 1000);
 }
 
+onMounted(async () => {
+  await getPhonesInCart();
+})
 </script>
 
 <template>

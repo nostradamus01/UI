@@ -6,6 +6,7 @@ export const usePhonesStore = defineStore('phones', {
     phones: [],
     cart: localStorage.getItem('cart') ? JSON.parse(localStorage.getItem('cart')) : [],
     compare: localStorage.getItem('compare') ? JSON.parse(localStorage.getItem('compare')) : [],
+    cartPhones: [],
     comparePhones: [],
     filters: {
       brands: {

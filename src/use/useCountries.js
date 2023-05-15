@@ -39,19 +39,6 @@ export function useCountries() {
     await server.delete(table, id);
   }
 
-  const initialize = async () => {
-    // const table = await getAll();
-    // if (Array.isArray(table) && table.length === 0) {
-    //   imageNames.forEach(async image => {
-    //     await add({
-    //       name: image,
-    //       phoneDetail: null,
-    //       color: null
-    //     });
-    //   })
-    // }
-  }
-
   return {
     dbStore,
     getAll,
@@ -59,6 +46,6 @@ export function useCountries() {
     add,
     edit,
     remove,
-    initialize
   }
 }
+
