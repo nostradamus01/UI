@@ -114,13 +114,13 @@ export function useImages() {
   const initialize = async () => {
     const table = await getAll();
     if (Array.isArray(table) && table.length === 0) {
-      imageNames.forEach(async image => {
+      for (const image of imageNames) {
         await add({
           name: image,
           phoneDetail: null,
           color: null
         });
-      })
+      }
     }
   }
 

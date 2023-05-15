@@ -192,6 +192,7 @@ export function useMain() {
       const phone = await getPhoneDetails(id);
       phones.push(phone);
     })
+    phonesStore.cartPhones = phones;
     return phones;
   }
 
@@ -221,6 +222,7 @@ export function useMain() {
     getFiltered,
     getSearchResult,
     getPhoneDetails,
-    getPhonesInCompare
+    getPhonesInCompare,
+    getPhonesInCart
   }
 }
