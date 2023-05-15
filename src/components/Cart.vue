@@ -39,6 +39,12 @@ const handleBuy = async () => {
   isLoading.value = true;
   setTimeout(() => {
     isLoading.value = false;
+    const items = [];
+    for (const item of checkedPhones) {
+      phonesStore.userPhones.push(item);
+      items.push(item);
+    }
+    localStorage.setItem('userPhones', JSON.stringify(items));
     dialog.success({
       title: 'Success',
       content: 'You have successfully made a purchase',

@@ -210,6 +210,18 @@ export function useMain() {
     
     return phones;
   }
+  const getPhonesInprofile = async () => {
+    let userPhones = localStorage.getItem('userPhones');
+    if (userPhones) {
+      userPhones = JSON.parse(localStorage.getItem('userPhones'));
+    }
+    const phones = [];
+    for (const id of userPhones) {
+      const phone = await getPhoneDetails(id);
+      phones.push(phone);
+    }
+    return phones;
+  }
 
   return {
     dbStore,
@@ -218,6 +230,7 @@ export function useMain() {
     getSearchResult,
     getPhoneDetails,
     getPhonesInCompare,
-    getPhonesInCart
+    getPhonesInCart,
+    getPhonesInprofile
   }
 }
