@@ -1,26 +1,41 @@
 <script setup>
 import { NCard } from 'naive-ui'
-import { ref } from 'vue'
+import { ref, onMounted, computed } from 'vue'
 import { usePhonesStore } from '@/stores/phonesStore'
-import { useDBStore } from '@/stores/dbStore'
+import { useMain } from '@/use/useMain'
+import { useRoute } from 'vue-router'
 
+const route = useRoute();
+const { getPhonesInCompare } = useMain();
 const phonesStore = usePhonesStore();
-const phonesList = ref([]);
-const options = [{
-  cpu: 'Hexa-core (2x3.46 GHz Everest + 4x2.02 GHz Sawtooth)',
-  gpu: 'Apple GPU (5-core graphics)',
-  os: 'iOS 16'
-}]
 
-phonesStore.compare.forEach(element => {
-  const phone = phonesStore.phones.find(phone => {
-    return phone.id === element
-  })
+ const phones = ref([]);
+ onMounted(async () => {
+  const temp = await getPhonesInCompare();
+  console.log(temp)
+  phones.value = await getPhonesInCompare();
+})
 
-  if (phone) {
-    phonesList.value.push(phone)
-  }
-});
+
+
+const phonesList = computed(() => {
+  return phonesStore.comparePhones;
+})
+// const options = ef([])[{
+//   cpu: 'Hexa-core (2x3.46 GHz Everest + 4x2.02 GHz Sawtooth)',
+//   gpu: 'Apple GPU (5-core graphics)',
+//   os: 'iOS 16'
+// }]
+
+// phonesStore.compare.forEach(element => {
+//   const phone = phonesStore.phones.find(phone => {
+//     return phone.id === element
+//   })
+
+//   if (phone) {
+//     phonesList.value.push(phone)
+//   }
+// });
 </script>
 
 <template>
@@ -29,20 +44,20 @@ phonesStore.compare.forEach(element => {
     <div class="cards">
       <n-card v-for="phone in phonesList" :key="phone.id" class="phone-card">
         <div class="phone-image">
-          <img :src="`/uploads/${phone.image}`" alt="smartphone image">
+          <img :src="`/uploads/${phone.images[0]}`" alt="smartphone image">
         </div>
         <div class="about">
           <div class="description">
             <span>{{ phone.name }}</span> <br>
-            <span>{{ phone.ram + '/' + phone.storage + 'GB, ' + phone.color }}</span>
             <div class="price">{{ phone.price }}$</div>
           </div>
         </div>
         <div class="options">
           <div class="details">
-            <p> {{ options[0].cpu }}</p>
-            <p> {{ options[0].gpu }}</p>
-            <p> {{ options[0].os }}</p>
+            <h2>{{ phone.storage }} GB</h2>
+            <h2>{{ phone.ram }} GB</h2>
+            <h2>{{ phone.storage }} GB</h2>
+
           </div>
         </div>
       </n-card>
