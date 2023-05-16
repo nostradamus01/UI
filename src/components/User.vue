@@ -4,7 +4,9 @@ import { onMounted, computed, ref } from 'vue'
 import { NCard } from 'naive-ui'
 import { usePhonesStore } from '@/stores/phonesStore'
 import { useMain } from '@/use/useMain'
+import { useRouter } from 'vue-router'
 
+const router = useRouter();
 const { dbStore, get } = useUsers();
 // const phonesStore = usePhonesStore();
 // const phonesList = ref([]);
@@ -30,25 +32,26 @@ onMounted(async () => {
 <template>
   <div class="user-container">
     <div class="first-last-name">
-      <!-- <h2> {{ data.firstname }}</h2>
-      <h2> {{ data.lastname }}</h2> -->
+      <h2> {{ data.firstname }}</h2>
+      <h2> {{ data.lastname }}</h2>
     </div>
-    <n-card v-for="phone in phones" :key="phone.id" class="phone-card">
-      <div class="card-cont">
-        <div class="phone-image">
-          <img :src="`/uploads/${phone.images[0]}`" alt="smartphone image">
-          <!-- <img class="" src="/uploads/iPhone12_Green.jpg" alt=""> -->
-        </div>
-        <div class="about">
-          <div class="description">
-            <!-- <span>{{ phone.name }}</span> <br>
-              <span>{{ phone.ram + '/' + phone.storage + 'GB, ' + phone.color }}</span>
-              <div class="price">{{ phone.price }}$</div> -->
-
+    <div class="buys-cont">
+      <n-card v-for="phone in phones" :key="phone.id" class="phone-card">
+        <div class="card-cont">
+          <div class="phone-image">
+            <img :src="`/uploads/${phone.images[0]}`" alt="smartphone image"
+              @click="() => { router.push({ name: 'details', params: { id: phone.id } }) }">
+          </div>
+          <div class="about">
+            <div class="description">
+              <span class="phone-name">{{ phone.name }}</span> <br>
+              <span>{{ phone.ram + '/' + phone.storage + 'GB, ' + phone.color.name }}</span>
+              <div class="price">{{ phone.price }}$</div>
+            </div>
           </div>
         </div>
-      </div>
-    </n-card>
+      </n-card>
+    </div>
   </div>
 </template>
 
@@ -56,6 +59,10 @@ onMounted(async () => {
 .user-container {
   width: 90%;
   margin: 0 auto;
+
+  .buys-cont {
+    display: flex;
+  }
 
   .first-last-name {
     display: flex;
@@ -65,6 +72,7 @@ onMounted(async () => {
 
   .phone-card {
     margin-top: 20px;
+    width: 50%;
   }
 
   .card-cont {
@@ -82,6 +90,8 @@ onMounted(async () => {
 
       img {
         width: 150px;
+        height: 100%;
+        cursor: pointer;
       }
     }
 
@@ -90,6 +100,10 @@ onMounted(async () => {
       height: 100%;
       align-items: start;
       margin: 10px;
+
+      .phone-name {
+        font-size: 24px;
+      }
     }
   }
 }
