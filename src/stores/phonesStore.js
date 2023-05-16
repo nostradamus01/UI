@@ -89,7 +89,7 @@ export const usePhonesStore = defineStore('phones', {
       let compare = [];
       this.compare = this.compare.filter(el => {
         if (el !== id) {
-          compare.push(id);
+          compare.push(el);
           return el;
         }
       });

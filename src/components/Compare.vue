@@ -1,5 +1,5 @@
 <script setup>
-import { NCard, NSpace, NTable } from 'naive-ui'
+import { NCard, NButton } from 'naive-ui'
 import { ref, onMounted, computed } from 'vue'
 import { usePhonesStore } from '@/stores/phonesStore'
 import { useMain } from '@/use/useMain'
@@ -21,27 +21,21 @@ onMounted(async () => {
 const phonesList = computed(() => {
   return phonesStore.comparePhones;
 })
-// const options = ef([])[{
-//   cpu: 'Hexa-core (2x3.46 GHz Everest + 4x2.02 GHz Sawtooth)',
-//   gpu: 'Apple GPU (5-core graphics)',
-//   os: 'iOS 16'
-// }]
 
-// phonesStore.compare.forEach(element => {
-//   const phone = phonesStore.phones.find(phone => {
-//     return phone.id === element
-//   })
-
-//   if (phone) {
-//     phonesList.value.push(phone)
-//   }
-// });
+const removeFromCompare = async (id) => {
+  console.log(phonesStore.compare);
+  phonesStore.removeFromCompare(id);
+  await getPhonesInCompare();
+}
 </script>
 
 <template>
   <div class="compare-cont container">
     <h1>Compare</h1>
-    <div class="cards">
+    <template v-if="phonesList.length === 0">
+      <h1 style="text-align: center;">There is no phones</h1>
+    </template>
+    <div class="cards" v-else>
       <n-card v-for="phone in phonesList" :key="phone.id" class="phone-card">
         <div class="phone-image">
           <img :src="`/uploads/${phone.images[0]}`" alt="smartphone image">
@@ -86,6 +80,9 @@ const phonesList = computed(() => {
             </div>
           </div>
         </div>
+        <n-button class="delete" type="error" size="large" @click="() => { removeFromCompare(phone.id) }">
+          X
+        </n-button>
       </n-card>
     </div>
   </div>
@@ -96,12 +93,24 @@ const phonesList = computed(() => {
   width: 90%;
   margin: 0 auto;
 
+  .n-card__content {
+    position: relative;
+    .delete {
+      position: absolute;
+      right: 5px;
+      top: 5px;
+    }
+  }
+
   .cards {
     width: 90%;
     margin: 0 auto;
     display: flex;
     justify-content: center;
+
+
   }
+
 
   .phone-image {
     display: flex;
@@ -123,7 +132,7 @@ const phonesList = computed(() => {
       align-items: center;
       font-size: 18px;
 
-      .price{
+      .price {
         font-size: 24px;
       }
     }
@@ -140,7 +149,7 @@ const phonesList = computed(() => {
       div {
         display: flex;
         align-items: center;
-        padding: 10px ;
+        padding: 10px;
         margin: 2px 0;
         background-color: #ededed;
         border-left: 1px solid black;

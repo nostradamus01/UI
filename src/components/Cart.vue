@@ -82,6 +82,13 @@ const buy = () => {
 const close = () => {
   showModal.value = false;
 }
+const removeFromCart = async (id) => {
+  phonesStore.removeFromCart(id);
+  isLoading.value = true;
+  const result = await getPhonesInCart();
+  phonesList.value = result;
+  isLoading.value = false;
+}
 </script>
 
 
@@ -117,8 +124,12 @@ const close = () => {
             </div>
           </div>
         </div>
+        <n-button class="delete" type="error" size="large" @click="() => { removeFromCart(phone.id) }">
+          Delete
+        </n-button>
       </n-card>
       <div class="buy">
+
         <n-button type="primary" :disabled="isDisabled" size="large" @click="showModal = true">
           <template #icon>
             <n-icon>
@@ -140,6 +151,12 @@ const close = () => {
 
   .phone-card {
     margin-top: 20px;
+    position: relative;
+    .delete {
+      position: absolute;
+      right: 5px;
+      bottom: 10px;
+    }
   }
 
   .card-cont {
