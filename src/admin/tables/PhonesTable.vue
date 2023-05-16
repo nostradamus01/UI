@@ -117,8 +117,9 @@ const phoneDetails = computed(() => {
 const colors = computed(() => {
   const arr = []
   dbStore.colors.forEach(color => {
+    const phoneDetailName = dbStore.phoneDetails.find(detail => detail.id === color.phoneDetailId);
     arr.push({
-      label: color.name + ` (${color.hex})`,
+      label: `${phoneDetailName?.model}  -- ${color.name} (${color.hex})`,
       value: color.id
     });
   });

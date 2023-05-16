@@ -235,7 +235,7 @@ onMounted(async () => {
     <n-form ref="formRef" :model="data" class="my-form">
       <n-select v-model:value="data.brand" :options="brands" placeholder="Brand" />
       <n-input v-model:value="data.model" placeholder="Model" />
-      <n-date-picker v-model:value="data.releaseDate" type="datetime" placeholder="Released date" />
+      <n-date-picker v-model:value="data.releaseDate" type="date" placeholder="Released date" />
       <n-select v-model:value="data.platform" :options="platforms" placeholder="Platform" />
       <n-select v-model:value="data.os" :options="oses" placeholder="OS" />
       <n-input-number v-model:value="data.height" :show-button="false" placeholder="Height" />
