@@ -38,7 +38,6 @@ const isInCompare = (id) => {
           </div>
         </template>
         <div class="card-description">
-          {{ phone.id }}
           <span>{{ phone.ram + '/' + phone.storage + 'GB, ' + phone.color }}</span>
           <ScaleIcon class="compare-icon" :class="isInCompare(phone.id) ? 'added' : ''"
             @click="() => { addToCompare(phone.id) }"></ScaleIcon>
