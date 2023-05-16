@@ -61,7 +61,7 @@ const isInCompare = (id) => {
 <style lang="scss">
 .phones-list {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 320px));
+  grid-template-columns: repeat(auto-fit, minmax(260px, 300px));
   gap: 20px;
   padding: 10px 0;
   cursor: pointer;
