@@ -32,9 +32,9 @@ onMounted(async () => {
 <template>
   <div class="user-container">
     <div class="first-last-name">
-      <h2> {{ data.firstname }}</h2>
-      <h2> {{ data.lastname }}</h2>
+      <h2>{{ data.firstname }} {{ data.lastname }}</h2>
     </div>
+    <h3>Purchased Phones</h3>
     <div class="buys-cont">
       <n-card v-for="phone in phones" :key="phone.id" class="phone-card">
         <div class="card-cont">
@@ -62,12 +62,11 @@ onMounted(async () => {
 
   .buys-cont {
     display: flex;
+    flex-wrap: wrap;
   }
 
   .first-last-name {
-    display: flex;
     margin: 20px 0;
-    gap: 20px;
   }
 
   .phone-card {

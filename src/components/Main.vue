@@ -6,6 +6,7 @@ import Phones from '@/components/Phones.vue'
 import Filters from '@/components/Filters.vue'
 import { usePhonesStore } from '@/stores/phonesStore'
 
+
 const phonesStore = usePhonesStore();
 const { getFiltered } = useMain();
 
