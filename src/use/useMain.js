@@ -47,6 +47,7 @@ export function useMain() {
     const allPhones = await getAll();
     const brandsFilter = phonesStore.filters.brands;
     const brands = [];
+
     for (const key of Object.keys(brandsFilter)) {
       if (brandsFilter[key]) {
         brands.push(key);

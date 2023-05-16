@@ -1,5 +1,5 @@
 <script setup>
-import { NCard } from 'naive-ui'
+import { NCard, NSpace, NTable } from 'naive-ui'
 import { ref, onMounted, computed } from 'vue'
 import { usePhonesStore } from '@/stores/phonesStore'
 import { useMain } from '@/use/useMain'
@@ -9,8 +9,8 @@ const route = useRoute();
 const { getPhonesInCompare } = useMain();
 const phonesStore = usePhonesStore();
 
- const phones = ref([]);
- onMounted(async () => {
+const phones = ref([]);
+onMounted(async () => {
   const temp = await getPhonesInCompare();
   console.log(temp)
   phones.value = await getPhonesInCompare();
@@ -48,22 +48,42 @@ const phonesList = computed(() => {
         </div>
         <div class="about">
           <div class="description">
-            <span>{{ phone.name }}</span> <br>
+            <div><span>{{ phone.name }}</span> </div>
             <div class="price">{{ phone.price }}$</div>
           </div>
         </div>
         <div class="options">
           <div class="details">
-            <p>Storage {{ phone.storage }} GB</p>
-            <p>Ram {{ phone.ram }} GB</p>
-            <p>Cpu {{ phone.platform?.cpu }} </p>
-            <p>Gpu {{ phone.platform?.gpu }} </p>
-            <p>Chipset {{ phone.platform?.chipset }} </p>
-            <p>Depth {{ phone.phoneDetail?.depth }} </p>
-            <p>Height {{ phone.phoneDetail?.height }} </p>
-            <p>Width {{ phone.phoneDetail?.width }} </p>
-            <p>Resolution {{ phone.phoneDetail?.resolution }} </p>
-            <p>Screen Size {{ phone.phoneDetail?.screenSize }} </p>
+            <div>
+              <p>Storage:</p> <span class="span">{{ phone.storage }} GB</span>
+            </div>
+            <div>
+              <p>Ram:</p> <span class="span">{{ phone.ram }} GB</span>
+            </div>
+            <div style="height: 70px;">
+              <p>Cpu:</p> <span class="span">{{ phone.platform?.cpu }}</span>
+            </div>
+            <div>
+              <p>Gpu: </p> <span class="span">{{ phone.platform?.gpu }} </span>
+            </div>
+            <div style="height: 70px;">
+              <p>Chipset:</p> <span class="span"> {{ phone.platform?.chipset }}</span>
+            </div>
+            <div>
+              <p>Depth:</p> <span class="span"> {{ phone.phoneDetail?.depth }}mm</span>
+            </div>
+            <div>
+              <p>Height:</p> <span class="span">{{ phone.phoneDetail?.height }} mm</span>
+            </div>
+            <div>
+              <p>Width:</p> <span class="span"> {{ phone.phoneDetail?.width }}mm</span>
+            </div>
+            <div>
+              <p>Resolution:</p> <span class="span">{{ phone.phoneDetail?.resolution }} px</span>
+            </div>
+            <div>
+              <p>Screen Size:</p> <span class="span">{{ phone.phoneDetail?.screenSize }} inch</span>
+            </div>
           </div>
         </div>
       </n-card>
@@ -83,6 +103,12 @@ const phonesList = computed(() => {
     justify-content: center;
   }
 
+  .phone-image {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
   .phone-image img {
     width: 150px;
   }
@@ -90,24 +116,47 @@ const phonesList = computed(() => {
   .about {
     display: inline;
 
-  }
+    .description {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      font-size: 18px;
 
-  .phone-card {
-    align-items: start;
-    max-width: 300px;
+      .price{
+        font-size: 24px;
+      }
+    }
   }
 
   .options {
 
     .details {
-      margin-top: 30px;
+      margin-top: 10px;
       display: flex;
       flex-direction: column;
+      // justify-content: center;
 
-      p {
-        margin: 10px 0;
-        border-top: 1px solid black;
+      div {
+        display: flex;
+        align-items: center;
+        padding: 10px ;
+        margin: 2px 0;
+        background-color: #ededed;
+        border-left: 1px solid black;
+        cursor: default;
+
+        p {
+          display: block;
+          flex: 1.3;
+        }
+
+        .span {
+          flex: 4.5;
+          padding-left: 10px;
+        }
       }
+
     }
   }
 }

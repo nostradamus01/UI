@@ -15,9 +15,9 @@ const router = useRouter();
 
 const phonesList = ref([]);
 
-const validator = (value) => {
-  return value > 0 && value < 10;
-}
+// const validator = (value) => {
+//   return value > 0 && value < 10;
+// }
 
 const isDisabled = ref(true);
 const checkedPhones = new Set();
@@ -92,9 +92,9 @@ onMounted(async () => {
             <div class="about">
               <div class="description">
                 <span>{{ phone.name }}</span> <br>
-                <span>{{ phone.ram + '/' + phone.storage + 'GB, ' + phone.color }}</span>
+                <span>{{ phone.ram + '/' + phone.storage + 'GB, ' + phone.color?.name }}</span>
                 <div class="price">{{ phone.price }}$</div>
-                <n-input-number v-model:value="count" :validator="validator" placeholder="quantity" />
+                <!-- <n-input-number v-model:value="count" :validator="validator" placeholder="quantity" /> -->
               </div>
             </div>
           </div>

@@ -45,7 +45,7 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div class="details">
+  <div class="details-cont">
     <div class="inner-details">
       <div class="images">
         <img :src="`/uploads/${selectedImg}`" alt="smartphone image">
@@ -155,7 +155,7 @@ onMounted(async () => {
 
 
 <style lang="scss">
-.details {
+.details-cont {
   display: flex;
   flex-direction: column;
   align-items: center;
